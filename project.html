@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>პროექტები — INVITÉ</title>
+  <meta name="description" content="Browse INVITÉ's portfolio of digital invitation websites and interactive ad experiences — weddings, corporate events, brand launches and private celebrations." />
+  <link rel="canonical" href="https://digitalinvitee.github.io/projects.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Projects — INVITÉ" />
+  <meta property="og:description" content="A portfolio of premium digital invitation websites and interactive ad experiences by INVITÉ." />
+  <meta property="og:image" content="og-cover.png" />
+  <meta property="og:locale" content="ka_GE" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=FiraGO:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── PAGE HEADER ── */
+    .projects-page-hero {
+      padding: 160px 6vw 80px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .projects-page-hero-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: end;
+    }
+
+    .projects-page-hero h1 {
+      margin-bottom: 0;
+      font-size: clamp(38px, 5vw, 64px);
+    }
+
+    .projects-page-hero p {
+      max-width: 460px;
+      margin-bottom: 0;
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      padding: 24px 6vw;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 72px;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(251, 247, 238, 0.88);
+    }
+
+    .filter-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: transparent;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(48, 54, 44, 0.62);
+      cursor: pointer;
+      transition: 0.28s var(--ease);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--olive);
+      color: var(--olive-dark);
+    }
+
+    .filter-btn.active {
+      background: var(--olive);
+      border-color: var(--olive);
+      color: var(--paper);
+    }
+
+    .filter-count {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(48, 54, 44, 0.42);
+    }
+
+    /* ── ALL PROJECTS GRID ── */
+    .all-projects {
+      padding: 72px 6vw 120px;
+      background: var(--bg);
+    }
+
+    .all-projects-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+
+    .projects-masonry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    /* ── PROJECT CARD ── */
+    .proj-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--sage);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.55s var(--ease), box-shadow 0.55s var(--ease);
+
+      /* reveal start */
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .proj-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .proj-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 72px rgba(48, 54, 44, 0.18);
+    }
+
+    /* tall card variant */
+    .proj-card.tall .proj-cover {
+      aspect-ratio: 3/4;
+    }
+
+    /* wide card variant (spans 2 cols) */
+    .proj-card.wide {
+      grid-column: span 2;
+    }
+
+    .proj-card.wide .proj-cover {
+      aspect-ratio: 16/8;
+    }
+
+    .proj-cover {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--sage-soft);
+    }
+
+    .proj-cover img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.75s var(--ease);
+    }
+
+    .proj-card:hover .proj-cover img {
+      transform: scale(1.05);
+    }
+
+    /* gradient overlay */
+    .proj-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(25, 31, 24, 0.55) 0%,
+        rgba(25, 31, 24, 0.06) 60%
+      );
+      z-index: 1;
+    }
+
+    /* number badge */
+    .proj-num {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      z-index: 2;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: rgba(251, 247, 238, 0.65);
+    }
+
+    /* external link arrow */
+    .proj-arrow {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      z-index: 2;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(251, 247, 238, 0.14);
+      border: 1px solid rgba(251, 247, 238, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: rgba(251, 247, 238, 0.8);
+      transition: 0.35s var(--ease);
+    }
+
+    .proj-card:hover .proj-arrow {
+      background: var(--paper);
+      border-color: var(--paper);
+      color: var(--olive-dark);
+      transform: translate(2px, -2px);
+    }
+
+    /* category label over image */
+    .proj-cat {
+      position: absolute;
+      bottom: 14px;
+      left: 18px;
+      z-index: 2;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(251, 247, 238, 0.72);
+    }
+
+    /* ── CARD BODY ── */
+    .proj-body {
+      padding: 20px 22px 22px;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .proj-title {
+      font-family: var(--geo);
+      font-weight: 500;
+      font-size: clamp(18px, 1.8vw, 22px);
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: var(--olive-dark);
+      margin: 0;
+    }
+
+    .proj-desc {
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.72;
+      color: var(--muted);
+      margin: 0;
+      max-width: 100%;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .proj-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(89, 98, 79, 0.28);
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--olive);
+      background: rgba(89, 98, 79, 0.06);
+      white-space: nowrap;
+    }
+
+    /* placeholder cover (no image) */
+    .proj-cover-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--geo);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(251, 247, 238, 0.42);
+    }
+
+    /* ── BACK LINK ── */
+    .back-row {
+      max-width: var(--container);
+      margin: 0 auto 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--olive);
+      transition: gap 0.28s var(--ease);
+    }
+
+    .back-link:hover {
+      gap: 12px;
+    }
+
+    .back-link::before {
+      content: "←";
+      font-size: 14px;
+    }
+
+    .project-count-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(48, 54, 44, 0.38);
+    }
+
+    /* ── HIDDEN CARD (filter) ── */
+    .proj-card.hidden {
+      display: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 980px) {
+      .projects-page-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .projects-masonry {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .proj-card.wide {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .projects-page-hero {
+        padding: 120px 20px 60px;
+      }
+
+      .filter-bar {
+        padding: 16px 20px;
+        top: 56px;
+      }
+
+      .all-projects {
+        padding: 48px 20px 80px;
+      }
+
+      .projects-masonry {
+        grid-template-columns: 1fr;
+      }
+
+      .proj-card.wide,
+      .proj-card.tall {
+        grid-column: span 1;
+      }
+
+      .proj-cover,
+      .proj-card.wide .proj-cover,
+      .proj-card.tall .proj-cover {
+        aspect-ratio: 4/3;
+      }
+
+      .back-row {
+        margin-bottom: 32px;
+      }
+
+      .filter-count {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">INVITÉ</a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+      <a href="index.html#concept"   data-ka="კონცეფცია"    data-en="Concept">კონცეფცია</a>
+      <a href="index.html#services"  data-ka="სერვისები"    data-en="Services">სერვისები</a>
+      <a href="projects.html"        data-ka="პროექტები"    data-en="Projects">პროექტები</a>
+      <a href="index.html#process"   data-ka="პროცესი"      data-en="Process">პროცესი</a>
+      <a href="index.html#contact"   data-ka="კონტაქტი"     data-en="Contact">კონტაქტი</a>
+
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="ka" aria-pressed="true">GEO</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- PAGE HERO -->
+<main id="main">
+
+<section class="projects-page-hero">
+  <div class="projects-page-hero-inner">
+    <div>
+      <h2 data-ka="ციფრული კონცეფციები" data-en="Digital Concepts">ციფრული კონცეფციები</h2>
+    </div>
+   <p data-ka="იდეები, რომლებიც ციფრული კომუნიკაციის ახალ სტანდარტს აყალიბებს." 
+   data-en="Ideas shaping the new standard of digital communication.">
+  იდეები, რომლებიც ციფრული კომუნიკაციის ახალ სტანდარტს აყალიბებს.
+</p>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-filter="all"         data-ka="ყველა"         data-en="All">ყველა</button>
+    <button class="filter-btn"        data-filter="brand"       data-ka="ბრენდი"         data-en="Brand">ბრენდი</button>
+    <button class="filter-btn"        data-filter="corporate"   data-ka="კორპორატიული"  data-en="Corporate">კორპორატიული</button>
+    <button class="filter-btn"        data-filter="wedding"     data-ka="ქორწილი"        data-en="Wedding">ქორწილი</button>
+    <button class="filter-btn"        data-filter="private"     data-ka="კერძო"          data-en="Private">კერძო</button>
+    <span class="filter-count" id="filterCount">8 პროექტი</span>
+  </div>
+</div>
+
+<!-- ALL PROJECTS -->
+<section class="all-projects">
+  <div class="all-projects-inner">
+
+    <div class="back-row">
+      <a href="index.html" class="back-link" data-ka="მთავარ გვერდზე" data-en="Back to home">მთავარ გვერდზე</a>
+      <span class="project-count-label" id="countLabel">06 / 06</span>
+    </div>
+
+    <div class="projects-masonry" id="projectsGrid">
+
+      <!-- 01 Aureon Games -->
+      <a href="https://digitalinvitee.github.io/Aureon-Games/"
+         target="_blank"
+         class="proj-card wide"
+         data-category="corporate"
+         style="transition-delay: 0.04s">
+        <div class="proj-cover">
+          <img src="gamesdesktop.png" alt="Aureon Games" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">Aureon Games</div>
+          <span class="proj-num">01</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Corporate Experience · Team Event" data-en="Corporate Experience · Team Event">Corporate Experience · Team Event</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">Aureon Games</h2>
+  <p class="proj-desc" 
+   data-ka="კორპორატიული სპორტული ივენთის პლატფორმა — გუნდების ონლაინ რეგისტრაცია, თამაშების განრიგი და ინტერაქციული მოსაწვევი ერთ სივრცეში."
+   data-en="Corporate sports event platform — featuring online team registration, game schedules, and an interactive invitation in one space.">
+  კორპორატიული სპორტული ივენთის პლატფორმა — გუნდების ონლაინ რეგისტრაცია, თამაშების განრიგი და ინტერაქციული მოსაწვევი ერთ სივრცეში.
+</p>
+          <div class="proj-tags">
+            <span class="proj-tag">RSVP</span>
+            <span class="proj-tag">Schedule</span>
+            <span class="proj-tag">Animation</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 02 Casa Fiori -->
+      <a href="https://digitalinvitee.github.io/casa-fiori/"
+         target="_blank"
+         class="proj-card"
+         data-category="brand"
+         style="transition-delay: 0.08s">
+        <div class="proj-cover">
+          <img src="casamobile.png" alt="Casa Fiori" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">Casa Fiori</div>
+          <span class="proj-num">02</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Restaurant Experience · Menu Launch" data-en="Restaurant Experience · Menu Launch">Restaurant Experience · Menu Launch</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">Casa Fiori</h2>
+          <p class="proj-desc" data-ka="ფაინ-დაინინგ რესტორნის მენიუს პრემიუმ ციფრული პრეზენტაცია — ატმოსფერული მუსიკა, ფოტოგრაფია და რეზერვაციის ბმული."
+             data-en="A premium digital menu launch for a fine dining restaurant — atmospheric music, photography and a reservation link.">
+            ფაინ-დაინინგ რესტორნის მენიუს პრემიუმ ციფრული პრეზენტაცია — ატმოსფერული მუსიკა, ფოტოგრაფია და რეზერვაციის ბმული.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">Music</span>
+            <span class="proj-tag">Menu Reveal</span>
+            <span class="proj-tag">Reservation</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 03 NorthBridge Group -->
+      <a href="https://digitalinvitee.github.io/northbridge-group/"
+         target="_blank"
+         class="proj-card tall"
+         data-category="corporate"
+         style="transition-delay: 0.12s">
+        <div class="proj-cover">
+          <img src="northmobile.png" alt="NorthBridge Group" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">NorthBridge Group</div>
+          <span class="proj-num">03</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Corporate Gala · Invitation Website" data-en="Corporate Gala · Invitation Website">Corporate Gala · Invitation Website</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">NorthBridge Group</h2>
+          <p class="proj-desc" data-ka="Black-tie კორპორატიული გალის ფორმალური ვებ-მოსაწვევი — Dress Code, ვენიუს რუკა, RSVP და კვების პრეფერენციების შეგროვება."
+             data-en="Formal web invitation for a black-tie corporate gala — dress code, venue map, RSVP and meal preference collection.">
+            Black-tie კორპორატიული გალის ფორმალური ვებ-მოსაწვევი — Dress Code, ვენიუს რუკა, RSVP და კვების პრეფერენციების შეგროვება.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">RSVP</span>
+            <span class="proj-tag">Map</span>
+            <span class="proj-tag">Dress Code</span>
+            <span class="proj-tag">Countdown</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 04 Elisabeth & Nikoloz Wedding -->
+      <a href="https://digitalinvitee.github.io/elisabeth-and-nikoloz-wedding/"
+         target="_blank"
+         class="proj-card"
+         data-category="wedding"
+         style="transition-delay: 0.16s">
+        <div class="proj-cover">
+          <img src="eliimobile.jpg" alt="Elisabeth and Nikoloz Wedding" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">Elisabeth & Nikoloz</div>
+          <span class="proj-num">04</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Wedding Invitation" data-en="Wedding Invitation">Wedding Invitation</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">Elisabeth & Nikoloz</h2>
+          <p class="proj-desc" data-ka="ელეგანტური საქორწილო ვებ-მოსაწვევი — RSVP, Countdown, მუსიკა, ლოკაცია და დღის დეტალები ერთ დახვეწილ გამოცდილებაში."
+             data-en="An elegant wedding invitation website — RSVP, countdown, music, location and event details in one refined experience.">
+            ელეგანტური საქორწილო ვებ-მოსაწვევი — RSVP, Countdown, მუსიკა, ლოკაცია და დღის დეტალები ერთ დახვეწილ გამოცდილებაში.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">RSVP</span>
+            <span class="proj-tag">Countdown</span>
+            <span class="proj-tag">Music</span>
+            <span class="proj-tag">Location</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 05 Lisa & Adrian -->
+      <a href="https://digitalinvitee.github.io/LISA-AND-ADRIAN/"
+         target="_blank"
+         class="proj-card"
+         data-category="wedding"
+         style="transition-delay: 0.20s">
+        <div class="proj-cover">
+          <img src="lisa.png" alt="Lisa and Adrian Wedding" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">Lisa & Adrian</div>
+          <span class="proj-num">05</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Wedding Invitation" data-en="Wedding Invitation">Wedding Invitation</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">Lisa & Adrian</h2>
+          <p class="proj-desc" data-ka="რომანტიკული ციფრული საქორწილო მოსაწვევი — RSVP, Countdown, მუსიკა, ლოკაცია და დეტალები სტუმრებისთვის."
+             data-en="A romantic digital wedding invitation — RSVP, countdown, music, location and guest details.">
+            რომანტიკული ციფრული საქორწილო მოსაწვევი — RSVP, Countdown, მუსიკა, ლოკაცია და დეტალები სტუმრებისთვის.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">RSVP</span>
+            <span class="proj-tag">Countdown</span>
+            <span class="proj-tag">Music</span>
+            <span class="proj-tag">Map</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 06 Mary Turns 21 -->
+      <a href="https://digitalinvitee.github.io/mary-s-21-birthday-/"
+         target="_blank"
+         class="proj-card"
+         data-category="private"
+         style="transition-delay: 0.24s">
+        <div class="proj-cover">
+          <img src="marymobile.png" alt="Mary Turns 21" loading="lazy" onerror="this.style.display='none'">
+          <div class="proj-cover-placeholder">Mary Turns 21</div>
+          <span class="proj-num">06</span>
+          <span class="proj-arrow">↗</span>
+          <span class="proj-cat" data-ka="Birthday Invitation · Private" data-en="Birthday Invitation · Private">Birthday Invitation · Private</span>
+        </div>
+        <div class="proj-body">
+          <h2 class="proj-title">Mary Turns 21</h2>
+          <p class="proj-desc" data-ka="21 წლის დაბადების დღის ენერგიული ციფრული მოსაწვევი — Countdown, მუსიკა და one-click RSVP."
+             data-en="A vibrant 21st birthday digital invitation — countdown, music and one-click RSVP.">
+            21 წლის დაბადების დღის ენერგიული ციფრული მოსაწვევი — Countdown, მუსიკა და one-click RSVP.
+          </p>
+          <div class="proj-tags">
+            <span class="proj-tag">RSVP</span>
+            <span class="proj-tag">Countdown</span>
+            <span class="proj-tag">Music</span>
+            <span class="proj-tag">Animation</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <a href="index.html" class="footer-logo">INVITÉ</a>
+  <p>Created by INVITÉ © 2026</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  /* ── SCROLL REVEAL ── */
+  const cards = document.querySelectorAll('.proj-card');
+
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  cards.forEach(card => cardObserver.observe(card));
+
+  /* ── FILTER ── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const filterCount = document.getElementById('filterCount');
+  const countLabel = document.getElementById('countLabel');
+  const lang = () => document.documentElement.lang || 'ka';
+
+  function updateCountText(visible, total) {
+    const isKa = lang() === 'ka';
+    filterCount.textContent = `${visible} ${isKa ? 'პროექტი' : 'projects'}`;
+    countLabel.textContent = `${String(visible).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible = 0;
+
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+
+      updateCountText(visible, cards.length);
+    });
+  });
+
+  /* init count */
+  updateCountText(cards.length, cards.length);
+</script>
+
+</body>
+</html>
