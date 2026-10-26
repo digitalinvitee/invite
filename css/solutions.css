@@ -1,0 +1,286 @@
+/* ==========================================================================
+   Creative Solutions — four services as one asymmetric mosaic.
+
+   Grid: twelve columns, ruled by 1px gaps (no cards). 001 runs the full width;
+   002 + 003 split 7 / 5; 004 closes the mosaic at full width, mirrored. Each tile shows its number, title, category and one line
+   of value; "Details" opens one shared-row panel (a headline, what it is, why it works and what
+   we can include). One open at a time. Each panel ends with
+   "See Project Catalog", styled in css/catalog.css.
+
+   One rule runs through the section: what you do is outlined, what you get is
+   filled ("Different challenges." / "Creative solutions."; "Get" / "NOTICED").
+   Engaging a tile (hover, focus, open) fills its small line and plays its title's
+   own motion. Scrolling engages it too: .is-live marks a tile crossing the middle
+   of the screen (set by js/solutions/CreativeSolutions.js), on every device.
+   ========================================================================== */
+
+.solutions { overflow: clip; }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.solutions__title > span { display: block; }
+/* The small heading sits above the main one, in the heading's own face, solid so it stays legible at this size. */
+.solutions__kicker { font-size: var(--step-1); font-weight: 500; letter-spacing: -.015em; line-height: 1.3; color: var(--fg-muted); margin-bottom: var(--space-s); }
+.solutions__challenge { color: transparent; -webkit-text-stroke: 1px var(--fg-muted); }
+@supports not (-webkit-text-stroke: 1px black) { .solutions__challenge { color: var(--fg-muted); } }
+.solutions__intro { display: grid; gap: var(--space-m); }
+.solutions__intro .lead { color: var(--fg); }
+.solutions__thesis { color: var(--fg-muted); max-width: 52ch; text-wrap: pretty; }
+
+/* ── Mosaic ─────────────────────────────────────────────────────────── */
+.sol-mosaic {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-flow: row dense;
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.sol {
+  --pad: clamp(1.25rem, .9rem + 1.4vw, 2.25rem);
+  position: relative; isolation: isolate; display: flex; flex-direction: column; gap: var(--space-m);
+  min-width: 0; min-height: clamp(19rem, 14rem + 12vw, 25rem); padding: var(--pad);
+  background: var(--bg); color: var(--fg);
+}
+.sol--pos1, .sol--pos4 { grid-column: 1 / -1; min-height: 0; display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); column-gap: calc(var(--grid-gap) * 1.5); row-gap: var(--space-l); align-items: end; }
+.sol--pos1 .sol__meta, .sol--pos4 .sol__meta { grid-column: 1 / -1; }
+/* 004 closes the mosaic as 001 opens it, mirrored: the words on the left, the title on the right. */
+.sol--pos4 { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+.sol--pos4 .sol__title { grid-column: 2; grid-row: 2; }
+.sol--pos4 .sol__foot { grid-column: 1; grid-row: 2; }
+.sol--pos2 { grid-column: span 7; }
+.sol--pos3 { grid-column: span 5; }
+
+.sol__meta { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.sol__num { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: .06em; color: var(--accent); }
+.sol__category { font-size: var(--step--1); font-weight: 500; color: var(--fg-muted); text-align: right; max-width: 26ch; line-height: 1.35; transition: color .5s ease; }
+
+/* Title: container units make the large word fit its tile at every width. */
+.sol__title { margin-top: auto; container-type: inline-size; font-weight: 800; text-transform: uppercase; }
+.sol--pos1 .sol__title, .sol--pos4 .sol__title { margin-top: clamp(1rem, .5rem + 2vw, 2.5rem); }
+.sol__art { display: block; font-stretch: var(--stretch, 100%); }
+.sol__line { display: block; }
+.sol__line--setup {
+  font-size: max(1rem, 1.6vw); font-size: max(1rem, 4.6cqi);
+  line-height: 1; letter-spacing: -.005em; margin-bottom: .14em;
+  color: transparent; -webkit-text-stroke: 1px var(--fg);
+  transition: color .6s var(--ease-out), -webkit-text-stroke-color .5s ease;
+}
+.sol__line--end { text-align: right; }
+.sol__line--payoff {
+  position: relative; white-space: nowrap; line-height: .8; letter-spacing: -.02em;
+  font-size: calc(var(--fit, 14) * var(--fit-scale, 1) * .4vw);
+  font-size: calc(var(--fit, 14) * var(--fit-scale, 1) * 1cqi);
+  overflow-x: clip; overflow-clip-margin: .2em; transition: color .5s ease;
+}
+.fit { display: inline-block; vertical-align: top; }
+@supports not (-webkit-text-stroke: 1px black) { .sol__line--setup { color: var(--fg); } }
+
+.sol__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-m); }
+.sol--pos1 .sol__foot, .sol--pos4 .sol__foot { flex-direction: column; align-items: flex-start; }
+.sol__summary { max-width: 40ch; color: var(--fg-muted); font-size: var(--step--1); line-height: 1.5; text-wrap: pretty; transition: color .5s ease; }
+.sol--pos1 .sol__summary, .sol--pos4 .sol__summary { font-size: var(--step-0); color: var(--fg); }
+
+/* The toggle: a small labelled control whose hit area is the whole tile. */
+.sol__toggle {
+  flex: none; display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: 0 0 0 .1rem;
+  background: none; border: 0; color: var(--fg); font-family: var(--font-mono); font-size: var(--step--2);
+  letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+}
+.sol__toggle::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.sol__toggle:focus-visible { outline: none; }
+.sol:has(.sol__toggle:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.sol__toggle-icon { position: relative; width: 28px; height: 28px; border: 1px solid var(--rule-strong); border-radius: 50%; transition: border-color var(--dur-ui) ease, background-color var(--dur-ui) ease, transform var(--dur-ui) var(--ease-out); }
+.sol__toggle-icon::before, .sol__toggle-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 1px; margin: -.5px 0 0 -5px; background: currentColor; transition: transform var(--dur-ui) var(--ease-out); }
+.sol__toggle-icon::after { transform: rotate(90deg); }
+.sol.is-open .sol__toggle-icon { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.sol.is-open .sol__toggle-icon::after { transform: rotate(0deg); }
+html:not(.js) .sol__toggle, html:not(.js) .sol-detail__close { display: none; }
+
+/* An open tile is marked by a lavender rule along its foot, pointing at its details. */
+.sol::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease-out); }
+.sol.is-open::after { transform: none; }
+
+/* ── Engaging a tile: the outline fills, and each title performs its words ── */
+.sol.is-open .sol__line--setup, .sol:has(:focus-visible) .sol__line--setup, .sol.is-live .sol__line--setup { color: var(--fg); }
+@media (hover: hover) { .sol:hover .sol__line--setup { color: var(--fg); } }
+
+/* 001 Get noticed: crop marks close in around the word, like a placement. */
+.sol--frame { --fit-scale: .93; }
+.sol--frame .sol__line--payoff { padding-inline: 3.5cqi; overflow: visible; }
+.sol--frame .sol__line--setup { margin-bottom: .45em; }
+.sol__mark { position: absolute; width: .16em; height: .16em; border: 0 solid var(--signal); opacity: 0; transition: transform .6s var(--ease-out), opacity .3s ease; }
+.sol__mark--tl { left: 0; top: -.12em; border-top-width: 2px; border-left-width: 2px; transform: translate(-.2em, -.2em); }
+.sol__mark--tr { right: 0; top: -.12em; border-top-width: 2px; border-right-width: 2px; transform: translate(.2em, -.2em); }
+.sol__mark--bl { left: 0; bottom: -.12em; border-bottom-width: 2px; border-left-width: 2px; transform: translate(-.2em, .2em); }
+.sol__mark--br { right: 0; bottom: -.12em; border-bottom-width: 2px; border-right-width: 2px; transform: translate(.2em, .2em); }
+.sol--frame.is-open .sol__mark, .sol--frame:has(:focus-visible) .sol__mark, .sol--frame.is-live .sol__mark { opacity: 1; transform: none; }
+@media (hover: hover) { .sol--frame:hover .sol__mark { opacity: 1; transform: none; } }
+
+/* 002 Build anticipation: an outline waits; the fill builds behind a lavender edge. */
+.sol--build .fit--outline { color: transparent; -webkit-text-stroke: 1px var(--fg-muted); }
+.sol--build .fit--fill { position: absolute; left: 0; top: 0; clip-path: inset(-20% 100% -20% 0); transition: clip-path 1s var(--ease-in-out); }
+.sol__edge { position: absolute; top: -.06em; bottom: -.06em; left: 0; width: 1px; background: var(--signal); transition: left 1s var(--ease-in-out); }
+.sol--build.is-open .fit--fill, .sol--build:has(:focus-visible) .fit--fill, .sol--build.is-live .fit--fill { clip-path: inset(-20% 0 -20% 0); }
+.sol--build.is-open .sol__edge, .sol--build:has(:focus-visible) .sol__edge, .sol--build.is-live .sol__edge { left: 100%; }
+@media (hover: hover) {
+  .sol--build:hover .fit--fill { clip-path: inset(-20% 0 -20% 0); }
+  .sol--build:hover .sol__edge { left: 100%; }
+}
+@supports not (-webkit-text-stroke: 1px black) { .sol--build .fit--fill { clip-path: none; } }
+
+/* Spare motion "respond": letters near the pointer turn into outlines (script). It belonged to the
+   former "Make it interactive" tile; no current tile uses it, and it is kept for a future one. */
+.sol--respond .ch {
+  color: rgb(243 242 239 / calc(1 - var(--h, 0)));
+  -webkit-text-stroke: 1.5px rgb(184 196 255 / var(--h, 0));
+}
+
+/* 003 Make an impression: the paper tile of the mosaic. Engaging it presses ink into it. */
+.sol--press {
+  --bg: var(--porcelain); --bg-raised: var(--porcelain-2); --fg: var(--ink); --fg-muted: var(--graphite); --fg-subtle: var(--stone);
+  --rule-strong: rgba(10, 10, 11, .3); --accent: var(--signal-deep); --focus: var(--signal-deep);
+}
+.sol--press::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--ink); clip-path: inset(100% 0 0 0); transition: clip-path .7s var(--ease-in-out); }
+.sol--press .sol__line--payoff { text-shadow: 0 .012em 0 rgba(255, 255, 255, .9), 0 -.006em 0 rgba(10, 10, 11, .25); }
+.sol--press.is-open, .sol--press:has(:focus-visible), .sol--press.is-live {
+  --fg: var(--porcelain); --fg-muted: var(--silver); --fg-subtle: var(--mist); --rule-strong: rgba(243, 242, 239, .32); --accent: var(--signal); --focus: var(--signal);
+}
+.sol--press.is-open::before, .sol--press:has(:focus-visible)::before, .sol--press.is-live::before { clip-path: inset(0 0 0 0); }
+.sol--press.is-open .sol__line--payoff, .sol--press:has(:focus-visible) .sol__line--payoff, .sol--press.is-live .sol__line--payoff { text-shadow: none; }
+@media (hover: hover) {
+  .sol--press:hover { --fg: var(--porcelain); --fg-muted: var(--silver); --fg-subtle: var(--mist); --rule-strong: rgba(243, 242, 239, .32); --accent: var(--signal); }
+  .sol--press:hover::before { clip-path: inset(0 0 0 0); }
+  .sol--press:hover .sol__line--payoff { text-shadow: none; }
+}
+.sol--press .sol__num, .sol--press .sol__toggle { transition: color .5s ease; }
+
+/* 004 You're Invited: the word is a folded card. Engaging the tile opens the card along a lavender
+   crease, as an invitation is opened: two halves of the same word swing flat, the crease settles.
+   "You're" is set in Bodoni Moda Italic, the voice the site uses for anything personal. */
+.setup--serif { font-family: var(--font-serif); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.sol--open .sol__line--setup { color: var(--fg-muted); -webkit-text-stroke-width: 0; font-size: max(1.375rem, 9cqi); line-height: .9; margin-bottom: .12em; }
+.sol--open .sol__line--payoff { overflow: visible; perspective: 1200px; }
+.sol--open .fit--half { transform-origin: 50% 50%; transition: transform 1.2s var(--ease-out); will-change: transform; }
+.sol--open .fit--r { position: absolute; left: 0; top: 0; }
+.sol--open .fit--l { clip-path: inset(-30% 50% -30% -6%); transform: rotateY(var(--fold, 54deg)); }
+.sol--open .fit--r { clip-path: inset(-30% -6% -30% 50%); transform: rotateY(calc(var(--fold, 54deg) * -1)); }
+.sol__crease {
+  position: absolute; left: 50%; top: -.05em; bottom: -.05em; width: 1px; margin-left: -.5px; background: var(--signal);
+  box-shadow: 0 0 14px 1px rgba(184, 196, 255, .5); transform: scaleY(.6); opacity: .9;
+  transition: transform 1.2s var(--ease-out), opacity .9s ease .25s;
+}
+.sol--open.is-open .fit--half, .sol--open:has(:focus-visible) .fit--half, .sol--open.is-live .fit--half { transform: none; }
+.sol--open.is-open .sol__crease, .sol--open:has(:focus-visible) .sol__crease, .sol--open.is-live .sol__crease { transform: none; opacity: .4; }
+@media (hover: hover) {
+  .sol--open:hover .fit--half { transform: none; }
+  .sol--open:hover .sol__crease { transform: none; opacity: .4; }
+}
+/* Without the script, or with reduced motion, the card simply lies open. */
+html:not(.js) .sol--open .fit--half { transform: none; }
+html:not(.js) .sol--open .sol__crease { transform: none; opacity: .4; }
+@media (prefers-reduced-motion: reduce) {
+  .sol--open .fit--half { transform: none; }
+  .sol--open .sol__crease { transform: none; opacity: .4; }
+}
+
+/* Spare motion "gather": the letters stand apart, and gather when engaged. It belonged to the former
+   "Bring people together" tile; no current tile uses it, and it is kept for a future one. */
+.sol--gather .fit { transform: scale(.91); transition: transform .9s var(--ease-out); }
+.sol--gather .ch { display: inline-block; transform: translateX(calc(var(--i, 0) * .1em)); transition: transform .9s var(--ease-out); }
+.sol--gather.is-open .fit, .sol--gather:has(:focus-visible) .fit, .sol--gather.is-live .fit,
+.sol--gather.is-open .ch, .sol--gather:has(:focus-visible) .ch, .sol--gather.is-live .ch { transform: none; }
+@media (hover: hover) { .sol--gather:hover .fit, .sol--gather:hover .ch { transform: none; } }
+
+/* ── Details: one full-width panel under the row of the open tile ───── */
+.sol-detail { grid-column: 1 / -1; position: relative; background: var(--ink-2); color: var(--fg); display: grid; grid-template-rows: 1fr; }
+.js .sol-detail { grid-template-rows: 0fr; transition: grid-template-rows .55s var(--ease-out); }
+.js .sol-detail.is-open { grid-template-rows: 1fr; }
+.sol-detail__inner { min-height: 0; overflow: hidden; }
+.js .sol-detail__inner { opacity: 0; transition: opacity .35s ease; }
+.js .sol-detail.is-open .sol-detail__inner { opacity: 1; transition-delay: .12s; }
+.sol-detail__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: var(--space-m) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) 0; }
+.sol-detail__num { color: var(--signal); }
+.sol-detail__close {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: 0 1rem;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); background: none; color: var(--fg);
+  font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .08em; text-transform: uppercase;
+}
+.sol-detail__close:hover { border-color: var(--signal); }
+.sol-detail__grid {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: var(--space-xl);
+  padding: var(--space-l) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) clamp(2rem, 1.5rem + 2vw, 3.25rem);
+}
+.sol-detail__value { grid-column: 1 / span 3; display: grid; gap: .7rem; align-content: start; justify-items: start; }
+.sol-detail__col { grid-column: span 3; }
+.sol-detail__col .label { margin-bottom: .9rem; }
+.sol__value { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: var(--step-2); line-height: 1.22; text-wrap: balance; max-width: 18ch; }
+.sol-detail__contact { min-height: 44px; margin-top: .3rem; color: var(--fg); }
+.sol__text { color: var(--fg-muted); text-wrap: pretty; font-size: var(--step--1); line-height: 1.6; }
+.sol__text p + p { margin-top: .85em; }
+.sol__text p:first-child { color: var(--fg); }
+.sol__list li { position: relative; padding: .4rem 0 .4rem 1.1rem; border-bottom: 1px solid var(--rule); line-height: 1.35; font-size: var(--step--1); }
+.sol__list li:first-child { border-top: 1px solid var(--rule); }
+.sol__list li::before { content: ""; position: absolute; left: 0; top: 1.02em; width: .5rem; height: 1px; background: var(--accent); }
+.sol__note { margin-top: var(--space-s); color: var(--fg-muted); font-size: var(--step--1); line-height: 1.6; text-wrap: pretty; }
+.sol__extras:empty { display: none; }
+.sol__extras { display: grid; gap: var(--space-m); margin-top: var(--space-s); width: 100%; justify-items: start; }
+.sol__preview { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-raised); border: 1px solid var(--rule); }
+.sol__preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── Our signature: the connected launch ────────────────────────────── */
+.launch {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: var(--space-xl);
+  margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem); align-items: start;
+}
+.launch__intro { grid-column: 1 / span 4; display: grid; gap: .8rem; justify-items: start; }
+.launch__kicker { color: var(--accent); }
+.launch__title { font-size: var(--step-3); font-weight: 500; letter-spacing: -.03em; line-height: var(--lh-heading); }
+.launch__text { color: var(--fg-muted); max-width: 40ch; text-wrap: pretty; }
+.launch__more { min-height: 44px; }
+.launch .journey { grid-column: 6 / -1; padding-top: .35rem; }
+
+/* ── Closing ────────────────────────────────────────────────────────── */
+.solutions__end {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: var(--space-l);
+  margin-top: clamp(3.5rem, 2.5rem + 4vw, 6rem); padding-top: clamp(2.5rem, 2rem + 2vw, 4rem); border-top: 1px solid var(--rule); align-items: end;
+}
+.solutions__end-title { grid-column: 1 / span 7; font-size: var(--step-4); }
+.solutions__end-title > span { display: block; }
+.solutions__end-copy { grid-column: 9 / span 4; display: grid; gap: var(--space-m); justify-items: start; color: var(--fg-muted); }
+
+/* ── Tablet ─────────────────────────────────────────────────────────── */
+@media (max-width: 68.75em) {
+  .sol-detail__value { grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--grid-gap); align-items: end; }
+  .sol__value { max-width: 30ch; }
+  .sol-detail__value .sol__extras, .sol-detail__value .sol-detail__contact { grid-column: 1 / -1; }
+  .sol-detail__col { grid-column: span 6; }
+  .sol-detail__col:last-child { grid-column: 1 / -1; }
+  .sol-detail__col:last-child .sol__list { columns: 2; column-gap: var(--grid-gap); border-top: 1px solid var(--rule); }
+  .sol-detail__col:last-child .sol__list li { break-inside: avoid; }
+  .sol-detail__col:last-child .sol__list li:first-child { border-top: 0; }
+  .launch__intro { grid-column: 1 / -1; max-width: 46rem; }
+  .launch .journey { grid-column: 1 / -1; }
+  .solutions__end-title { grid-column: 1 / -1; }
+  .solutions__end-copy { grid-column: 1 / span 8; }
+}
+@media (max-width: 56.25em) {
+  .sol--pos1, .sol--pos4 { grid-template-columns: 1fr; }
+  .sol--pos4 .sol__title, .sol--pos4 .sol__foot { grid-column: 1; grid-row: auto; }
+  .sol--pos2, .sol--pos3 { grid-column: span 6; }
+  .sol__foot { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Phone ──────────────────────────────────────────────────────────── */
+@media (max-width: 40em) {
+  .sol--pos2, .sol--pos3 { grid-column: 1 / -1; }
+  .sol { min-height: 0; gap: var(--space-s); }
+  .sol__title { margin-top: var(--space-s); }
+  .sol__category { max-width: 20ch; }
+  .sol__foot { flex-direction: row; align-items: flex-end; }
+  .sol-detail__col, .sol-detail__col:last-child { grid-column: 1 / -1; }
+  .sol-detail__col:last-child .sol__list { columns: 1; }
+  .sol-detail__grid { row-gap: var(--space-l); }
+  .sol-detail__cat { display: none; }
+  .solutions__end-copy { grid-column: 1 / -1; }
+}
+
+/* ── Reduced motion: states change without movement ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sol *, .sol::before, .sol::after, .sol-detail, .sol-detail__inner { transition: none !important; }
+}

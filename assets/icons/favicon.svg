@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>INVITÉ</title>
+  <rect width="64" height="64" rx="14" fill="#0A0A0B"/>
+  <path fill="#F3F2EF" d="M19 24h26v6H27v5h14v6H27v5h18v6H19z"/>
+  <path fill="#B8C4FF" d="M29 19l9-9h7l-9 9z"/>
+</svg>

@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Project catalog — the drawer that opens under a service's details.
+
+   Kept apart from solutions.css on purpose: everything here starts with
+   .sol-detail__foot, .sol-detail__catalog, .catalog or .pcard, and nothing in
+   solutions.css depends on it. Delete this file, the stylesheet link in index.html
+   and the catalog markup, and the details panels are exactly as they were.
+
+   Look: the drawer is one step darker than the details above it, ruled with 1px
+   lines like the rest of the section. Cards are open (no boxes): a framed picture,
+   a mono line, the name, two lines of copy and the links. On hover or keyboard focus
+   the picture eases in and a lavender rule runs along its foot, the same mark an open
+   service tile carries. A service set as "spread" (004) shows one large spread per project
+   instead of cards: see Spreads below. Reduced motion: no movement, states still change.
+   ========================================================================== */
+
+.sol-detail__foot, .catalog { --cat-pad: clamp(1.25rem, .9rem + 1.4vw, 2.25rem); }
+
+/* ── The row at the foot of the details ─────────────────────────────── */
+.sol-detail__foot {
+  display: flex; align-items: center; gap: var(--space-m);
+  padding: var(--space-m) var(--cat-pad); border-top: 1px solid var(--rule);
+}
+.sol-detail__foot::before { content: ""; order: 1; flex: 1; height: 1px; background: var(--rule); }
+.sol-detail__catalog { order: 2; flex: none; gap: .8em; --btn-border: rgba(184, 196, 255, .5); }
+.sol-detail__catalog:hover { --btn-border: var(--signal); }
+.sol-detail__catalog[aria-expanded="true"] { --btn-bg: var(--signal); --btn-fg: var(--ink); --btn-border: var(--signal); }
+.sol-detail__catalog[aria-expanded="true"]:hover { --btn-bg: var(--porcelain); --btn-border: var(--porcelain); }
+.sol-detail__catalog .arr { transition: transform var(--dur-ui) var(--ease-out); }
+.sol-detail__catalog[aria-expanded="true"] .arr { transform: rotate(90deg); }
+html:not(.js) .sol-detail__foot, html:not(.js) .catalog__close, html:not(.js) .catalog__close-end { display: none; }
+
+/* ── The drawer ─────────────────────────────────────────────────────── */
+.catalog { display: grid; grid-template-rows: 1fr; border-top: 1px solid var(--rule); background: var(--ink); }
+.js .catalog { grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease-out); }
+.js .catalog.is-open { grid-template-rows: 1fr; }
+.catalog__clip { min-height: 0; overflow: hidden; }
+.js .catalog__clip { opacity: 0; transition: opacity .4s ease; }
+.js .catalog.is-open .catalog__clip { opacity: 1; transition-delay: .15s; }
+.catalog__inner {
+  display: grid; gap: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  padding: clamp(1.75rem, 1.2rem + 2.2vw, 3rem) var(--cat-pad) clamp(1.75rem, 1.2rem + 2vw, 3rem);
+}
+
+/* Head: which service, the title, how many, and the way out */
+.catalog__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-m) var(--grid-gap); }
+.catalog__heading { min-width: 0; }
+.catalog__kicker { display: flex; gap: .6em; align-items: baseline; }
+.catalog__num { color: var(--signal); }
+.catalog__title { margin-top: .6rem; font-size: var(--step-3); line-height: var(--lh-heading); }
+.catalog__title:focus { outline: none; }
+.catalog__tools { display: flex; align-items: center; gap: var(--space-m); }
+.catalog__count { white-space: nowrap; }
+
+/* Industry filters (written only when a catalog is large enough to need them) */
+.catalog__filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.catalog__filter {
+  min-height: 44px; padding: 0 1.05rem; border: 1px solid var(--rule-strong); border-radius: var(--radius-pill);
+  background: transparent; color: var(--fg-muted); font-size: .9375rem;
+  transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease, border-color var(--dur-micro) ease;
+}
+.catalog__filter:hover { color: var(--fg); border-color: var(--fg-muted); }
+.catalog__filter[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+html:not(.js) .catalog__filters { display: none; }
+
+/* ── Cards ──────────────────────────────────────────────────────────── */
+.catalog__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem) var(--grid-gap); }
+.catalog__item { display: grid; min-width: 0; }
+@media (min-width: 43.75em) { .catalog__grid:not([data-cols="1"]) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 68.75em) { .catalog__grid[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.pcard { display: grid; gap: var(--space-m); align-content: start; min-width: 0; }
+@media (min-width: 43.75em) { .catalog__grid:not([data-cols="1"]) .pcard { grid-template-rows: auto 1fr auto; } }   /* feet line up across a row */
+.pcard__media { position: relative; display: block; aspect-ratio: 3 / 2; overflow: hidden; background: var(--ink-2); border: 1px solid var(--rule); }
+.pcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease-out); }
+.pcard__media::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out); }
+@media (hover: hover) {
+  .pcard:hover .pcard__media img { transform: scale(1.035); }
+  .pcard:hover .pcard__media::after { transform: none; }
+}
+.pcard:has(:focus-visible) .pcard__media::after { transform: none; }
+
+/* The honest status of the project, on its picture */
+.pcard__status {
+  position: absolute; left: 12px; top: 12px; z-index: 1; display: inline-flex; align-items: center; gap: .5rem;
+  padding: .34rem .75rem .34rem .62rem; border: 1px solid rgba(243, 242, 239, .22); border-radius: var(--radius-pill);
+  background: rgba(10, 10, 11, .74); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: var(--porcelain);
+  font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .08em; text-transform: uppercase; line-height: 1;
+}
+.pcard__dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--signal); }
+.pcard__status--live .pcard__dot { background: var(--signal); box-shadow: 0 0 0 3px rgba(184, 196, 255, .2); }
+.pcard__status--in-development .pcard__dot { background: linear-gradient(90deg, var(--signal) 50%, transparent 50%); }
+.pcard__status--concept .pcard__dot { border-style: dashed; }
+
+.pcard__body { display: grid; gap: .7rem; align-content: start; min-width: 0; }
+.pcard__meta { color: var(--fg-subtle); }
+.pcard__title { margin: 0; font-size: var(--step-2); font-weight: 700; font-stretch: 112%; letter-spacing: -.02em; line-height: 1.08; overflow-wrap: anywhere; }
+.pcard__text { max-width: 58ch; color: var(--fg-muted); font-size: var(--step--1); line-height: 1.6; text-wrap: pretty; }
+.pcard__tags { gap: .3rem .8rem; color: var(--fg-subtle); }
+
+.pcard__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .35rem 1.25rem; min-width: 0; padding-top: var(--space-s); border-top: 1px solid var(--rule); }
+.pcard__type { color: var(--fg-subtle); }
+.pcard__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.25rem; }
+.pcard .btn { min-height: 44px; }
+
+/* A single project is shown as a feature: the picture beside the words. */
+@media (min-width: 68.75em) {
+  .catalog__grid[data-cols="1"] .pcard { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--grid-gap); align-items: end; }
+  .catalog__grid[data-cols="1"] .pcard__media { grid-column: 1; grid-row: 1 / span 2; }
+  .catalog__grid[data-cols="1"] .pcard__body { grid-column: 2; grid-row: 1; align-self: end; }
+  .catalog__grid[data-cols="1"] .pcard__foot { grid-column: 2; grid-row: 2; }
+}
+
+/* ── Spreads (catalogLayout: 'spread', used by 004 You're Invited) ──────
+   One spread per project: a plate in the invitation's own colour carrying up to three real screens, and
+   beside it the name, what it contains, the facts and the live link. Spreads alternate sides on a wide
+   screen and stack on a narrow one. Nothing is hidden without the script: the reveal and the pointer drift
+   are added by js/solutions/CatalogSpreads.js, and only for people who have not asked for less motion.
+   The screens are placed in percentages of the plate, so the whole composition scales as one picture. */
+.catalog__intro { max-width: 46ch; margin-top: var(--space-s); color: var(--fg-muted); font-size: var(--step-0); line-height: 1.55; text-wrap: pretty; }
+
+.spreads { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(3.5rem, 2.2rem + 5.5vw, 7.5rem); }
+.spread__article { display: grid; gap: var(--space-l); min-width: 0; }
+.spread__figure { order: -1; display: grid; gap: .75rem; margin: 0 calc(-1 * var(--cat-pad)); min-width: 0; }   /* on a phone the plate runs to the edges of the drawer */
+.spread__copy { display: grid; gap: var(--space-m); align-content: start; min-width: 0; }
+
+/* The plate */
+.spread__plate { position: relative; overflow: hidden; aspect-ratio: 10 / 11; background: var(--tone, var(--ink-2)); }
+.spread__plate-link { position: absolute; inset: 0; z-index: 2; }
+.spread__status { z-index: 3; pointer-events: none; }
+.spread__plate::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out); pointer-events: none; }
+@media (hover: hover) { .spread:hover .spread__plate::after { transform: none; } }
+.spread:has(:focus-visible) .spread__plate::after { transform: none; }
+
+.spread__screen { position: absolute; left: var(--x); top: var(--y); width: var(--w); }
+.spread__glide { overflow: hidden; border: 1px solid rgba(243, 242, 239, .16); border-radius: 8% / 3.7%; background: var(--ink-2); }
+.spread__glide img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; object-fit: cover; }
+.spread__caption { padding-inline: var(--cat-pad); text-transform: none; letter-spacing: .02em; text-wrap: balance; }
+
+/* On a phone two screens are shown, larger; the third waits for a wider screen. */
+.spread__plate[data-screens="3"] .spread__screen--1, .spread__plate[data-screens="2"] .spread__screen--1 { --w: 40%; --x: 5%; --y: 17%; }
+.spread__plate[data-screens="3"] .spread__screen--2, .spread__plate[data-screens="2"] .spread__screen--2 { --w: 46%; --x: 49%; --y: 6%; }
+.spread__plate[data-screens="1"] .spread__screen--1 { --w: 46%; --x: 27%; --y: 6%; }
+.spread__plate[data-screens="3"] .spread__screen--3 { display: none; }
+
+@media (min-width: 43.75em) {
+  .spread__figure { margin-inline: 0; }
+  .spread__caption { padding-inline: 0; }
+  .spread__plate { aspect-ratio: 5 / 4; }
+  .spread__plate[data-screens="3"] .spread__screen--3 { display: block; }
+  .spread__plate[data-screens="3"] .spread__screen--1 { --w: 26%; --x: 3%;  --y: 20%; }
+  .spread__plate[data-screens="3"] .spread__screen--2 { --w: 36%; --x: 32%; --y: 7%; }
+  .spread__plate[data-screens="3"] .spread__screen--3 { --w: 26%; --x: 71%; --y: 29%; }
+  .spread__plate[data-screens="2"] .spread__screen--1 { --w: 34%; --x: 13%; --y: 8%; }
+  .spread__plate[data-screens="2"] .spread__screen--2 { --w: 28%; --x: 56%; --y: 27%; }
+  .spread__plate[data-screens="1"] .spread__screen--1 { --w: 36%; --x: 32%; --y: 7%; }
+}
+
+/* The words */
+.spread__num { display: flex; align-items: center; gap: var(--space-s); }
+.spread__num::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+.spread__title { margin: 0 0 -.12em; padding-bottom: .12em; overflow: hidden; font-size: var(--step-4); font-weight: 700; font-stretch: 112%; letter-spacing: -.03em; line-height: var(--lh-display); overflow-wrap: anywhere; }
+.spread__title-in { display: block; }   /* a block, so the reveal can move it (transforms do not apply to inline text) */
+.spread__title .amp { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-stretch: 100%; letter-spacing: 0; color: var(--signal); }
+.spread__text { max-width: 46ch; color: var(--fg-muted); font-size: var(--step-0); line-height: var(--lh-body); text-wrap: pretty; }
+.spread__tags { display: grid; gap: .4rem; }
+.spread__tags li::after { content: none; }
+@media (min-width: 43.75em) { .spread__tags { grid-template-columns: repeat(2, minmax(0, max-content)); gap: .45rem clamp(1.5rem, 1rem + 2vw, 3rem); } }
+.spread__facts { display: flex; flex-wrap: wrap; gap: var(--space-s) clamp(1.5rem, 1rem + 2vw, 3rem); margin: 0; padding-top: var(--space-s); border-top: 1px solid var(--rule); }
+.spread__facts dd { margin: .35rem 0 0; color: var(--fg); font-size: var(--step--1); }
+
+/* The way in */
+.spread__go { display: grid; justify-items: start; gap: .9rem; padding-top: var(--space-xs); }
+.spread__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.5rem; }
+.spread__cta { --btn-bg: var(--signal); --btn-fg: var(--ink); --btn-border: var(--signal); min-height: 52px; padding: 0 1.5rem; }
+.spread__cta:hover { --btn-bg: var(--porcelain); --btn-border: var(--porcelain); }
+.spread__url { text-transform: none; letter-spacing: .02em; overflow-wrap: anywhere; }
+.spread__hint { max-width: 40ch; color: var(--fg-muted); font-family: var(--font-serif); font-style: italic; font-size: var(--step-0); line-height: 1.45; }
+
+@media (min-width: 68.75em) {
+  .spread__article { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2.5rem, 1rem + 4.5vw, 6rem); align-items: center; }
+  .spread__figure { order: 0; grid-column: 1; grid-row: 1; }
+  .spread__copy { grid-column: 2; grid-row: 1; }
+  .spread:nth-child(even) .spread__article { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .spread:nth-child(even) .spread__figure { grid-column: 2; }
+  .spread:nth-child(even) .spread__copy { grid-column: 1; }
+}
+
+/* A catalog with no project yet says so, and does not pretend */
+.catalog__empty {
+  display: grid; gap: .6rem; max-width: 62ch; padding: clamp(1.25rem, 1rem + 1.4vw, 2rem);
+  border: 1px dashed var(--rule-strong); color: var(--fg-muted); text-wrap: pretty;
+}
+.catalog__empty-title { color: var(--fg); font-size: var(--step-1); font-weight: 500; letter-spacing: -.015em; }
+
+/* ── Closing call to action ─────────────────────────────────────────── */
+.catalog__end {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-m) var(--grid-gap);
+  padding-top: clamp(1.5rem, 1rem + 2vw, 2.5rem); border-top: 1px solid var(--rule);
+}
+.catalog__end-title { font-size: var(--step-2); font-weight: 500; letter-spacing: -.025em; line-height: 1.15; }
+.catalog__end-text { margin-top: .35rem; font-family: var(--font-serif); font-style: italic; font-size: var(--step-1); color: var(--fg-muted); }
+.catalog__end-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; }
+
+/* ── Phone ──────────────────────────────────────────────────────────── */
+@media (max-width: 40em) {
+  .sol-detail__foot { flex-wrap: wrap; row-gap: var(--space-s); }
+  .sol-detail__catalog { order: 3; flex: 1 1 100%; }
+  .catalog__head { align-items: flex-start; }
+  .catalog__tools { width: 100%; justify-content: space-between; }
+  .catalog__end { align-items: flex-start; }
+  .catalog__end-actions { width: 100%; }
+  .catalog__end-actions .btn--primary { flex: 1 1 100%; }
+}
+
+/* ── Reduced motion: states change without movement ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .catalog, .catalog__clip, .pcard__media img, .pcard__media::after, .spread__plate::after, .sol-detail__catalog .arr { transition: none !important; }
+  .pcard:hover .pcard__media img { transform: none !important; }
+}

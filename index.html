@@ -1,475 +1,1102 @@
-<!DOCTYPE html>
-<html lang="ka">
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>INVITÉ — Digital Invitations & Digital Ads</title>
-  <meta name="description" content="INVITÉ creates premium digital invitations, interactive RSVP websites and digital ad experiences for weddings, corporate events and brand launches in Georgia." />
-  <link rel="canonical" href="https://digitalinvitee.github.io/" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="INVITÉ — Digital Invitations & Digital Ads" />
-  <meta property="og:description" content="Premium digital invitations, interactive RSVP websites and digital ad experiences for weddings, corporate events and brand launches." />
-  <meta property="og:image" content="og-cover.png" />
-  <meta property="og:locale" content="ka_GE" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <link rel="icon" type="image/png" href="favicon.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=FiraGO:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>INVITÉ Studio — Creative digital studio, from attention to action</title>
+<meta name="description" content="Independent creative digital studio in Tbilisi. Digital advertising, creative websites, interactive invitations and digital experiences for brands, creators and personal celebrations.">
+<link rel="canonical" href="https://invitee.ge/">
+<meta name="theme-color" content="#F3F2EF">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INVITÉ Studio">
+<meta property="og:title" content="INVITÉ Studio — Creative digital studio, from attention to action">
+<meta property="og:description" content="Digital advertising, creative websites, interactive invitations and digital experiences for brands, creators and personal celebrations.">
+<meta property="og:url" content="https://invitee.ge/">
+<meta property="og:image" content="https://invitee.ge/assets/img/og/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="INVITÉ Studio wordmark resolving out of a broken television signal into a line of light.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/bodoni-moda-italic-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/solutions.css">
+<link rel="stylesheet" href="css/catalog.css">
+<script>
+  /* Decide before first paint whether the signal intro plays: full (about 2.8 s) on a first visit, short
+     (about 1.2 s) for returning visitors and on reload. It stays off for links to a section (#contact), for
+     the way back from another page of this site, and with ?intro=off. ?intro=classic plays the earlier
+     5.7 s version for comparison. Kept inline so there is no flash.
+     (Reduced motion still gets the intro, as a still frame: see js/intro/IntroExperience.js.) */
+  (function () {
+    var d = document.documentElement;
+    d.className = d.className.replace('no-js', 'js');
+    var mode = 'none';
+    try {
+      var q = new URLSearchParams(location.search).get('intro');
+      var seen = null; try { seen = localStorage.getItem('invite.intro.seen'); } catch (e) {}
+      var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+      var internal = false;
+      try { var r = document.referrer && new URL(document.referrer); internal = !!r && r.origin === location.origin && r.pathname !== location.pathname; } catch (e) {}
+      mode = q === 'off' ? 'none' : q === 'full' ? 'full' : q === 'short' ? 'short' : q === 'classic' ? 'classic'
+           : location.hash.length > 1 || nav.type === 'back_forward' || internal ? 'none'
+           : seen ? 'short' : 'full';
+    } catch (e) { mode = 'none'; }
+    d.setAttribute('data-intro', mode);
+    if (mode !== 'none') d.classList.add('intro-active');
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://invitee.ge/#studio",
+  "name": "INVITÉ Studio",
+  "alternateName": "INVITÉ",
+  "url": "https://invitee.ge/",
+  "logo": "https://invitee.ge/assets/icons/icon-512.png",
+  "image": "https://invitee.ge/assets/img/og/og-home.jpg",
+  "description": "Independent creative digital studio in Tbilisi creating digital advertising and motion campaigns, launch and interactive experiences, creative websites, and digital invitations and event experiences for brands, creators and personal celebrations.",
+  "foundingDate": "2026",
+  "founder": { "@type": "Person", "name": "Mariam Kajaia" },
+  "telephone": "+995 599 29 89 12",
+  "address": { "@type": "PostalAddress", "addressLocality": "Tbilisi", "addressCountry": "GE" },
+  "areaServed": "Worldwide",
+  "knowsLanguage": ["en", "ka"],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital advertising and motion campaigns" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Launch and interactive experiences" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Creative websites and digital experiences" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital invitations and event experiences" } }
+  ]
+}
+</script>
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script type="module" src="js/main.js"></script>
+<script>
+  /* Opened straight from a folder (file://)? Browsers block modules and web fonts there, so load
+     the single-file copy of the scripts and the embedded fonts instead (made by tools/build-offline.py).
+     The live site never uses them. */
+  if (location.protocol === 'file:') (function (d) {
+    var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = 'css/fonts-offline.css'; d.head.appendChild(l);
+    var s = d.createElement('script'); s.src = 'js/offline.js'; d.head.appendChild(s);
+  })(document);
+</script>
 </head>
+<body data-page="home">
+<a class="skip-link" href="#main">Skip to content</a>
 
-<body>
-
-<a href="#main" class="skip-link">Skip to content</a>
-
-<div class="intro-experience" id="introExperience" aria-hidden="true">
-  <div class="intro-grain"></div>
-  <div class="intro-stage">
-    <span class="intro-mark">INVITÉ</span>
-    <span class="intro-line" data-ka="Digital Experiences Before The Event Begins" data-en="Digital Experiences Before The Event Begins">Digital Experiences Before The Event Begins</span>
+<!-- ═══ Signature intro: the broken television ═══ -->
+<dialog class="intro" id="intro" hidden aria-labelledby="intro-title" aria-describedby="intro-status">
+  <h2 class="sr-only" id="intro-title">Opening transmission</h2>
+  <p class="sr-only" id="intro-status" aria-live="polite">A broken television tunes in and shows the name INVITÉ.</p>
+  <div class="intro__screen" data-intro-screen aria-hidden="true"></div>
+  <div class="intro__static" aria-hidden="true"><span class="intro__static-word">INVITÉ</span></div>
+  <div class="intro__glass" aria-hidden="true"></div>
+  <div class="intro__light" data-intro-light aria-hidden="true"></div>
+  <p class="intro__brand label" aria-hidden="true">INVITÉ Studio · Transmission</p>
+  <div class="intro__controls">
+    <button class="btn" type="button" data-sound-toggle aria-pressed="false"><span class="sound-dot" aria-hidden="true"></span><span data-sound-label>Sound off</span></button>
+    <button class="btn" type="button" data-intro-skip autofocus>Skip intro <span class="arr" aria-hidden="true">→</span></button>
   </div>
-  <button class="intro-skip" id="introSkip">Enter</button>
-</div>
+</dialog>
+<script>
+  /* Opens the intro immediately. If the experience script never takes over (slow network, blocked
+     scripts), Skip, Escape and a 6 s failsafe still release the page, and the intro then stays off
+     for this visit instead of starting late. */
+  (function () {
+    var d = document.documentElement, dlg = document.getElementById('intro');
+    if (!dlg || d.getAttribute('data-intro') === 'none') return;
+    function release() {
+      if (window.__introOwned) return;
+      try { dlg.close(); } catch (e) {}
+      dlg.hidden = true; d.classList.remove('intro-active'); d.setAttribute('data-intro', 'none');
+    }
+    dlg.hidden = false;
+    try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); }
+    dlg.querySelector('[data-intro-skip]').addEventListener('click', release);
+    dlg.addEventListener('cancel', function (e) { if (!window.__introOwned) { e.preventDefault(); release(); } });
+    setTimeout(release, 6000);
+  })();
+</script>
 
-<header class="site-header" id="siteHeader">
-  <nav class="nav" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo">INVITÉ</a>
-
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
-      <span></span>
-      <span></span>
-    </button>
-
-    <div class="nav-menu" id="navMenu">
-      <a href="index.html#concept"   data-ka="კონცეფცია"    data-en="Concept">კონცეფცია</a>
-      <a href="index.html#services"  data-ka="სერვისები"    data-en="Services">სერვისები</a>
-      <a href="projects.html"        data-ka="პროექტები"    data-en="Projects">პროექტები</a>
-      <a href="index.html#process"   data-ka="პროცესი"      data-en="Process">პროცესი</a>
-      <a href="index.html#contact"   data-ka="კონტაქტი"     data-en="Contact">კონტაქტი</a>
-
-
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button class="lang-btn active" data-lang="ka" aria-pressed="true">GEO</button>
-        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
-      </div>
+<!-- ═══ Header ═══ -->
+<header class="site-header" data-header>
+  <div class="site-header__inner container">
+    <a class="wordmark" href="#top" aria-label="INVITÉ Studio, back to top">INVITÉ<span class="wordmark__studio" aria-hidden="true">Studio</span></a>
+    <nav class="primary-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="sound-toggle__label" data-sound-label>Sound off</span></button>
+      <a class="btn btn--primary btn--sm btn--start" href="#contact" data-start-project>Start a project <span class="arr" aria-hidden="true">→</span></a>
+      <button class="menu-toggle" type="button" aria-haspopup="dialog" aria-controls="menu" aria-expanded="false" data-menu-open>Menu</button>
     </div>
-  </nav>
+  </div>
 </header>
 
-<main id="main">
-
-  <!-- HOME -->
-  <section class="hero v2-hero" id="home">
-    <div class="hero-orbit" aria-hidden="true"></div>
-    <div class="hero-noise" aria-hidden="true"></div>
-
-    <div class="hero-inner v2-hero-inner">
-      <div class="hero-copy v2-hero-copy reveal-block">
-        <p class="section-kicker" data-ka="Digital Studio" data-en="Digital Studio">Digital Studio</p>
-
-        <h1>INVITÉ</h1>
-
-        <p class="hero-title"
-           data-ka="ციფრული მოსაწვევები, ინტერაქციული რეკლამა და პრემიუმ ვებგამოცდილება"
-           data-en="Digital invitations, interactive advertising and premium web experiences">
-          ციფრული მოსაწვევები, ინტერაქციული რეკლამა და პრემიუმ ვებგამოცდილება
-        </p>
-
-        <div class="hero-actions">
-          <a href="#contact" class="btn primary magnetic" data-ka="კონტაქტი" data-en="Contact">კონტაქტი</a>
-          <a href="projects.html" class="btn secondary magnetic" data-ka="პროექტები" data-en="Projects">პროექტები</a>
-        </div>
-      </div>
-    </div>
-
-    
-  </section>
-<!-- CONCEPT -->
-<section class="section concept editorial-section" id="concept">
-
-    <div class="concept-grid">
-
-        <!-- LEFT -->
-
- <div class="concept-left reveal-block">
-
-    <p class="section-kicker"
-       data-ka="კონცეფცია"
-       data-en="Concept">
-        კონცეფცია
-    </p>
-
-    <h2 class="editorial-title concept-title"
-        data-ka="INVITÉ ტრადიციულ ქაღალდის<br>მოსაწვევებს პრემიუმ კლასის<br>ციფრულ ვებ-გამოცდილებად აქცევს."
-        data-en="INVITÉ transforms traditional<br>paper invitations into<br>premium digital experiences.">
-
-        INVITÉ ტრადიციულ ქაღალდის<br>
-        მოსაწვევებს პრემიუმ კლასის<br>
-        ციფრულ ვებ-გამოცდილებად აქცევს.
-
-    </h2>
-
-</div>
-
-<!-- RIGHT -->
-
-<div class="concept-right reveal-block">
-
-    <p class="editorial-text"
-       data-ka="INVITÉ აერთიანებს ელეგანტურ დიზაინს, ინტერაქციულ ანიმაციებსა და თანამედროვე RSVP სისტემას ერთ სივრცეში."
-       data-en="INVITÉ combines refined design, interactive animations, and a modern RSVP system into one seamless experience.">
-        INVITÉ აერთიანებს ელეგანტურ დიზაინს,
-        ინტერაქციულ ანიმაციებსა და თანამედროვე RSVP
-        სისტემას ერთ სივრცეში.
-    </p>
-
-    <p class="editorial-text concept-text-spacing"
-       data-ka="თითოეული პროექტი იქმნება იმისთვის, რომ სტუმრებმა ბრენდის ან ღონისძიების ატმოსფერო ჯერ კიდევ მოსაწვევის გახსნის მომენტიდან იგრძნონ."
-       data-en="Every project is crafted to immerse guests in the atmosphere of the brand or event from the very moment they open the invitation.">
-        თითოეული პროექტი იქმნება იმისთვის,
-        რომ სტუმრებმა ბრენდის ან ღონისძიების
-        ატმოსფერო ჯერ კიდევ მოსაწვევის
-        გახსნის მომენტიდან იგრძნონ.
-    </p>
-
-</div>
-
-    </div>
-
-</section>
-
-  <!-- REAL EVENTS -->
-  <section class="section real-events editorial-section" id="real-events">
-    <div class="editorial-layout single-editorial">
-      <div class="editorial-content reveal-block">
-        <p class="section-kicker" data-ka="რეალური პროექტები" data-en="Real Projects">რეალური პროექტები</p>
-
-        <h2 class="editorial-title"
-            data-ka="პრაქტიკით დადასტურებული ეფექტურობა"
-            data-en="Efficiency Proven in Practice">
-          პრაქტიკით დადასტურებული ეფექტურობა
-        </h2>
-
-        <p class="editorial-text"
-           data-ka="eMotors Georgia-სა და Jetour Georgia-ს მასშტაბურმა პროექტმა ნათლად აჩვენა, თუ რამდენად ცვლის საქმეს სწორი ციფრული ლოჯისტიკა: INVITÉ-ს RSVP ფუნქციონალმა ორგანიზატორებს სტუმრების ნაკადის მართვა მაქსიმალურად შეუმსუბუქა, თავად სტუმრებში კი — ღონისძიების მოლოდინის განცდა და ინტერესი კიდევ უფრო გაამძაფრა."
-           data-en="The scale of the eMotors Georgia and Jetour Georgia project highlighted the power of smart digital logistics. INVITÉ’s RSVP feature streamlined guest management for organizers and fueled a strong sense of excitement and anticipation among the guests from the very start.">
-         The scale of the eMotors Georgia and Jetour Georgia project highlighted the power of smart digital logistics. INVITÉ’s RSVP feature streamlined guest management for organizers and fueled a strong sense of excitement and anticipation among the guests from the very start.
-        </p>
-      </div>
-    </div>
-
-    <div class="case-grid">
-      <a class="case-card reveal-block" href="https://digitalinvitee.github.io/JETOUR-CLUB/" target="_blank">
-        <div class="case-image">
-          <img src="jetourclub.png" alt="JETOUR Club" loading="lazy" onerror="this.style.display='none'">
-        </div>
-
-        <div class="case-content">
-          <span class="case-kicker">Corporate Invitation</span>
-          <h3>JETOUR Club</h3>
-         <p data-ka="ექსკლუზიური კორპორატიული მოსაწვევი საავტომობილო კლუბისთვის — RSVP, უკუთვლის ტაიმერი და ლოკაციის რუკა ერთ სრულყოფილ სივრცეში."
-   data-en="An exclusive corporate invitation for an elite automotive club — featuring RSVP, countdown, and location map in an all-in-one sleek interface.">
-  ექსკლუზიური კორპორატიული მოსაწვევი საავტომობილო კლუბისთვის — RSVP, უკუთვლის ტაიმერი და ლოკაციის რუკა ერთ სრულყოფილ სივრცეში.
-</p>
-          <div class="case-stats">
-            <span>Interactive RSVP</span>
-            <span>Live Countdown</span>
-            <span>Background Music</span>
-            <span>Interactive Map</span>
-            <span>Dress Code</span>
-          </div>
-        </div>
-      </a>
-<a class="case-card reveal-block" href="https://digitalinvitee.github.io/JETOUR/" target="_blank">
-  <div class="case-image">
-    <img src="jetour.png" alt="JETOUR" loading="lazy" onerror="this.style.display='none'">
+<dialog class="menu" id="menu" aria-label="Menu">
+  <div class="menu__top">
+    <span class="wordmark" aria-hidden="true">INVITÉ</span>
+    <button class="menu__close" type="button" data-menu-close>Close</button>
   </div>
-
-  <div class="case-content">
-    <span class="case-kicker"> Corporate Invitation</span>
-    <h3>JETOUR</h3>
-   <p data-ka="ახალი მოდელის პრემიუმ  პრეზენტაცია — ბრენდული ციფრული სივრცე, რომელმაც პირველივე წამიდან შექმნა ივენთის მოლოდინი და სტუმრებს ყველა საჭირო დეტალი ერთიანად მიაწოდა."
-   data-en="A premium  presentation for a new model launch — a branded digital space that created anticipation from the very first second while delivering all essential event details in one seamless experience.">
-  ახალი მოდელის პრემიუმ  პრეზენტაცია — ბრენდული ციფრული სივრცე, რომელმაც პირველივე წამიდან შექმნა ივენთის მოლოდინი და სტუმრებს ყველა საჭირო დეტალი ერთიანად მიაწოდა.
-</p>
-    <div class="case-stats">
-      <span>Digital Ad</span>
-      <span>RSVP</span>
-      <span>Interactive Map</span>
-      <span>Dress Code</span>
+  <nav class="menu__nav" aria-label="Menu">
+    <ol>
+      <li><a href="#solutions" data-menu-link>Solutions</a></li>
+      <li><a href="#work" data-menu-link>Work</a></li>
+      <li><a href="#process" data-menu-link>Process</a></li>
+      <li><a href="#studio" data-menu-link>Studio</a></li>
+      <li><a href="#contact" data-menu-link>Contact</a></li>
+    </ol>
+  </nav>
+  <div class="menu__foot">
+    <a class="btn btn--primary" href="#contact" data-menu-link data-start-project>Start a project <span class="arr" aria-hidden="true">→</span></a>
+    <div class="menu__row">
+      <button type="button" data-sound-toggle aria-pressed="false"><span data-sound-label>Sound off</span></button>
+      <button type="button" data-replay-intro>Replay intro ↺</button>
     </div>
   </div>
-</a>
-    </div>
-  </section>
+</dialog>
 
-  <!-- SERVICES -->
-  <section class="section services editorial-section" id="services">
-    <div class="editorial-layout">
-      
+<main id="main" tabindex="-1">
 
-      <div class="editorial-content reveal-block">
-        <p class="section-kicker" data-ka="ჩვენი სერვისები" data-en="Our Services">ჩვენი სერვისები</p>
-
-        <h2 class="editorial-title"
-            data-ka="ციფრული გამოცდილებები ბრენდებისა და ღონისძიებებისთვის."
-            data-en="Digital experiences for brands and events.">
-          ციფრული გამოცდილებები 
-          ბრენდებისა და ღონისძიებებისთვის.
-        </h2>
+  <!-- ═══ 01 · Hero ═══
+       One idea in three states: Designed to attract (Attention), Built to engage (Engagement), Made for action (Action).
+       The headline is set as a three-step cascade (css/home.css): each phrase stays whole on its own line and steps in, so the
+       progression reads at a glance on a phone as well as on a desktop. No full stops: the italic verb ends the line.
+       The headline lines, the orbit (Fig. 01) and the four service links under it share one state: js/hero/ConnectedDiagram.js. -->
+  <section class="hero container" id="top" aria-labelledby="hero-title">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="label section-id hero__eyebrow"><span class="section-id__num">(01)</span><span>Independent creative digital studio</span></p>
+        <h1 class="display hero__title" id="hero-title" data-hero-title>
+          <span class="hero__line" data-cx-line="0">Designed to <em>attract</em></span>
+          <span class="hero__line" data-cx-line="1">Built to <em>engage</em></span>
+          <span class="hero__line" data-cx-line="2">Made for <em>action</em></span>
+        </h1>
+        <p class="lead hero__lead">Digital advertising, creative websites, interactive invitations and digital experiences for brands, creators and personal celebrations.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#work">Explore Our Work <span class="arr arr--down" aria-hidden="true">↓</span></a>
+          <a class="btn btn--text" href="#contact" data-start-project>Discuss a Project <span class="arr" aria-hidden="true">→</span></a>
+        </div>
       </div>
-    </div>
-
-    <div class="services-list">
-      <article class="service-row reveal-block">
-        <span>01</span>
-        <div>
-          <h3 data-ka="კერძო წვეულებების ვებგამოცდილება" data-en="Private event web experience">კერძო წვეულებების ვებგამოცდილება</h3>
-          <p data-ka="ექსკლუზიური, სრულად მობილურზე ადაპტირებული ვებ-მოსაწვევები უნიკალური სტილითა და დახვეწილი ტიპოგრაფიით ქორწილების, საიუბილეო და პირადი ივენთებისთვის. ეს არის თქვენი დღესასწაულის პრემიუმ ციფრული პრეზენტაცია, რომელიც სტუმრებს პირველივე წამიდან უქმნის ამაღლებულ განწყობას და მაქსიმალურად გიმარტივებთ მოწვევის პროცესს."
-             data-en="Exclusive, fully mobile-adapted web invitations with unique style and refined typography for weddings, anniversaries and private events. This is the premium digital presentation of your celebration, creating the right mood for guests from the first second and simplifying the invitation process.">
-            ექსკლუზიური, სრულად მობილურზე ადაპტირებული ვებ-მოსაწვევები უნიკალური სტილითა და დახვეწილი ტიპოგრაფიით ქორწილების, საიუბილეო და პირადი ივენთებისთვის. ეს არის თქვენი დღესასწაულის პრემიუმ ციფრული პრეზენტაცია, რომელიც სტუმრებს პირველივე წამიდან უქმნის ამაღლებულ განწყობას და მაქსიმალურად გიმარტივებთ მოწვევის პროცესს.
-          </p>
-        </div>
-      </article>
-
-      <article class="service-row reveal-block">
-        <span>02</span>
-        <div>
-          <h3 data-ka="ციფრული მარკეტინგი ბიზნესისთვის" data-en="Digital marketing for business">ციფრული მარკეტინგი ბიზნესისთვის</h3>
-          <p data-ka="ბიზნეს სექტორისთვის INVITÉ ბევრად მეტია, ვიდრე მოსაწვევი — ეს არის ინტერაქციული სარეკლამო ინსტრუმენტი (Digital Ad). პლატფორმა გაძლევთ შესაძლებლობას, ღონისძიებამდე ბევრად ადრე დაიწყოთ პროდუქტის პიარი, შექმნათ მოლოდინის ეფექტი (Pre-event hype) და თქვენი პრეზენტაციები თუ კორპორატიული ივენთები წარმატებულ მარკეტინგულ კამპანიად აქციოთ."
-             data-en="For the business sector, INVITÉ is much more than an invitation — it is an interactive advertising tool (Digital Ad). The platform gives you the opportunity to start product PR long before the event, create a pre-event hype effect and turn your presentations or corporate events into a successful marketing campaign.">
-            ბიზნეს სექტორისთვის INVITÉ ბევრად მეტია, ვიდრე მოსაწვევი — ეს არის ინტერაქციული სარეკლამო ინსტრუმენტი (Digital Ad). პლატფორმა გაძლევთ შესაძლებლობას, ღონისძიებამდე ბევრად ადრე დაიწყოთ პროდუქტის პიარი, შექმნათ მოლოდინის ეფექტი (Pre-event hype) და თქვენი პრეზენტაციები თუ კორპორატიული ივენთები წარმატებულ მარკეტინგულ კამპანიად აქციოთ.
-          </p>
-        </div>
-      </article>
-
-      <article class="service-row reveal-block">
-        <span>03</span>
-        <div>
-          <h3 data-ka="სმარტ-მენეჯმენტი და Live-RSVP" data-en="Smart management and Live-RSVP">სმარტ-მენეჯმენტი და Live-RSVP</h3>
-          <p data-ka="დაივიწყეთ ქაოსი და სტუმრების სიებში ჩაკარგვა. ინტერაქციული RSVP სისტემის წყალობით, სტუმრები მომენტალურად ადასტურებენ დასწრებას პერსონალური ლინკებით. ყველა მონაცემი ლაივ რეჟიმში, ავტომატურად სინქრონიზდება თქვენს Google Sheets-ში, რაც გაძლევთ ორგანიზების სრულ და მარტივ კონტროლს."
-             data-en="Forget chaos and getting lost in guest lists. With the interactive RSVP system, guests instantly confirm attendance through personal links. All data is automatically synchronized live into your Google Sheets, giving you full and simple control over organization.">
-            დაივიწყეთ ქაოსი და სტუმრების სიებში ჩაკარგვა. ინტერაქციული RSVP სისტემის წყალობით, სტუმრები მომენტალურად ადასტურებენ დასწრებას პერსონალური ლინკებით. ყველა მონაცემი ლაივ რეჟიმში, ავტომატურად სინქრონიზდება თქვენს Google Sheets-ში, რაც გაძლევთ ორგანიზების სრულ და მარტივ კონტროლს.
-          </p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- DEMO PROJECTS -->
-  <section class="section projects-preview editorial-section" id="projects">
-    <div class="editorial-layout single-editorial">
-      <div class="editorial-content reveal-block">
-        <p class="section-kicker" data-ka="დემო პროექტები" data-en="Demo Projects">დემო პროექტები</p>
-
-       <h2 class="editorial-title"
-    data-ka="კონცეფციები, რომლებიც<br>ჩვენს ციფრულ მასშტაბებს განსაზღვრავს."
-    data-en="Concepts that define<br>our digital scope.">
-  კონცეფციები, რომლებიც<br>
-  ჩვენს ციფრულ მასშტაბებს განსაზღვრავს.
-</h2>
-      </div>
-    </div>
-
-    <div class="featured-grid magazine-grid">
-      <a href="https://digitalinvitee.github.io/porsche/" target="_blank" class="feat-card feat-large reveal-block">
-        <div class="feat-cover">
-          <img src="porshedesktop.png" alt="Porsche Experience" loading="lazy" onerror="this.style.display='none'">
-          
-          <span class="feat-arrow"></span>
-          <span class="feat-cat">Digital Ad · Brand Launch</span>
-        </div>
-        <div class="feat-body">
-          <h3 class="feat-title">Porsche Experience</h3>
-          <p class="feat-desc" data-ka="ახალი მოდელის პრემიუმ ციფრული პრეზენტაცია." data-en="Premium digital reveal for a new model launch.">
-            ახალი მოდელის პრემიუმ ციფრული პრეზენტაცია.
-          </p>
-          <div class="feat-tags">
-            <span>Animation</span>
-            <span>Video Loop</span>
-            <span>Brand Launch</span>
+      <figure class="hero__visual cx" data-cx data-state="idle" aria-labelledby="cx-title">
+        <div class="cx__panel">
+          <p class="cx__head label" id="cx-title">From attention to action</p>
+          <div class="cx__stage">
+            <svg class="cx__svg" viewBox="0 44 400 292" aria-hidden="true" focusable="false">
+              <path class="cx__ticks" d="M200 102L200 90M210.87 96.57L211.29 92.59M221.62 98.27L222.45 94.36M232.14 101.09L233.37 97.29M242.3 104.99L243.93 101.34M252 109.93L254 106.47M261.13 115.86L263.48 112.63M269.59 122.71L272.27 119.74M277.29 130.41L280.26 127.73M284.14 138.87L287.37 136.52M290.07 148L293.53 146M295.01 157.7L298.66 156.07M298.91 167.86L302.71 166.63M301.73 178.38L305.64 177.55M303.43 189.13L307.41 188.71M304 200L308 200M303.43 210.87L307.41 211.29M301.73 221.62L305.64 222.45M298.91 232.14L302.71 233.37M295.01 242.3L298.66 243.93M284.87 249L295.26 255M284.14 261.13L287.37 263.48M277.29 269.59L280.26 272.27M269.59 277.29L272.27 280.26M261.13 284.14L263.48 287.37M252 290.07L254 293.53M242.3 295.01L243.93 298.66M232.14 298.91L233.37 302.71M221.62 301.73L222.45 305.64M210.87 303.43L211.29 307.41M200 304L200 308M189.13 303.43L188.71 307.41M178.38 301.73L177.55 305.64M167.86 298.91L166.63 302.71M157.7 295.01L156.07 298.66M148 290.07L146 293.53M138.87 284.14L136.52 287.37M130.41 277.29L127.73 280.26M122.71 269.59L119.74 272.27M115.86 261.13L112.63 263.48M115.13 249L104.74 255M104.99 242.3L101.34 243.93M101.09 232.14L97.29 233.37M98.27 221.62L94.36 222.45M96.57 210.87L92.59 211.29M96 200L92 200M96.57 189.13L92.59 188.71M98.27 178.38L94.36 177.55M101.09 167.86L97.29 166.63M104.99 157.7L101.34 156.07M109.93 148L106.47 146M115.86 138.87L112.63 136.52M122.71 130.41L119.74 127.73M130.41 122.71L127.73 119.74M138.87 115.86L136.52 112.63M148 109.93L146 106.47M157.7 104.99L156.07 101.34M167.86 101.09L166.63 97.29M178.38 98.27L177.55 94.36M189.13 96.57L188.71 92.59"/>
+              <circle class="cx__core" cx="200" cy="200" r="56"/>
+              <line class="cx__spoke" data-cx-spoke="0" x1="148.04" y1="230" x2="108.2" y2="253"/><line class="cx__spoke" data-cx-spoke="1" x1="200" y1="140" x2="200" y2="94"/><line class="cx__spoke" data-cx-spoke="2" x1="251.96" y1="230" x2="291.8" y2="253"/>
+              <path class="cx__gap" d="M302.19 259A118 118 0 0 1 97.81 259"/>
+              <path class="cx__track" d="M97.81 259A118 118 0 1 1 302.19 259"/>
+              <path class="cx__progress" data-cx-progress d="M97.81 259A118 118 0 1 1 302.19 259" pathLength="100"/>
+              <path class="cx__trail" data-cx-trail d=""/>
+              <circle class="cx__signal" data-cx-signal cx="97.81" cy="259" r="3.2"/>
+              <g class="cx__glyphs" transform="translate(200 200)">
+                <g class="cx__glyph" data-cx-glyph="0">
+                  <path class="g g--frame" d="M-27 -15V-27H-15M15 -27H27V-15M27 15V27H15M-15 27H-27V15"/>
+                  <circle class="g cx__fill" r="3"/>
+                </g>
+                <g class="cx__glyph" data-cx-glyph="1">
+                  <circle class="g g--ring" style="--o:.95" r="11"/>
+                  <circle class="g g--ring" style="--o:.6" r="22"/>
+                  <circle class="g g--ring" style="--o:.32" r="33"/>
+                </g>
+                <g class="cx__glyph" data-cx-glyph="2">
+                  <circle class="g g--disc cx__fill" r="36"/>
+                  <path class="g g--arrow" d="M-12 12L12 -12M-9 -12H12V9"/>
+                </g>
+              </g>
+            </svg>
+            <p class="cx__centre" aria-hidden="true"><span class="cx__brand">INVITÉ</span><span class="cx__sub">Studio</span></p>
+            <button class="cx__node" type="button" data-cx-node="0" data-side="bottom" style="--x:24.45%;--y:73.63%" aria-pressed="false" aria-describedby="cx-info"><span class="cx__dot" aria-hidden="true"></span><span class="cx__label"><span class="cx__num">01</span> Attention</span><span class="sr-only">: designed to attract. Digital advertising and motion campaigns.</span></button>
+            <button class="cx__node" type="button" data-cx-node="1" data-side="top" style="--x:50%;--y:13.01%" aria-pressed="false" aria-describedby="cx-info"><span class="cx__dot" aria-hidden="true"></span><span class="cx__label"><span class="cx__num">02</span> Engagement</span><span class="sr-only">: built to engage. Launch and interactive experiences.</span></button>
+            <button class="cx__node" type="button" data-cx-node="2" data-side="bottom" style="--x:75.55%;--y:73.63%" aria-pressed="false" aria-describedby="cx-info"><span class="cx__dot" aria-hidden="true"></span><span class="cx__label"><span class="cx__num">03</span> Action</span><span class="sr-only">: made for action. Creative websites and digital invitations.</span></button>
+          </div>
+          <div class="cx__info" id="cx-info" aria-live="off">
+            <p class="cx__kicker label"><span class="cx__kicker-num" data-cx-num></span><span data-cx-name>Three stages</span></p>
+            <p class="cx__desc" data-cx-desc>One studio for the whole path, from the first glance to the reply. Choose a stage.</p>
+            <p class="cx__links" data-cx-links></p>
           </div>
         </div>
-      </a>
+        <figcaption class="hero__caption cx__caption"><span class="label">Fig. 01</span><span>Three stages, four services. Choose a stage to see where each one fits.</span></figcaption>
+      </figure>
+    </div>
+    <ul class="meta-strip" aria-label="The four services">
+      <!-- solutions:strip -->
+      <li><a href="#solution-get-noticed" data-cx-service="get-noticed"><span class="meta-strip__num">001</span><span class="meta-strip__name">Get noticed</span></a></li>
+      <li><a href="#solution-build-anticipation" data-cx-service="build-anticipation"><span class="meta-strip__num">002</span><span class="meta-strip__name">Build anticipation</span></a></li>
+      <li><a href="#solution-make-an-impression" data-cx-service="make-an-impression"><span class="meta-strip__num">003</span><span class="meta-strip__name">Make an impression</span></a></li>
+      <li><a href="#solution-youre-invited" data-cx-service="youre-invited"><span class="meta-strip__num">004</span><span class="meta-strip__name">You’re invited</span></a></li>
+      <!-- /solutions:strip -->
+      <li class="meta-strip__where">Tbilisi, Georgia<span>Working worldwide</span></li>
+    </ul>
+  </section>
 
-      <div class="feat-stack">
-        <a href="https://digitalinvitee.github.io/rhode-at-douglas/" target="_blank" class="feat-card reveal-block">
-          <div class="feat-cover">
-            <img src="rhodemobile.png" alt="Rhode × Douglas" loading="lazy" onerror="this.style.display='none'">
-            
-            <span class="feat-arrow"></span>
-            <span class="feat-cat">Digital Ad · Product Launch</span>
+  <!-- ═══ Creative Solutions ═══
+       The four tiles, their details and each service's project catalog are generated from
+       js/solutions/solutions.js and js/solutions/projects.js by tools/render-solutions.mjs:
+       edit the data there, not the markup between the markers. -->
+  <section class="section solutions theme-dark" id="solutions" aria-labelledby="solutions-title">
+    <div class="container">
+      <header class="section-head solutions__head">
+        <p class="label section-id"><span class="section-id__num">(02)</span><span>What we create</span></p>
+        <h2 class="display title-l solutions__title section-head__title" id="solutions-title"><span class="solutions__kicker">Different needs. Thoughtful solutions.</span> <span class="solutions__answer">Creative solutions, made for you.</span></h2>
+        <div class="solutions__intro section-head__aside">
+          <p class="lead">No two projects are alike. Whether you’re launching a brand, building an online presence or celebrating a special occasion, we bring together design, creativity and technology to create something made for you.</p>
+          <p class="solutions__thesis">Explore our services and discover what we can create together.</p>
+        </div>
+      </header>
+
+      <div class="sol-mosaic" data-solutions>
+      <!-- solutions:mosaic -->
+      <article class="sol sol--frame sol--pos1" id="solution-get-noticed" data-solution="get-noticed" data-motion="frame" aria-labelledby="solution-get-noticed-title">
+        <div class="sol__meta">
+          <span class="sol__num">001</span>
+          <p class="sol__category">Digital Advertising &amp; Motion Campaigns</p>
+        </div>
+        <h3 class="sol__title" id="solution-get-noticed-title">
+          <span class="sr-only">Get noticed</span>
+          <span class="sol__art" aria-hidden="true" style="--stretch:125%;--fit:17.27">
+            <span class="sol__line sol__line--setup sol__line--start"><span class="setup">Get</span></span>
+            <span class="sol__line sol__line--payoff"><span class="fit">noticed</span><i class="sol__mark sol__mark--tl"></i><i class="sol__mark sol__mark--tr"></i><i class="sol__mark sol__mark--bl"></i><i class="sol__mark sol__mark--br"></i></span>
+          </span>
+        </h3>
+        <div class="sol__foot">
+          <p class="sol__summary">We create digital ads, animated banners and social campaigns that help your brand stand out and reach the right audience.</p>
+          <button class="sol__toggle" type="button" aria-expanded="false" aria-controls="solution-get-noticed-details" data-sol-toggle>
+            <span class="sol__toggle-label">Details</span><span class="sr-only"> about get noticed</span><i class="sol__toggle-icon" aria-hidden="true"></i>
+          </button>
+        </div>
+      </article>
+      <div class="sol-detail" id="solution-get-noticed-details" data-sol-detail="get-noticed" role="region" aria-labelledby="solution-get-noticed-title">
+        <div class="sol-detail__inner">
+          <div class="sol-detail__head">
+            <p class="label"><span class="sol-detail__num">001</span> Get noticed<span class="sol-detail__cat"> · Digital Advertising &amp; Motion Campaigns</span></p>
+            <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about get noticed</span></button>
           </div>
-          <div class="feat-body">
-            <h3 class="feat-title">Rhode × Douglas</h3>
-            <p class="feat-desc" data-ka="Digital Ad და ღონისძიების მოსაწვევი ერთ გამოცდილებაში." data-en="Campaign and event invitation merged in one flow.">
-              Digital Ad და ღონისძიების მოსაწვევი ერთ გამოცდილებაში.
-            </p>
-            <div class="feat-tags">
-              <span>RSVP</span>
-              <span>Countdown</span>
-              <span>Product Launch</span>
+          <div class="sol-detail__grid">
+            <div class="sol-detail__value">
+              <p class="sol__value">A campaign worth noticing.</p>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Digital Advertising">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <div class="sol__extras" data-sol-extras></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What it is</h4>
+              <div class="sol__text"><p>We design and produce digital advertising for brands, products and services, from animated banners and short motion ads to social creatives. Each campaign is built around your brand, your audience, the platform it runs on and the message it needs to carry.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">Why it works</h4>
+              <div class="sol__text"><p>People give an ad a few seconds, on platforms that each have their own formats. We design for that moment: one clear message, motion where it helps, and a version made for every placement.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What we can include</h4>
+              <ul class="sol__list" role="list"><li>Animated HTML5 display banners</li><li>Banners in multiple sizes, in vertical, square and landscape formats</li><li>6–15 second motion ads</li><li>Social media ad creatives</li><li>Product and service promotional campaigns</li><li>Campaign key visuals</li><li>Campaign motion graphics</li><li>AI-assisted product and campaign visuals</li><li>Adaptations for different digital placements</li></ul>
             </div>
           </div>
-        </a>
-
-        <a href="https://digitalinvitee.github.io/tsinandali-wedding/" target="_blank" class="feat-card reveal-block">
-          <div class="feat-cover">
-            <img src="winandalidesk.png" alt="Tsinandali Wedding" loading="lazy" onerror="this.style.display='none'">
-            
-            <span class="feat-arrow"></span>
-            <span class="feat-cat">Wedding Invitation · KA | EN</span>
+          <div class="sol-detail__foot">
+            <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-get-noticed-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for get noticed</span></button>
           </div>
-          <div class="feat-body">
-            <h3 class="feat-title">Tsinandali Wedding</h3>
-            <p class="feat-desc" data-ka="რომანტიკული ქორწილი — Countdown, RSVP და Dress Code." data-en="Romantic wedding — countdown, RSVP and dress code.">
-              რომანტიკული ქორწილი — Countdown, RSVP და Dress Code.
-            </p>
-            <div class="feat-tags">
-              <span>RSVP</span>
-              <span>Countdown</span>
-              <span>Music</span>
+          <section class="catalog" id="solution-get-noticed-catalog" data-sol-catalog aria-labelledby="solution-get-noticed-catalog-title">
+            <div class="catalog__clip">
+              <div class="catalog__inner">
+                <header class="catalog__head">
+                  <div class="catalog__heading">
+                    <p class="label catalog__kicker"><span class="catalog__num">001</span> Get noticed</p>
+                    <h4 class="display catalog__title" id="solution-get-noticed-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                  </div>
+                  <div class="catalog__tools">
+                    <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for get noticed</span></button>
+                  </div>
+                </header>
+                <div class="catalog__empty">
+                  <p class="catalog__empty-title">No projects to show here yet.</p>
+                  <p>We only list work that exists, so this catalog is empty for now. If you have a campaign in mind, tell us about it.</p>
+                </div>
+                <div class="catalog__end">
+                  <div class="catalog__end-copy">
+                    <p class="catalog__end-title">Have a project in mind?</p>
+                    <p class="catalog__end-text">Let’s create something together.</p>
+                  </div>
+                  <div class="catalog__end-actions">
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Digital Advertising">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for get noticed</span></button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="center-action reveal-block">
-      <a href="projects.html" class="text-link" data-ka="ყველა პროექტის ნახვა →" data-en="View all projects →">ყველა პროექტის ნახვა →</a>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section class="section process editorial-section" id="process">
-    <div class="editorial-layout single-editorial">
-      <div class="editorial-content reveal-block">
-        <p class="section-kicker" data-ka="როგორ ვმუშაობთ" data-en="How We Work">როგორ ვმუშაობთ</p>
-
-        <h2 class="editorial-title"
-            data-ka="ბრიფიდან გაშვებამდე<br>ყველაფერი ერთ მარტივ პროცესში."
-            data-en="From brief to launch<br>through one simple process.">
-          ბრიფიდან გაშვებამდე<br>
-          ყველაფერი ერთ მარტივ პროცესში.
-        </h2>
-      </div>
-    </div>
-
-    <div class="process-timeline">
-      <article class="reveal-block">
-        <span>01</span>
-        <h3 data-ka="ბრიფის შევსება" data-en="Brief Completion">ბრიფის შევსება</h3>
-        <p data-ka="ჩვენ გიგზავნით ციფრულ ბრიფს, სადაც მიუთითებთ თქვენი ივენთის სტილს, განრიგს და საჭიროებებს."
-           data-en="We send you a digital brief where you define your event style, schedule and needs.">
-          ჩვენ გიგზავნით ციფრულ ბრიფს, სადაც მიუთითებთ თქვენი ივენთის სტილს, განრიგს და საჭიროებებს.
-        </p>
-      </article>
-
-      <article class="reveal-block">
-        <span>02</span>
-        <h3 data-ka="ინდივიდუალური დამუშავება" data-en="Custom Development">ინდივიდუალური დამუშავება</h3>
-        <p data-ka="თქვენი პასუხების საფუძველზე ვქმნით პერსონალურ დიზაინს და ვაწყობთ ინტერაქციულ RSVP სისტემას."
-           data-en="Based on your answers, we create a custom design and set up the interactive RSVP system.">
-          თქვენი პასუხების საფუძველზე ვქმნით პერსონალურ დიზაინს და ვაწყობთ ინტერაქციულ RSVP სისტემას.
-        </p>
-      </article>
-
-      <article class="reveal-block">
-        <span>03</span>
-        <h3 data-ka="შეთანხმება და ტესტირება" data-en="Approval & Testing">შეთანხმება და ტესტირება</h3>
-        <p data-ka="ერთად გავდივართ მზა ვერსიას, ვტესტავთ მობილურ ადაპტაციას და ვხვეწთ დეტალებს."
-           data-en="Together we review the ready version, test mobile adaptation and refine the details.">
-          ერთად გავდივართ მზა ვერსიას, ვტესტავთ მობილურ ადაპტაციას და ვხვეწთ დეტალებს.
-        </p>
-      </article>
-
-      <article class="reveal-block">
-        <span>04</span>
-        <h3 data-ka="გაშვება და ერთი ბმული" data-en="Launch & One Link">გაშვება და ერთი ბმული</h3>
-        <p data-ka="იღებთ ერთ ექსკლუზიურ ბმულს, რომელსაც სტუმრებს უზიარებთ და პასუხებს მარტივად მართავთ."
-           data-en="You receive one exclusive link to share with guests and manage responses easily.">
-          იღებთ ერთ ექსკლუზიურ ბმულს, რომელსაც სტუმრებს უზიარებთ და პასუხებს მარტივად მართავთ.
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section contact editorial-section" id="contact">
-    <div class="contact-inner">
-      <div class="reveal-block">
-        <p class="section-kicker" data-ka="კონტაქტი" data-en="Contact">კონტაქტი</p>
-
-        <h2 class="editorial-title"
-            data-ka="მზად ხართ გაამარტივოთ<br>თქვენი ივენთის ორგანიზება?"
-            data-en="Ready to simplify<br>your event organization?">
-          მზად ხართ გაამარტივოთ<br>
-          თქვენი ივენთის ორგანიზება?
-        </h2>
-
-        <p data-ka="დავიწყოთ მუშაობა თქვენს ინდივიდუალურ ციფრულ ეკოსისტემაზე."
-           data-en="Let’s start working on your individual digital ecosystem.">
-          დავიწყოთ მუშაობა თქვენს ინდივიდუალურ ციფრულ ეკოსისტემაზე.
-        </p>
-
-        <div class="contact-links">
-          <a href="https://www.instagram.com/digitallinvite/" target="_blank">Instagram</a>
-          <a href="https://www.facebook.com/share/1Gy8Agxnnv/?mibextid=wwXIfr" target="_blank">Facebook</a>
-          <a href="mailto:digitalinvite8@gmail.com">digitalinvite8@gmail.com</a>
-          <a href="https://wa.me/995599298912" target="_blank">WhatsApp</a>
+          </section>
         </div>
       </div>
 
-      <form class="contact-form reveal-block" id="contactForm">
-        <label>
-          <span data-ka="სახელი და გვარი" data-en="Full name">სახელი და გვარი</span>
-          <input type="text" name="name" required>
-        </label>
+      <article class="sol sol--build sol--pos2" id="solution-build-anticipation" data-solution="build-anticipation" data-motion="build" aria-labelledby="solution-build-anticipation-title">
+        <div class="sol__meta">
+          <span class="sol__num">002</span>
+          <p class="sol__category">Launch &amp; Interactive Experiences</p>
+        </div>
+        <h3 class="sol__title" id="solution-build-anticipation-title">
+          <span class="sr-only">Build anticipation</span>
+          <span class="sol__art" aria-hidden="true" style="--stretch:80%;--fit:16.66">
+            <span class="sol__line sol__line--setup sol__line--end"><span class="setup">Build</span></span>
+            <span class="sol__line sol__line--payoff"><span class="fit fit--outline">anticipation</span><span class="fit fit--fill">anticipation</span><i class="sol__edge"></i></span>
+          </span>
+        </h3>
+        <div class="sol__foot">
+          <p class="sol__summary">Turn your next launch into an experience. From teasers and countdowns to interactive reveals, we build excitement before the big moment.</p>
+          <button class="sol__toggle" type="button" aria-expanded="false" aria-controls="solution-build-anticipation-details" data-sol-toggle>
+            <span class="sol__toggle-label">Details</span><span class="sr-only"> about build anticipation</span><i class="sol__toggle-icon" aria-hidden="true"></i>
+          </button>
+        </div>
+      </article>
+      <div class="sol-detail" id="solution-build-anticipation-details" data-sol-detail="build-anticipation" role="region" aria-labelledby="solution-build-anticipation-title">
+        <div class="sol-detail__inner">
+          <div class="sol-detail__head">
+            <p class="label"><span class="sol-detail__num">002</span> Build anticipation<span class="sol-detail__cat"> · Launch &amp; Interactive Experiences</span></p>
+            <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about build anticipation</span></button>
+          </div>
+          <div class="sol-detail__grid">
+            <div class="sol-detail__value">
+              <p class="sol__value">A launch worth waiting for.</p>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <div class="sol__extras" data-sol-extras></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What it is</h4>
+              <div class="sol__text"><p>We create connected experiences for the launch of a product, brand, service or campaign. They can stand alone as a microsite or combine into one story, designed and built in one place, from the first teaser to launch day.</p><p>When the launch also has a guest list, such as a private opening or a preview, the invitation and RSVP side is covered by 004 You’re Invited.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">Why it works</h4>
+              <div class="sol__text"><p>Announcing a date is not enough. People need a reason to pay attention, a clear picture of what is coming and an easy way to take part. A planned experience builds interest step by step and gives the right audience one place to register.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What we can include</h4>
+              <ul class="sol__list" role="list"><li>Launch microsites for products and brands</li><li>Teaser pages and campaigns</li><li>Countdown experiences</li><li>Interactive product reveals</li><li>Scroll-driven storytelling</li><li>Interactive launch presentations</li><li>Launch registration and inquiry flows</li><li>Connected launch campaigns, from teaser to launch day</li></ul>
+            </div>
+          </div>
+          <div class="sol-detail__foot">
+            <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-build-anticipation-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for build anticipation</span></button>
+          </div>
+          <section class="catalog" id="solution-build-anticipation-catalog" data-sol-catalog aria-labelledby="solution-build-anticipation-catalog-title">
+            <div class="catalog__clip">
+              <div class="catalog__inner">
+                <header class="catalog__head">
+                  <div class="catalog__heading">
+                    <p class="label catalog__kicker"><span class="catalog__num">002</span> Build anticipation</p>
+                    <h4 class="display catalog__title" id="solution-build-anticipation-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                  </div>
+                  <div class="catalog__tools">
+                    <p class="label catalog__count">2 projects</p>
+                    <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for build anticipation</span></button>
+                  </div>
+                </header>
+                <ul class="catalog__grid" role="list" data-cols="2">
+                  <li class="catalog__item" data-group="Fashion">
+                    <article class="pcard" id="solution-build-anticipation-project-casa-gelso" aria-labelledby="solution-build-anticipation-project-casa-gelso-title">
+                      <a class="pcard__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 699px) 92vw, 46vw" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
+                      <div class="pcard__body">
+                        <p class="pcard__meta label">Fashion<span aria-hidden="true"> / </span><span class="sr-only">, </span>Launch &amp; Interactive Experiences</p>
+                        <h5 class="pcard__title" id="solution-build-anticipation-project-casa-gelso-title">Casa Gelso</h5>
+                        <p class="pcard__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
+                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Teaser film</li><li>Brand reveal</li><li>Invitation and RSVP</li><li>English, Georgian, Italian</li></ul>
+                      </div>
+                      <div class="pcard__foot">
+                        <p class="pcard__type label">Client project · 2026</p>
+                        <div class="pcard__actions">
+                          <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
+                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
+                        </div>
+                      </div>
+                    </article>
+                  </li>
+                  <li class="catalog__item" data-group="Automotive">
+                    <article class="pcard" id="solution-build-anticipation-project-jetour" aria-labelledby="solution-build-anticipation-project-jetour-title">
+                      <a class="pcard__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 699px) 92vw, 46vw" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
+                      <div class="pcard__body">
+                        <p class="pcard__meta label">Automotive<span aria-hidden="true"> / </span><span class="sr-only">, </span>Launch &amp; Interactive Experiences</p>
+                        <h5 class="pcard__title" id="solution-build-anticipation-project-jetour-title">JETOUR</h5>
+                        <p class="pcard__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
+                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Intro film</li><li>Live countdown</li><li>Agenda</li><li>RSVP</li><li>Georgian, English</li></ul>
+                      </div>
+                      <div class="pcard__foot">
+                        <p class="pcard__type label">Client project · 2026</p>
+                        <div class="pcard__actions">
+                          <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
+                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
+                        </div>
+                      </div>
+                    </article>
+                  </li>
+                </ul>
+                <div class="catalog__end">
+                  <div class="catalog__end-copy">
+                    <p class="catalog__end-title">Have a project in mind?</p>
+                    <p class="catalog__end-text">Let’s create something together.</p>
+                  </div>
+                  <div class="catalog__end-actions">
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for build anticipation</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
 
-        <label>
-          <span>Email</span>
-          <input type="email" name="email" required>
-        </label>
+      <article class="sol sol--press sol--pos3" id="solution-make-an-impression" data-solution="make-an-impression" data-motion="press" aria-labelledby="solution-make-an-impression-title">
+        <div class="sol__meta">
+          <span class="sol__num">003</span>
+          <p class="sol__category">Creative Websites &amp; Digital Experiences</p>
+        </div>
+        <h3 class="sol__title" id="solution-make-an-impression-title">
+          <span class="sr-only">Make an impression</span>
+          <span class="sol__art" aria-hidden="true" style="--stretch:112%;--fit:13.77">
+            <span class="sol__line sol__line--setup sol__line--end"><span class="setup">Make an</span></span>
+            <span class="sol__line sol__line--payoff"><span class="fit">impression</span></span>
+          </span>
+        </h3>
+        <div class="sol__foot">
+          <p class="sol__summary">Distinctive websites that showcase what you do, build trust and make it easy for visitors to take the next step.</p>
+          <button class="sol__toggle" type="button" aria-expanded="false" aria-controls="solution-make-an-impression-details" data-sol-toggle>
+            <span class="sol__toggle-label">Details</span><span class="sr-only"> about make an impression</span><i class="sol__toggle-icon" aria-hidden="true"></i>
+          </button>
+        </div>
+      </article>
+      <div class="sol-detail" id="solution-make-an-impression-details" data-sol-detail="make-an-impression" role="region" aria-labelledby="solution-make-an-impression-title">
+        <div class="sol-detail__inner">
+          <div class="sol-detail__head">
+            <p class="label"><span class="sol-detail__num">003</span> Make an impression<span class="sol-detail__cat"> · Creative Websites &amp; Digital Experiences</span></p>
+            <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about make an impression</span></button>
+          </div>
+          <div class="sol-detail__grid">
+            <div class="sol-detail__value">
+              <p class="sol__value">A website worth remembering.</p>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Creative Website">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <div class="sol__extras" data-sol-extras></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What it is</h4>
+              <div class="sol__text"><p>We design and develop websites that bring together identity, visual storytelling and a considered user experience: for businesses and campaigns, and for creators with a portfolio, a blog or a personal brand to present. Each one is built around your goals and the people who will visit it.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">Why it works</h4>
+              <div class="sol__text"><p>A website is often the first place people meet you. Clear content, a confident design and an easy next step help visitors understand what you do, trust you and get in touch.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What we can include</h4>
+              <ul class="sol__list" role="list"><li>Business and service websites</li><li>Creator websites, personal portfolios and blogs</li><li>Campaign landing pages</li><li>Interactive product presentation pages</li><li>Digital catalogs</li><li>UI/UX design</li><li>Responsive front-end development</li><li>GSAP-powered motion interactions</li><li>Contact and inquiry forms</li><li>Affiliate integrations</li><li>A content structure that guides visitors to the next step</li></ul>
+            </div>
+          </div>
+          <div class="sol-detail__foot">
+            <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-make-an-impression-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for make an impression</span></button>
+          </div>
+          <section class="catalog" id="solution-make-an-impression-catalog" data-sol-catalog aria-labelledby="solution-make-an-impression-catalog-title">
+            <div class="catalog__clip">
+              <div class="catalog__inner">
+                <header class="catalog__head">
+                  <div class="catalog__heading">
+                    <p class="label catalog__kicker"><span class="catalog__num">003</span> Make an impression</p>
+                    <h4 class="display catalog__title" id="solution-make-an-impression-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                  </div>
+                  <div class="catalog__tools">
+                    <p class="label catalog__count">2 projects</p>
+                    <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for make an impression</span></button>
+                  </div>
+                </header>
+                <ul class="catalog__grid" role="list" data-cols="2">
+                  <li class="catalog__item" data-group="Fashion">
+                    <article class="pcard" id="solution-make-an-impression-project-casa-gelso" aria-labelledby="solution-make-an-impression-project-casa-gelso-title">
+                      <a class="pcard__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 699px) 92vw, 46vw" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
+                      <div class="pcard__body">
+                        <p class="pcard__meta label">Fashion<span aria-hidden="true"> / </span><span class="sr-only">, </span>Creative Websites &amp; Digital Experiences</p>
+                        <h5 class="pcard__title" id="solution-make-an-impression-project-casa-gelso-title">Casa Gelso</h5>
+                        <p class="pcard__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
+                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Teaser film</li><li>Brand reveal</li><li>Invitation and RSVP</li><li>English, Georgian, Italian</li></ul>
+                      </div>
+                      <div class="pcard__foot">
+                        <p class="pcard__type label">Client project · 2026</p>
+                        <div class="pcard__actions">
+                          <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
+                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
+                        </div>
+                      </div>
+                    </article>
+                  </li>
+                  <li class="catalog__item" data-group="Automotive">
+                    <article class="pcard" id="solution-make-an-impression-project-jetour" aria-labelledby="solution-make-an-impression-project-jetour-title">
+                      <a class="pcard__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 699px) 92vw, 46vw" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
+                      <div class="pcard__body">
+                        <p class="pcard__meta label">Automotive<span aria-hidden="true"> / </span><span class="sr-only">, </span>Creative Websites &amp; Digital Experiences</p>
+                        <h5 class="pcard__title" id="solution-make-an-impression-project-jetour-title">JETOUR</h5>
+                        <p class="pcard__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
+                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Intro film</li><li>Live countdown</li><li>Agenda</li><li>RSVP</li><li>Georgian, English</li></ul>
+                      </div>
+                      <div class="pcard__foot">
+                        <p class="pcard__type label">Client project · 2026</p>
+                        <div class="pcard__actions">
+                          <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
+                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
+                        </div>
+                      </div>
+                    </article>
+                  </li>
+                </ul>
+                <div class="catalog__end">
+                  <div class="catalog__end-copy">
+                    <p class="catalog__end-title">Have a project in mind?</p>
+                    <p class="catalog__end-text">Let’s create something together.</p>
+                  </div>
+                  <div class="catalog__end-actions">
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Creative Website">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for make an impression</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
 
-        <label>
-          <span data-ka="ტელეფონი" data-en="Phone">ტელეფონი</span>
-          <input type="tel" name="phone">
-        </label>
+      <article class="sol sol--open sol--pos4" id="solution-youre-invited" data-solution="youre-invited" data-motion="open" aria-labelledby="solution-youre-invited-title">
+        <div class="sol__meta">
+          <span class="sol__num">004</span>
+          <p class="sol__category">Digital Invitations &amp; Event Experiences</p>
+        </div>
+        <h3 class="sol__title" id="solution-youre-invited-title">
+          <span class="sr-only">You’re invited</span>
+          <span class="sol__art" aria-hidden="true" style="--stretch:100%;--fit:24">
+            <span class="sol__line sol__line--setup sol__line--start"><span class="setup setup--serif">You’re</span></span>
+            <span class="sol__line sol__line--payoff"><span class="fit fit--half fit--l">invited</span><span class="fit fit--half fit--r">invited</span><i class="sol__crease"></i></span>
+          </span>
+        </h3>
+        <div class="sol__foot">
+          <p class="sol__summary">Beautifully designed digital invitations for weddings, celebrations and corporate events — with everything your guests need in one easy-to-share link.</p>
+          <button class="sol__toggle" type="button" aria-expanded="false" aria-controls="solution-youre-invited-details" data-sol-toggle>
+            <span class="sol__toggle-label">Details</span><span class="sr-only"> about you’re invited</span><i class="sol__toggle-icon" aria-hidden="true"></i>
+          </button>
+        </div>
+      </article>
+      <div class="sol-detail" id="solution-youre-invited-details" data-sol-detail="youre-invited" role="region" aria-labelledby="solution-youre-invited-title">
+        <div class="sol-detail__inner">
+          <div class="sol-detail__head">
+            <p class="label"><span class="sol-detail__num">004</span> You’re invited<span class="sol-detail__cat"> · Digital Invitations &amp; Event Experiences</span></p>
+            <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about you’re invited</span></button>
+          </div>
+          <div class="sol-detail__grid">
+            <div class="sol-detail__value">
+              <p class="sol__value">An invitation worth opening.</p>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Private or Corporate Event">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <div class="sol__extras" data-sol-extras></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What it is</h4>
+              <div class="sol__text"><p>From weddings and birthdays to private and corporate events, we create interactive digital invitations that make every occasion feel special — and keep everything guests need in one place.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">Why it works</h4>
+              <div class="sol__text"><p>One beautiful link brings together the invitation, event details, maps and RSVP. Guests know where to go and how to respond, while you keep track of replies without endless messages.</p></div>
+            </div>
+            <div class="sol-detail__col">
+              <h4 class="label">What we can include</h4>
+              <ul class="sol__list" role="list"><li>Custom invitation design</li><li>Interactive animations</li><li>Event schedule</li><li>Location and maps</li><li>Dress code</li><li>Countdown</li><li>RSVP</li><li>Guest response tracking</li></ul>
+              <p class="sol__note">Where feasible, an invitation can be personalized for each guest or group. We collect only the details the event needs, and agree with you where replies are stored and who can see them.</p>
+            </div>
+          </div>
+          <div class="sol-detail__foot">
+            <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-youre-invited-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for you’re invited</span></button>
+          </div>
+          <section class="catalog" id="solution-youre-invited-catalog" data-sol-catalog aria-labelledby="solution-youre-invited-catalog-title">
+            <div class="catalog__clip">
+              <div class="catalog__inner">
+                <header class="catalog__head">
+                  <div class="catalog__heading">
+                    <p class="label catalog__kicker"><span class="catalog__num">004</span> You’re invited</p>
+                    <h4 class="display catalog__title" id="solution-youre-invited-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                    <p class="catalog__intro">Wedding invitations we designed and built, both live. Open one the way a guest would: on a phone, with the sound on.</p>
+                  </div>
+                  <div class="catalog__tools">
+                    <p class="label catalog__count">2 projects</p>
+                    <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for you’re invited</span></button>
+                  </div>
+                </header>
+                <ol class="spreads" role="list" data-spreads data-count="2">
+                  <li class="catalog__item spread" data-spread data-group="Weddings">
+                    <article class="spread__article" id="solution-youre-invited-project-oto-da-tako" aria-labelledby="solution-youre-invited-project-oto-da-tako-title">
+                      <div class="spread__copy">
+                        <p class="spread__num label" aria-hidden="true">01</p>
+                        <h5 class="spread__title" id="solution-youre-invited-project-oto-da-tako-title"><span class="spread__title-in">Oto <em class="amp">&amp;</em> Tako</span></h5>
+                        <p class="spread__text">A wedding invitation in deep green and cream, written in Georgian. A tap opens the sealed envelope onto a lace card with the couple&#39;s names, a polaroid collage and the day&#39;s schedule, with music and a reply form for guests.</p>
+                        <ul class="spread__tags tag-list label" role="list" aria-label="What it contains"><li>Envelope opening</li><li>Photo collage</li><li>Schedule with map links</li><li>Music</li><li>RSVP form</li></ul>
+                        <dl class="spread__facts">
+                          <div><dt class="label">Format</dt><dd>Wedding invitation</dd></div>
+                          <div><dt class="label">Language</dt><dd>Georgian</dd></div>
+                          <div><dt class="label">Year</dt><dd>2026</dd></div>
+                        </dl>
+                        <div class="spread__go">
+                          <div class="spread__actions">
+                            <a class="btn btn--ghost spread__cta" href="https://digitalinvitee.github.io/oto-da-tako/" target="_blank" rel="noopener">Open the live invitation <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Oto &amp; Tako (opens in a new tab)</span></a>
+                          </div>
+                          <p class="spread__url label">digitalinvitee.github.io/oto-da-tako</p>
+                          <p class="spread__hint">Made for phones. Tap the envelope to begin, and keep the sound on.</p>
+                        </div>
+                      </div>
+                      <figure class="spread__figure">
+                        <div class="spread__plate" data-screens="3" style="--tone:#1d2918">
+                          <a class="spread__plate-link" href="https://digitalinvitee.github.io/oto-da-tako/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+                          <span class="pcard__status pcard__status--live spread__status"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span>
+                          <div class="spread__screen spread__screen--1"><div class="spread__glide"><img src="assets/img/work/oto-da-tako/oto-m-opening-780.webp" srcset="assets/img/work/oto-da-tako/oto-m-opening-390.webp 390w, assets/img/work/oto-da-tako/oto-m-opening-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="The first screen of the Oto &amp; Tako invitation: a closed green envelope wrapped in a lace band and sealed with wax, with two butterflies, on dark green." loading="lazy" decoding="async"></div></div>
+                          <div class="spread__screen spread__screen--2"><div class="spread__glide"><img src="assets/img/work/oto-da-tako/oto-m-invitation-780.webp" srcset="assets/img/work/oto-da-tako/oto-m-invitation-390.webp 390w, assets/img/work/oto-da-tako/oto-m-invitation-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="The opened invitation: a Save the Date card in a green envelope with white lilies, a lace frame holding the couple&#39;s names, a gramophone and a tag for the wedding schedule." loading="lazy" decoding="async"></div></div>
+                          <div class="spread__screen spread__screen--3"><div class="spread__glide"><img src="assets/img/work/oto-da-tako/oto-m-program-780.webp" srcset="assets/img/work/oto-da-tako/oto-m-program-390.webp 390w, assets/img/work/oto-da-tako/oto-m-program-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="The wedding schedule, opened as a torn-edge paper card hanging from a clip, listing four timed events." loading="lazy" decoding="async"></div></div>
+                        </div>
+                        <figcaption class="spread__caption label">Screens from the live invitation: sealed envelope, invitation, schedule.</figcaption>
+                      </figure>
+                    </article>
+                  </li>
+                  <li class="catalog__item spread" data-spread data-group="Weddings">
+                    <article class="spread__article" id="solution-youre-invited-project-giorgi-da-mariami" aria-labelledby="solution-youre-invited-project-giorgi-da-mariami-title">
+                      <div class="spread__copy">
+                        <p class="spread__num label" aria-hidden="true">02</p>
+                        <h5 class="spread__title" id="solution-youre-invited-project-giorgi-da-mariami-title"><span class="spread__title-in">Giorgi <em class="amp">&amp;</em> Mariami</span></h5>
+                        <p class="spread__text">A wedding invitation in parchment and espresso, written in Georgian. A tap opens the sealed envelope; scrolling leads through the schedule with map links, an animated illustration, the dress code and a reply form, with music alongside.</p>
+                        <ul class="spread__tags tag-list label" role="list" aria-label="What it contains"><li>Envelope opening</li><li>Animated illustration</li><li>Schedule with map links</li><li>Dress code</li><li>Music</li><li>RSVP form</li></ul>
+                        <dl class="spread__facts">
+                          <div><dt class="label">Format</dt><dd>Wedding invitation</dd></div>
+                          <div><dt class="label">Language</dt><dd>Georgian</dd></div>
+                          <div><dt class="label">Year</dt><dd>2026</dd></div>
+                        </dl>
+                        <div class="spread__go">
+                          <div class="spread__actions">
+                            <a class="btn btn--ghost spread__cta" href="https://digitalinvitee.github.io/giorgi-da-mariami/" target="_blank" rel="noopener">Open the live invitation <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Giorgi &amp; Mariami (opens in a new tab)</span></a>
+                          </div>
+                          <p class="spread__url label">digitalinvitee.github.io/giorgi-da-mariami</p>
+                          <p class="spread__hint">Made for phones. Tap the envelope to begin, and keep the sound on.</p>
+                        </div>
+                      </div>
+                      <figure class="spread__figure">
+                        <div class="spread__plate" data-screens="3" style="--tone:#3b2620">
+                          <a class="spread__plate-link" href="https://digitalinvitee.github.io/giorgi-da-mariami/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+                          <span class="pcard__status pcard__status--live spread__status"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span>
+                          <div class="spread__screen spread__screen--1"><div class="spread__glide"><img src="assets/img/work/giorgi-da-mariami/gm-m-sealed-780.webp" srcset="assets/img/work/giorgi-da-mariami/gm-m-sealed-390.webp 390w, assets/img/work/giorgi-da-mariami/gm-m-sealed-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="The first screen of the Giorgi &amp; Mariami invitation: a closed brown envelope with an olive wax seal bearing the couple&#39;s monogram, on parchment." loading="lazy" decoding="async"></div></div>
+                          <div class="spread__screen spread__screen--2"><div class="spread__glide"><img src="assets/img/work/giorgi-da-mariami/gm-m-opened-780.webp" srcset="assets/img/work/giorgi-da-mariami/gm-m-opened-390.webp 390w, assets/img/work/giorgi-da-mariami/gm-m-opened-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="The envelope opened, with the invitation card showing the couple&#39;s names and the date, and a ring tucked in at the bottom of the card." loading="lazy" decoding="async"></div></div>
+                          <div class="spread__screen spread__screen--3"><div class="spread__glide"><img src="assets/img/work/giorgi-da-mariami/gm-m-scene-780.webp" srcset="assets/img/work/giorgi-da-mariami/gm-m-scene-390.webp 390w, assets/img/work/giorgi-da-mariami/gm-m-scene-780.webp 780w" sizes="(max-width: 699px) 50vw, (max-width: 1099px) 32vw, 21vw" width="390" height="844" alt="Further down the invitation: an illustrated wedding couple in a dining room with a cupid above, between the schedule and the dress code." loading="lazy" decoding="async"></div></div>
+                        </div>
+                        <figcaption class="spread__caption label">Screens from the live invitation: sealed envelope, opened, animated scene.</figcaption>
+                      </figure>
+                    </article>
+                  </li>
+                </ol>
+                <div class="catalog__end">
+                  <div class="catalog__end-copy">
+                    <p class="catalog__end-title">Have an occasion in mind?</p>
+                    <p class="catalog__end-text">Let’s design the invitation.</p>
+                  </div>
+                  <div class="catalog__end-actions">
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Private or Corporate Event">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for you’re invited</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- /solutions:mosaic -->
+      </div>
 
-        <label>
-          <span data-ka="რისი დამზადება გსურთ?" data-en="What do you need?">რისი დამზადება გსურთ?</span>
-          <select name="service" required>
-            <option value="" data-ka="აირჩიეთ" data-en="Choose">აირჩიეთ</option>
-            <option value="Digital Ad" data-ka="ციფრული რეკლამა" data-en="Digital Ad">ციფრული რეკლამა</option>
-            <option value="Wedding" data-ka="ქორწილი" data-en="Wedding">ქორწილი</option>
-            <option value="Private Event" data-ka="დახურული ივენთი" data-en="Private Event">დახურული ივენთი</option>
-            <option value="Product Launch" data-ka="პროდუქტის პრეზენტაცია" data-en="Product Launch">პროდუქტის პრეზენტაცია</option>
-            <option value="Birthday" data-ka="დაბადების დღე" data-en="Birthday">დაბადების დღე</option>
-            <option value="Other" data-ka="სხვა" data-en="Other">სხვა</option>
-          </select>
-        </label>
+      <!-- Our signature: the connected launch. A compact view of how the stages can combine. -->
+      <section class="launch" aria-labelledby="launch-title">
+        <div class="launch__intro">
+          <p class="label launch__kicker">Our signature</p>
+          <h3 class="launch__title" id="launch-title">The connected launch</h3>
+          <p class="launch__text">When a launch needs more than one piece, these stages can work as one story, designed and built in one place. Most projects use only the stages they need.</p>
+          <button class="btn btn--text launch__more" type="button" data-open-solution="build-anticipation">How it works in 002 <span class="arr" aria-hidden="true">↑</span></button>
+        </div>
+        <div class="journey" data-journey>
+          <div class="journey__track" role="tablist" aria-label="Stages of a connected launch">
+            <span class="journey__fill" aria-hidden="true" data-journey-fill></span>
+            <button class="journey__step" type="button" role="tab" id="jt-teaser" aria-controls="journey-panel" aria-selected="true"><span class="journey__dot" aria-hidden="true">01</span><span class="journey__name">Teaser</span></button>
+            <button class="journey__step" type="button" role="tab" id="jt-reveal" aria-controls="journey-panel" aria-selected="false" tabindex="-1"><span class="journey__dot" aria-hidden="true">02</span><span class="journey__name">Reveal</span></button>
+            <button class="journey__step" type="button" role="tab" id="jt-invitation" aria-controls="journey-panel" aria-selected="false" tabindex="-1"><span class="journey__dot" aria-hidden="true">03</span><span class="journey__name">Invitation</span></button>
+            <button class="journey__step" type="button" role="tab" id="jt-rsvp" aria-controls="journey-panel" aria-selected="false" tabindex="-1"><span class="journey__dot" aria-hidden="true">04</span><span class="journey__name">RSVP</span></button>
+            <button class="journey__step" type="button" role="tab" id="jt-launch" aria-controls="journey-panel" aria-selected="false" tabindex="-1"><span class="journey__dot" aria-hidden="true">05</span><span class="journey__name">Launch</span></button>
+          </div>
+          <div class="journey__panel" id="journey-panel" role="tabpanel" aria-labelledby="jt-teaser" aria-live="polite" tabindex="0">
+            <p class="label label--accent" data-journey-when>Weeks before</p>
+            <h4 data-journey-title>Teaser</h4>
+            <p data-journey-text>A coming-soon page and short loops that hint at what is coming. People start asking.</p>
+            <button class="btn btn--text journey__more" type="button" data-journey-more data-open-solution="youre-invited" hidden><span data-journey-more-label></span> <span class="arr" aria-hidden="true">↑</span></button>
+          </div>
+        </div>
+      </section>
 
-        <label>
-          <span data-ka="მესიჯი" data-en="Message">მესიჯი</span>
-          <textarea name="message" rows="5" required></textarea>
-        </label>
-
-        <button class="btn primary" type="submit" data-ka="გაგზავნა" data-en="Send">გაგზავნა</button>
-        <p class="form-status" id="formStatus"></p>
-      </form>
+      <div class="solutions__end">
+        <p class="display solutions__end-title"><span class="solutions__challenge">Your idea.</span> <span class="solutions__answer">Made with you.</span></p>
+        <div class="solutions__end-copy">
+          <p>A campaign, a launch, a website or a celebration. Tell us where you’d like to begin.</p>
+          <a class="btn btn--primary solutions__cta" href="#contact" data-start-project>Start Your Project <span class="arr arr--up" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ═══ 03 · Selected work ═══
+       Two projects, kept compact. The Casa Gelso chips are tabs for four real screens of the live site, and the
+       JETOUR intro film plays muted while it is on screen (js/work/ProjectShowcase.js). Names, links and covers
+       match js/solutions/projects.js, where both projects also appear in the service catalogs. -->
+  <section class="section work container" id="work" aria-labelledby="work-title">
+    <header class="section-head">
+      <p class="label section-id"><span class="section-id__num">(03)</span><span>Selected work</span></p>
+      <h2 class="display title-l section-head__title" id="work-title">Two launches, from the first teaser to the last <em>reply</em>.</h2>
+    </header>
+
+    <article class="case casa" aria-labelledby="casa-title">
+      <div class="casa__head">
+        <ul class="case-meta label" aria-label="Project details">
+          <li class="case-status">Client project</li>
+          <li>Fashion retail launch</li>
+          <li>Tbilisi</li>
+          <li>Sept 2026</li>
+        </ul>
+        <h3 class="casa__title" id="casa-title"><a href="work/casa-gelso/">Casa Gelso</a></h3>
+        <p class="lead">A luxury fashion house opening in Tbilisi, told in three acts and three languages: a teaser, a brand reveal and a private invitation.</p>
+      </div>
+      <div class="casa__stage" data-stepper>
+        <a class="casa__cover frame sr" data-sr href="work/casa-gelso/" tabindex="-1" aria-hidden="true">
+          <img src="assets/img/work/casa-gelso/casa-cover-800.webp"
+               srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w"
+               sizes="(max-width: 700px) 56vw, (max-width: 1080px) 40vw, 30vw" width="1179" height="1475" loading="lazy" decoding="async"
+               alt="">
+        </a>
+        <div class="casa__phone">
+          <div class="screen" id="casa-screen">
+            <img class="is-on" data-step-img src="assets/img/work/casa-gelso/casa-m-teaser-390.webp" srcset="assets/img/work/casa-gelso/casa-m-teaser-390.webp 390w, assets/img/work/casa-gelso/casa-m-teaser-780.webp 780w" sizes="(min-width: 1080px) 250px, (min-width: 700px) 220px, 40vw" width="390" height="844" loading="lazy" decoding="async" alt="Teaser screen of the live site: an illustrated heel with the words Something is coming.">
+            <img data-step-img src="assets/img/work/casa-gelso/casa-m-reveal-390.webp" srcset="assets/img/work/casa-gelso/casa-m-reveal-390.webp 390w, assets/img/work/casa-gelso/casa-m-reveal-780.webp 780w" sizes="(min-width: 1080px) 250px, (min-width: 700px) 220px, 40vw" width="390" height="844" loading="lazy" decoding="async" alt="Brand reveal screen: Chapter One, Accessible Luxury." aria-hidden="true">
+            <img data-step-img src="assets/img/work/casa-gelso/casa-m-invitation-390.webp" srcset="assets/img/work/casa-gelso/casa-m-invitation-390.webp 390w, assets/img/work/casa-gelso/casa-m-invitation-780.webp 780w" sizes="(min-width: 1080px) 250px, (min-width: 700px) 220px, 40vw" width="390" height="844" loading="lazy" decoding="async" alt="Invitation screen in English: You are invited, with the date and the address in Tbilisi." aria-hidden="true">
+            <img data-step-img src="assets/img/work/casa-gelso/casa-m-rsvp-390.webp" srcset="assets/img/work/casa-gelso/casa-m-rsvp-390.webp 390w, assets/img/work/casa-gelso/casa-m-rsvp-780.webp 780w" sizes="(min-width: 1080px) 250px, (min-width: 700px) 220px, 40vw" width="390" height="844" loading="lazy" decoding="async" alt="RSVP screen: a short form asking for a name, whether the guest is joining, and one last wish for Casa Gelso." aria-hidden="true">
+          </div>
+        </div>
+      </div>
+      <div class="casa__steps steps">
+        <p class="label steps__label" id="casa-steps-label">Four screens from the live site</p>
+        <ol class="chain steps__list" aria-labelledby="casa-steps-label" data-steps>
+          <li><span>Teaser</span></li><li><span>Brand reveal</span></li><li><span>Invitation</span></li><li><span>RSVP</span></li>
+        </ol>
+      </div>
+      <div class="casa__actions case-actions">
+        <a class="btn btn--primary" href="work/casa-gelso/">Read the case study <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for Casa Gelso</span></a>
+        <a class="btn btn--text" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">View live <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only"> site for Casa Gelso (opens in a new tab)</span></a>
+      </div>
+    </article>
+
+    <article class="case jetour theme-dark" aria-labelledby="jetour-title">
+      <picture class="jetour__bg">
+        <source media="(max-width: 700px)" srcset="assets/img/work/jetour/jetour-cover-mobile-480.webp">
+        <img src="assets/img/work/jetour/jetour-cover-1280.webp"
+             srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w"
+             sizes="(min-width: 1080px) 1200px, 100vw" width="1704" height="923" loading="lazy" decoding="async"
+             alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation.">
+      </picture>
+      <span class="hud" aria-hidden="true"><span class="hud__tl">Jetour Georgia · 28.06.2026</span><span class="hud__br">Tbilisi → Orbeti</span></span>
+      <div class="jetour__head">
+        <ul class="case-meta label" aria-label="Project details">
+          <li class="case-status">Client project</li>
+          <li>Automotive brand experience</li>
+          <li>Georgia</li>
+          <li>June 2026</li>
+        </ul>
+        <h3 class="jetour__title" id="jetour-title"><a href="work/jetour/">Jetour</a></h3>
+        <p class="lead">A private drive from Tbilisi to Orbeti, announced by an invitation that behaves like the car’s own interface.</p>
+      </div>
+      <figure class="jetour__film" data-reel>
+        <div class="jetour__screen">
+          <video muted playsinline loop preload="none" width="540" height="960" poster="assets/video/jetour-intro-poster.webp" aria-label="The invitation’s intro film: close-ups of the new model in the dark. Muted, 16 seconds.">
+            <source src="assets/video/jetour-intro-540.webm" type="video/webm">
+            <source src="assets/video/jetour-intro-540.mp4" type="video/mp4">
+          </video>
+          <button class="jetour__toggle" type="button" data-reel-toggle hidden>Play film</button>
+        </div>
+        <figcaption class="label jetour__cap"><span>Intro film</span><span data-reel-time aria-hidden="true">0:00 / 0:16</span></figcaption>
+      </figure>
+      <div class="jetour__foot">
+        <ol class="chain chain--plain" aria-label="The guest journey">
+          <li><span>Intro film</span></li><li><span>Invitation</span></li><li><span>Countdown</span></li><li><span>Agenda</span></li><li><span>RSVP</span></li>
+        </ol>
+        <div class="case-actions">
+          <a class="btn btn--primary" href="work/jetour/">Read the case study <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for JETOUR</span></a>
+          <a class="btn btn--text" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">View live <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only"> site for JETOUR (opens in a new tab)</span></a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ═══ 04 · How we work ═══
+       Four stages as one composition (js/method/StudioMethod.js): a rail of the stage names with a line that follows
+       the chosen one, and one large panel under it. The markup is a plain numbered list; without the script all four
+       stages are simply listed, fully visible. -->
+  <section class="section process container" id="process" aria-labelledby="process-title">
+    <header class="section-head">
+      <p class="label section-id"><span class="section-id__num">(04)</span><span>How we work</span></p>
+      <h2 class="display title-l section-head__title" id="process-title">From first conversation to final <em>delivery</em>.</h2>
+      <div class="section-head__aside">
+        <p class="lead">A clear, collaborative process tailored to your project — with defined steps, feedback and no unnecessary complications.</p>
+      </div>
+    </header>
+    <div class="method">
+      <ol class="stages" data-method role="list">
+        <li class="stage">
+          <span class="stage__num">01</span>
+          <h3 class="stage__name"><span class="stage__name-in">Discover</span></h3>
+          <p class="stage__text">We start with your idea, your audience, your objectives and any constraints, so the creative work has something solid to answer.</p>
+          <dl class="stage__out"><dt class="label">You get</dt><dd>A clear project brief and agreed direction.</dd></dl>
+        </li>
+        <li class="stage">
+          <span class="stage__num">02</span>
+          <h3 class="stage__name"><span class="stage__name-in">Concept</span></h3>
+          <p class="stage__text">We develop the creative direction, the structure of the content and how people will interact with it.</p>
+          <dl class="stage__out"><dt class="label">You get</dt><dd>The concept, key visuals and an interaction plan.</dd></dl>
+        </li>
+        <li class="stage">
+          <span class="stage__num">03</span>
+          <h3 class="stage__name"><span class="stage__name-in">Design <em class="amp">&amp;</em> Build</span></h3>
+          <p class="stage__text">The visuals, the motion and the working experience are made in one place, and built to work on every screen.</p>
+          <dl class="stage__out"><dt class="label">You get</dt><dd>A staging link to click through and comment on.</dd></dl>
+        </li>
+        <li class="stage">
+          <span class="stage__num">04</span>
+          <h3 class="stage__name"><span class="stage__name-in">Refine <em class="amp">&amp;</em> Deliver</span></h3>
+          <p class="stage__text">We test it, improve it, finalize it and prepare it for launch.</p>
+          <dl class="stage__out"><dt class="label">You get</dt><dd>A tested, finished experience, ready to go live.</dd></dl>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ 05 · The studio ═══ -->
+  <section class="section studio container" id="studio" aria-labelledby="studio-title">
+    <header class="section-head">
+      <p class="label section-id"><span class="section-id__num">(05)</span><span>The studio</span></p>
+      <h2 class="display title-l section-head__title" id="studio-title">The idea you approve is the idea that <em>ships</em>.</h2>
+    </header>
+    <div class="studio__grid">
+      <div class="body studio__body">
+        <p>INVITÉ is an independent creative digital studio in Tbilisi, working with clients worldwide. It was founded by Mariam Kajaia, a front-end developer focused on creative web development, interactive experiences and digital design.</p>
+        <p>We combine art direction and technology with a clear understanding of what each project is for. Design should do more than look beautiful: it should attract attention, communicate clearly and make the next step easier.</p>
+      </div>
+      <ul class="studio__ways" role="list" aria-label="How the studio works">
+        <li><h3>One person, from concept to code.</h3><p>The person who shapes the concept also writes the code, so nothing is lost between what you approve and what ships.</p></li>
+        <li><h3>Clear scopes, dates and sign-offs.</h3><p>Before INVITÉ, Mariam spent four years managing corporate client accounts, so projects here run on a defined scope, agreed dates and sign-offs.</p></li>
+        <li><h3>Anything extra is agreed at the start.</h3><p>If a brief needs more than design and code, such as photography, film or translation, we say so at the start and plan it into the scope.</p></li>
+      </ul>
+      <dl class="studio__facts">
+        <div><dt class="label">Founded</dt><dd>2026</dd></div>
+        <div><dt class="label">Based in</dt><dd>Tbilisi, Georgia<span class="studio__note">Working with clients worldwide</span></dd></div>
+        <div><dt class="label">Languages</dt><dd>English &amp; multilingual experiences<span class="studio__note">Additional languages can be supported according to project requirements.</span></dd></div>
+        <div><dt class="label">Founder</dt><dd>Mariam Kajaia<span class="studio__note">Front-End Developer</span></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ═══ Start a project ═══ -->
+  <section class="section contact theme-dark" id="contact" aria-labelledby="contact-title">
+    <div class="container contact__grid">
+      <div class="contact__head">
+        <p class="label section-id"><span class="section-id__num">(06)</span><span>Start a project</span></p>
+        <h2 class="display contact__title" id="contact-title">Have something in <em>mind</em>?</h2>
+        <div class="contact__lead">
+          <p class="lead">A brand to launch, a website to build, an occasion to celebrate — or simply an idea worth exploring?</p>
+          <p class="lead">Tell us what you’re thinking. We’ll help you find the right way to bring it to life.</p>
+        </div>
+      </div>
+
+      <div class="contact__main" data-contact>
+        <div class="tabs" role="tablist" aria-label="Choose how to get in touch">
+          <button class="tab" type="button" role="tab" id="tab-project" aria-controls="panel-project" aria-selected="true">Start Your Project</button>
+          <button class="tab" type="button" role="tab" id="tab-hello" aria-controls="panel-hello" aria-selected="false" tabindex="-1">Just say hello</button>
+        </div>
+
+        <p class="notice" data-form-setup-notice hidden><span>Online sending is not connected yet.</span></p>
+
+        <!-- Project brief: four short steps. Without the script, all four show as one form. -->
+        <div id="panel-project" role="tabpanel" aria-labelledby="tab-project">
+          <form class="form form--steps" data-form="project" novalidate>
+            <div class="steps-head" data-steps-head hidden>
+              <p class="steps-head__count" aria-live="polite"><span class="label">Step <span data-step-num>1</span> of 4</span> <span class="steps-head__name" data-step-name>Project type</span></p>
+              <ol class="steps-head__bar" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+            </div>
+
+            <fieldset class="step" data-step="1" data-step-name="Project type" aria-describedby="p-category-err">
+              <legend class="step__q" tabindex="-1">What can we help you create?</legend>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="category" value="Digital Advertising" required><span>Digital Advertising</span></label>
+                <label class="chip"><input type="radio" name="category" value="Launch &amp; Interactive Experience"><span>Launch &amp; Interactive Experience</span></label>
+                <label class="chip"><input type="radio" name="category" value="Creative Website"><span>Creative Website</span></label>
+                <label class="chip"><input type="radio" name="category" value="Private or Corporate Event"><span>Private or Corporate Event</span></label>
+                <label class="chip"><input type="radio" name="category" value="Something Else"><span>Something Else</span></label>
+                <label class="chip"><input type="radio" name="category" value="Not Sure Yet"><span>Not Sure Yet</span></label>
+              </div>
+              <p class="field__error" id="p-category-err" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset class="step" data-step="2" data-step-name="Your project">
+              <legend class="step__q" tabindex="-1"><label for="p-description">Tell us a little about your project.</label></legend>
+              <div class="field">
+                <textarea class="input" id="p-description" name="description" rows="5" required aria-describedby="p-description-hint p-description-err" placeholder="What is it, who is it for, and what should it achieve?"></textarea>
+                <p class="field__hint" id="p-description-hint">A few sentences are enough.</p>
+                <p class="field__error" id="p-description-err" aria-live="polite"></p>
+              </div>
+            </fieldset>
+
+            <fieldset class="step" data-step="3" data-step-name="Timing and budget">
+              <legend class="step__q" tabindex="-1">What timing and budget do you have in mind? <span class="field__opt">Both optional</span></legend>
+              <fieldset class="chips">
+                <legend class="field__label">Approximate timeline</legend>
+                <label class="chip"><input type="radio" name="timeline" value="Within a month"><span>Within a month</span></label>
+                <label class="chip"><input type="radio" name="timeline" value="1–3 months"><span>1–3 months</span></label>
+                <label class="chip"><input type="radio" name="timeline" value="3–6 months"><span>3–6 months</span></label>
+                <label class="chip"><input type="radio" name="timeline" value="Not sure yet"><span>Not sure yet</span></label>
+              </fieldset>
+              <fieldset class="chips">
+                <legend class="field__label">Budget range</legend>
+                <label class="chip"><input type="radio" name="budget" value="Under €2,000"><span>Under €2k</span></label>
+                <label class="chip"><input type="radio" name="budget" value="€2,000–5,000"><span>€2k–5k</span></label>
+                <label class="chip"><input type="radio" name="budget" value="€5,000–15,000"><span>€5k–15k</span></label>
+                <label class="chip"><input type="radio" name="budget" value="Over €15,000"><span>€15k+</span></label>
+                <label class="chip"><input type="radio" name="budget" value="Prefer to discuss"><span>Prefer to discuss</span></label>
+              </fieldset>
+            </fieldset>
+
+            <fieldset class="step" data-step="4" data-step-name="Contact details">
+              <legend class="step__q" tabindex="-1">Where should we reply?</legend>
+              <div class="review" data-review hidden>
+                <p class="label">Your brief</p>
+                <dl class="review__list" data-review-list></dl>
+              </div>
+              <div class="form__row">
+                <div class="field">
+                  <label class="field__label" for="p-name">Name</label>
+                  <input class="input" id="p-name" name="name" type="text" autocomplete="name" required aria-describedby="p-name-err">
+                  <p class="field__error" id="p-name-err" aria-live="polite"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="p-email">Email</label>
+                  <input class="input" id="p-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="p-email-err">
+                  <p class="field__error" id="p-email-err" aria-live="polite"></p>
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="p-company">Company or brand <span class="field__opt">Optional</span></label>
+                <input class="input" id="p-company" name="company" type="text" autocomplete="organization">
+              </div>
+              <details class="form__more">
+                <summary>Add notes <span class="field__opt">Optional</span></summary>
+                <div class="field">
+                  <label class="field__label" for="p-notes">Additional notes</label>
+                  <textarea class="input" id="p-notes" name="notes" rows="3" placeholder="Links, references, languages, anything useful."></textarea>
+                </div>
+              </details>
+            </fieldset>
+
+            <div class="hp-field" aria-hidden="true"><label for="p-website">Leave this field empty</label><input id="p-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+            <div class="form__foot">
+              <p class="notice notice--error" data-form-error hidden role="alert"></p>
+              <div class="form__submit steps-nav">
+                <button class="btn btn--ghost" type="button" data-step-back hidden><span class="arr" aria-hidden="true">←</span> Back</button>
+                <button class="btn btn--primary" type="button" data-step-next hidden>Continue <span class="arr" aria-hidden="true">→</span></button>
+                <button class="btn btn--primary btn--send" type="submit" data-submit><span data-submit-label>Send project brief</span> <span class="arr" aria-hidden="true">→</span></button>
+              </div>
+              <p class="form__privacy">Required: project type, a short description, your name and email. We use your details only to reply to this enquiry. <a href="privacy/">Privacy notice</a>.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Just say hello -->
+        <div id="panel-hello" role="tabpanel" aria-labelledby="tab-hello" hidden>
+          <form class="form" data-form="hello" novalidate>
+            <div class="form__row">
+              <div class="field">
+                <label class="field__label" for="h-name">Name</label>
+                <input class="input" id="h-name" name="name" type="text" autocomplete="name" required aria-describedby="h-name-err">
+                <p class="field__error" id="h-name-err" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="h-email">Email</label>
+                <input class="input" id="h-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="h-email-err">
+                <p class="field__error" id="h-email-err" aria-live="polite"></p>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="h-message">Message</label>
+              <textarea class="input" id="h-message" name="message" rows="5" required aria-describedby="h-message-err" placeholder="An early idea, a question, a hello."></textarea>
+              <p class="field__error" id="h-message-err" aria-live="polite"></p>
+            </div>
+            <div class="hp-field" aria-hidden="true"><label for="h-website">Leave this field empty</label><input id="h-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+            <div class="form__foot">
+              <p class="notice notice--error" data-form-error hidden role="alert"></p>
+              <div class="form__submit">
+                <button class="btn btn--primary btn--send" type="submit" data-submit><span data-submit-label>Send message</span> <span class="arr" aria-hidden="true">→</span></button>
+              </div>
+              <p class="form__privacy">All fields are required. We use your details only to reply to you. <a href="privacy/">Privacy notice</a>.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <aside class="contact__aside" aria-label="What happens next">
+        <div class="contact__next">
+          <p class="label">What happens next</p>
+          <ol class="mt-l">
+            <li>A personal reply, not an automated sequence.</li>
+            <li>A short call to understand what you need and why.</li>
+            <li>A proposal with scope, timeline and price, so you can decide with the facts in hand.</li>
+          </ol>
+        </div>
+        <div class="contact__direct" data-direct hidden>
+          <p class="label">Prefer to write directly?</p>
+          <a class="link" data-email-link href="#" hidden></a>
+          <a class="contact__wa" data-whatsapp-link href="#" target="_blank" rel="noopener" hidden><span class="contact__wa-app">WhatsApp</span> <span class="link nowrap" data-whatsapp-number></span> <span class="arr arr--up" aria-hidden="true">↗</span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
 </main>
 
-<footer class="footer">
-    <p>Created by INVITÉ © 2026</p>
+<!-- ═══ Footer ═══ -->
+<footer class="site-footer theme-dark" aria-labelledby="footer-title">
+  <div class="container">
+    <h2 class="display footer__statement" id="footer-title">INVITÉ creates <em>anticipation</em>.</h2>
+    <div class="footer__cols">
+      <div class="footer__col"><p class="label">Studio</p><p>Working worldwide<br>Based in Tbilisi, Georgia</p></div>
+      <div class="footer__col"><p class="label">Work</p><a href="work/casa-gelso/">Casa Gelso</a><a href="work/jetour/">Jetour</a></div>
+      <div class="footer__col" data-footer-contact><p class="label">Contact</p><a href="#contact" data-start-project>Start a project</a></div>
+      <div class="footer__col"><p class="label">Legal</p><a href="privacy/">Privacy notice</a><a href="legal/">Legal notice</a></div>
+    </div>
+    <div class="footer__end">
+      <span class="signal-line" aria-hidden="true" data-footer-line></span>
+      <div class="footer__meta label"><span>© 2026 INVITÉ Studio</span><span>End of transmission</span></div>
+      <div class="footer__tools">
+        <button type="button" data-replay-intro>Replay intro <span aria-hidden="true">↺</span></button>
+        <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+  </div>
 </footer>
-<script src="script.js"></script>
+
 </body>
 </html>

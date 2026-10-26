@@ -1,0 +1,40 @@
+/* Self-hosted, subset (Latin) variable fonts. No requests to third-party font services.
+   Licences: assets/fonts/OFL-*.txt (SIL Open Font License 1.1). */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../assets/fonts/archivo-var.woff2") format("woff2-variations"),
+       url("../assets/fonts/archivo-var.woff2") format("woff2");
+  font-weight: 300 800;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("../assets/fonts/bodoni-moda-italic-var.woff2") format("woff2-variations"),
+       url("../assets/fonts/bodoni-moda-italic-var.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-var.woff2") format("woff2-variations"),
+       url("../assets/fonts/jetbrains-mono-var.woff2") format("woff2");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VT323 is reserved for the CRT. It is drawn into canvases, so it is loaded on demand by
+   js/core/fonts.js rather than blocking text rendering. */
+@font-face {
+  font-family: "VT323";
+  src: url("../assets/fonts/vt323.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}

@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Signature intro: the broken television
+   Phase 01 interference → Phase 02 INVITÉ reconstructs → Phase 03 the
+   picture collapses into a line of light, which opens into the homepage.
+   ========================================================================== */
+
+dialog.intro {
+  position: fixed; inset: 0;
+  width: 100vw; height: 100dvh; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  background: #020203; color: var(--porcelain);
+  overflow: hidden;
+}
+dialog.intro::backdrop { background: #020203; }
+dialog.intro[open] { display: block; }
+
+.intro__screen { position: absolute; inset: 0; }
+.intro__screen canvas { display: block; width: 100%; height: 100%; }
+
+/* Glass: soft reflection and vignette that sit on top of the CRT */
+.intro__glass {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(90% 60% at 28% 6%, rgba(255,255,255,.05), transparent 55%),
+    radial-gradient(140% 120% at 50% 50%, transparent 58%, rgba(0,0,0,.85) 100%);
+}
+
+/* Static fallback (no WebGL, low-power devices): one composed frame, no shader */
+.intro__static {
+  position: absolute; inset: 0; display: none; place-items: center;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 90% at 50% 50%, #0d0d10, #020203 70%);
+}
+.intro--static .intro__static { display: grid; }
+.intro__static-word {
+  font-weight: 800; font-stretch: 125%; letter-spacing: -.03em; line-height: 1;
+  font-size: clamp(3.25rem, 15vw, 12rem); color: var(--porcelain);
+  text-shadow: -.04em 0 rgba(184,196,255,.55), .03em 0 rgba(191,193,199,.35), 0 0 .3em rgba(255,255,255,.25);
+}
+
+/* The line of light and the porcelain it opens into */
+.intro__light {
+  position: absolute; left: 0; right: 0; top: 50%; height: 100dvh; margin-top: -50dvh;
+  background: var(--porcelain);
+  transform: scaleY(0); transform-origin: 50% 50%;
+  box-shadow: 0 0 40px 12px rgba(243,242,239,.55), 0 0 120px 30px rgba(184,196,255,.35);
+  pointer-events: none; z-index: 2;
+}
+
+.intro__controls {
+  position: absolute; z-index: 3; left: 0; right: 0;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding-inline: var(--gutter);
+}
+.intro__controls .btn {
+  --btn-fg: var(--porcelain); --btn-border: rgba(243,242,239,.28); --btn-bg: rgba(2,2,3,.45);
+  min-height: 44px; font-family: var(--font-mono); font-size: var(--step--2); font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.intro__controls .btn:hover { --btn-border: var(--signal); --btn-bg: rgba(184,196,255,.1); }
+.intro__controls .sound-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--graphite); }
+.intro__controls [aria-pressed="true"] .sound-dot { background: var(--signal); box-shadow: 0 0 10px var(--signal); }
+.intro__brand { position: absolute; z-index: 3; top: calc(18px + env(safe-area-inset-top, 0px)); left: var(--gutter); color: var(--mist); }
+
+.intro.is-leaving .intro__controls, .intro.is-leaving .intro__brand { opacity: 0; transition: opacity 200ms ease; }
+
+/* While the intro runs, the page underneath is inert and does not scroll */
+html.intro-active, html.intro-active body { overflow: hidden; }
+
+/* Reduced motion: the still frame fades out; nothing moves or flickers. */
+.intro--still .intro__static-word { text-shadow: 0 0 .3em rgba(255,255,255,.2); }
+dialog.intro.is-fading { opacity: 0; transition: opacity 400ms ease; }
+dialog.intro.is-fading::backdrop { opacity: 0; transition: opacity 400ms ease; }
