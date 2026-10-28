@@ -7,7 +7,8 @@
       node tools/render-solutions.mjs
 
   It replaces only what sits between the <!-- solutions:mosaic --> markers in index.html (the tiles, details and
-  catalogs) and between the <!-- solutions:strip --> markers (the four service links under the hero).
+  catalogs), between the <!-- solutions:strip --> markers (the four service links under the hero) and between the
+  <!-- solutions:invites --> markers (the compact invitations block of Selected Work, from the live projects of 004).
   Before writing anything it checks the project list (known services, no duplicate ids, and that every
   image, screen and case-study page a project points at exists; that each screen has a description and
   each plate colour is a hex colour; that live addresses are https), and stops with a clear message if
@@ -23,7 +24,7 @@ const load = (rel) => import(pathToFileURL(path.join(ROOT, rel)));
 const { solutions, isLive } = await load('js/solutions/solutions.js');
 const { projects, projectsFor, isShowable } = await load('js/solutions/projects.js');
 const { renderMosaic, renderStrip } = await load('js/solutions/render.js');
-const { renderCatalog } = await load('js/solutions/catalog.js');
+const { renderCatalog, renderInvites, INVITES_MAX } = await load('js/solutions/catalog.js');
 
 /* ── Check the project list ─────────────────────────────────────────── */
 const errors = [], warnings = [];
@@ -111,10 +112,16 @@ html = html.replace(re, (_, open, close) => `${open}\n      ${renderMosaic(solut
 const reStrip = /(<!-- solutions:strip -->)[\s\S]*?(\s*<!-- \/solutions:strip -->)/;
 if (!reStrip.test(html)) throw new Error('Marker <!-- solutions:strip --> not found in index.html');
 html = html.replace(reStrip, (_, open, close) => `${open}\n      ${renderStrip(solutions)}${close}`);
+const reInvites = /(<!-- solutions:invites -->)[\s\S]*?(\s*<!-- \/solutions:invites -->)/;
+if (!reInvites.test(html)) throw new Error('Marker <!-- solutions:invites --> not found in index.html');
+const invites = renderInvites(projectsFor('youre-invited'));
+html = html.replace(reInvites, (_, open, close) => `${open}\n${invites ? `    ${invites.replace(/\n/g, '\n    ')}` : ''}${close}`);
 fs.writeFileSync(file, html);
 
+const liveInvites = projectsFor('youre-invited').filter((p) => p.status === 'live' && /^https:\/\//i.test(String(p.liveUrl || '')));
+console.log(`Selected Work: ${invites ? `${Math.min(liveInvites.length, INVITES_MAX)} live invitation${Math.min(liveInvites.length, INVITES_MAX) === 1 ? '' : 's'} shown (of ${projectsFor('youre-invited').length} in the 004 catalog)` : 'no live invitation, so the compact block is left out'}.`);
 console.log(`index.html: ${solutions.length} solutions written (${solutions.filter(isLive).length} with a live demonstration link).`);
 for (const s of solutions) {
   const n = projectsFor(s.id).length;
-  console.log(`  ${s.number} ${s.id}: ${n ? `${n} project${n === 1 ? '' : 's'} in the catalog` : 'no projects yet (the catalog shows its empty note)'}`);
+  console.log(`  ${s.number} ${s.id}: ${n ? `${n} project${n === 1 ? '' : 's'} in the catalog` : 'no projects yet (the panel shows its empty note and “Start a project”)'}`);
 }

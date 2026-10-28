@@ -75,6 +75,15 @@ html:not(.js) .sound-toggle, html:not(.js) .menu-toggle { display: none; }
 .sound-toggle[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: -.7s; }
 @keyframes eq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
 @media (max-width: 32.5em) { .site-header .sound-toggle__label { display: none; } }
+/* Larger text on a small screen: the header gives up what it can spare, so the Menu button always stays on screen.
+   In em, so it follows the reader's text size and not only the pixel width: once the screen is narrower than 18 times
+   the text size (288 px at the normal size, 576 px at 200%) the lockup drops "Studio" and the sound control (the menu
+   has one too); under 12 times (a 320 px phone at 200%) the Menu button trims its side padding. */
+@media (max-width: 18em) {
+  .site-header .wordmark__studio, .site-header .sound-toggle { display: none; }
+  .site-header__inner { gap: var(--space-2xs); }
+}
+@media (max-width: 12em) { .menu-toggle { padding-inline: .75rem; } }
 
 /* ── Mobile menu (native <dialog>) ───────────────────────────────────── */
 .menu {
@@ -177,6 +186,7 @@ textarea.input { min-height: 120px; resize: vertical; line-height: 1.5; }
 }
 .tab:hover { color: var(--fg); }
 .tab[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+@media (max-width: 18em) { .tabs { display: flex; flex-wrap: wrap; border-radius: 1.5rem; } .tab { flex: 1 1 auto; } }   /* large text on a small screen: the two choices share the width and wrap */
 
 /* ── Footer ──────────────────────────────────────────────────────────── */
 .site-footer { padding-block: clamp(4rem, 3rem + 5vw, 8rem) calc(var(--space-l) + env(safe-area-inset-bottom, 0px)); }

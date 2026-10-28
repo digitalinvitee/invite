@@ -14,6 +14,9 @@
    The television runs wherever WebGL exists, at lower resolution on weaker devices; without WebGL (or GSAP)
    a static frame plays instead, and with reduced motion a still frame simply fades. Skip, Escape and a
    failsafe always release the page, and the page reports back with the `intro:done` event.
+
+   Phones: the first-visit sequence runs 1.4 times faster (about 2 s), and on a touch screen a tap anywhere on the
+   picture skips it, as the Skip button does.
    ========================================================================== */
 
 import { CRT } from './crt.js';
@@ -33,6 +36,7 @@ const nextFrames = (n) => new Promise((resolve) => { const step = () => (--n <= 
 const START_LIMIT_MS = 6000;  // ms the page may wait for the television to start (fonts, shader) before it is released
 const RUN_MARGIN_S = 3;       // seconds a running sequence may overrun its own length before it is released
 const HARD_LIMIT_MS = 1500;   // ms a skip may take before the page is released regardless
+const PHONE_SPEED = 1.4;      // the first-visit sequence plays this much faster on a phone
 
 export class IntroExperience {
   constructor(dialog) {
@@ -55,6 +59,11 @@ export class IntroExperience {
     // dialog itself. Nothing is left on screen to animate away then, so the page is released at once.
     dialog.addEventListener('close', () => { if (this.running) this._finish(); });
     $('[data-intro-skip]', dialog).addEventListener('click', () => this.skip());
+    // On a touch screen the whole picture is a skip button: a tap anywhere except the two controls leaves the intro.
+    dialog.addEventListener('click', (e) => {
+      if (!this.running || e.target.closest('.intro__controls')) return;
+      if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) this.skip();
+    });
 
     audio.subscribe((on) => {
       if (!this.running) return;
@@ -107,6 +116,8 @@ export class IntroExperience {
     clearTimeout(this._failsafe);
     this._repaint();
     this.tl = mode === 'short' ? this._short(gsap) : mode === 'classic' ? this._classic(gsap) : this._full(gsap);
+    // The first-visit sequence runs about 40% faster on a phone (2.8 s becomes 2 s): the same three beats, a shorter wait.
+    if (mode === 'full' && window.matchMedia && window.matchMedia('(max-width: 35em)').matches) this.tl.timeScale(PHONE_SPEED);
     // The sequence knows how long it takes; if it has not finished well after that, let the page go.
     this._failsafe = setTimeout(() => this.skip(), (this.tl.duration() + RUN_MARGIN_S) * 1000);
   }

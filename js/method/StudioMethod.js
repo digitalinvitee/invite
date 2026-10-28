@@ -15,6 +15,9 @@
    Reduced motion: the same tabs, switching at once. Without GSAP: the same, with a CSS transition on the line and
    the number. Without this script: every stage is listed and fully visible. The hidden start state of the arrival is
    only set once everything is ready to play it, and it is cleared when it ends.
+
+   Phones (under 40em): no tabs. The list stays as it is and is styled as one vertical sequence, so every stage is
+   visible at once and there is no arrival to play. The choice is made when the page loads.
    ========================================================================== */
 
 import { $, $$, el, tablist } from '../core/dom.js';
@@ -29,6 +32,9 @@ export function initStudioMethod() {
   const section = root && root.closest('section');
   const stages = list ? $$('.stage', list) : [];
   if (!root || !section || stages.length < 2) return;
+  // On a phone the four stages stay the plain list: one vertical sequence with every stage open (css/home.css), so the
+  // whole path can be read without a tap and nothing has to move. The tabs are built from the tablet width up.
+  if (window.matchMedia && window.matchMedia('(max-width: 39.99em)').matches) return;
   const gsap = getGsap();
   const last = stages.length - 1;
   const parts = (stage) => ({ name: $('.stage__name-in', stage), text: $('.stage__text', stage), out: $('.stage__out', stage) });

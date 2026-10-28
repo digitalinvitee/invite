@@ -96,6 +96,15 @@
   color-scheme: light;
 }
 
+/* Phones: the two smallest steps stop shrinking, so labels and captions stay readable (12 px and 14 px).
+   From 40 em up the scale above is unchanged. */
+@media (max-width: 40em) {
+  :root {
+    --step--2: .75rem;
+    --step--1: .875rem;
+  }
+}
+
 /* Dark "signal room" surfaces: Creative Solutions, contact, footer, JETOUR. */
 .theme-dark {
   --bg: var(--ink);

@@ -29,6 +29,13 @@
 .sol-detail__catalog .arr { transition: transform var(--dur-ui) var(--ease-out); }
 .sol-detail__catalog[aria-expanded="true"] .arr { transform: rotate(90deg); }
 html:not(.js) .sol-detail__foot, html:not(.js) .catalog__close, html:not(.js) .catalog__close-end { display: none; }
+html:not(.js) .sol-detail__foot--empty { display: grid; }   /* the note and its button still make sense without the script */
+
+/* A service with nothing to list yet: the note and the way in sit where the catalog button would be. */
+.sol-detail__foot--empty { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-s) var(--space-l); }
+.sol-detail__foot--empty::before { content: none; }
+.catalog-note { display: grid; gap: .4rem; max-width: 60ch; color: var(--fg-muted); text-wrap: pretty; }
+.catalog-note__title { color: var(--fg); font-size: var(--step-1); font-weight: 500; letter-spacing: -.015em; line-height: 1.25; }
 
 /* ── The drawer ─────────────────────────────────────────────────────── */
 .catalog { display: grid; grid-template-rows: 1fr; border-top: 1px solid var(--rule); background: var(--ink); }
@@ -45,9 +52,7 @@ html:not(.js) .sol-detail__foot, html:not(.js) .catalog__close, html:not(.js) .c
 /* Head: which service, the title, how many, and the way out */
 .catalog__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-m) var(--grid-gap); }
 .catalog__heading { min-width: 0; }
-.catalog__kicker { display: flex; gap: .6em; align-items: baseline; }
-.catalog__num { color: var(--signal); }
-.catalog__title { margin-top: .6rem; font-size: var(--step-3); line-height: var(--lh-heading); }
+.catalog__title { font-size: var(--step-3); line-height: var(--lh-heading); }
 .catalog__title:focus { outline: none; }
 .catalog__tools { display: flex; align-items: center; gap: var(--space-m); }
 .catalog__count { white-space: nowrap; }
@@ -87,10 +92,10 @@ html:not(.js) .catalog__filters { display: none; }
   background: rgba(10, 10, 11, .74); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: var(--porcelain);
   font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .08em; text-transform: uppercase; line-height: 1;
 }
-.pcard__dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--signal); }
-.pcard__status--live .pcard__dot { background: var(--signal); box-shadow: 0 0 0 3px rgba(184, 196, 255, .2); }
-.pcard__status--in-development .pcard__dot { background: linear-gradient(90deg, var(--signal) 50%, transparent 50%); }
-.pcard__status--concept .pcard__dot { border-style: dashed; }
+.pcard__dot, .prow__dot { flex: none; width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--signal); }
+.pcard__status--live .pcard__dot, .prow__status--live .prow__dot { background: var(--signal); box-shadow: 0 0 0 3px rgba(184, 196, 255, .2); }
+.pcard__status--in-development .pcard__dot, .prow__status--in-development .prow__dot { background: linear-gradient(90deg, var(--signal) 50%, transparent 50%); }
+.pcard__status--concept .pcard__dot, .prow__status--concept .prow__dot { border-style: dashed; }
 
 .pcard__body { display: grid; gap: .7rem; align-content: start; min-width: 0; }
 .pcard__meta { color: var(--fg-subtle); }
@@ -109,6 +114,43 @@ html:not(.js) .catalog__filters { display: none; }
   .catalog__grid[data-cols="1"] .pcard__media { grid-column: 1; grid-row: 1 / span 2; }
   .catalog__grid[data-cols="1"] .pcard__body { grid-column: 2; grid-row: 1; align-self: end; }
   .catalog__grid[data-cols="1"] .pcard__foot { grid-column: 2; grid-row: 2; }
+}
+
+/* ── Rows (catalogLayout: 'rows', the default for 001 to 003) ───────────
+   A project that belongs to several services is the same real work in each, so a catalog only points to it:
+   a small picture, the status and facts, the name, a line about it and the links, on one ruled row. The full
+   presentation is in Selected Work and in the case study. On a phone the line about it is left to those pages. */
+.prows { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--rule); }
+.prows > .catalog__item { border-bottom: 1px solid var(--rule); }
+.prows + .catalog__end { border-top: 0; padding-top: 0; }   /* the last row's rule is already there */
+.prow {
+  display: grid; grid-template-columns: clamp(9rem, 4rem + 14vw, 14rem) minmax(0, 1fr) auto; align-items: center;
+  column-gap: clamp(1.25rem, 1rem + 1.6vw, 2.5rem); row-gap: var(--space-s); padding-block: clamp(1.25rem, 1rem + 1.2vw, 2rem); min-width: 0;
+}
+.prow__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink-2); border: 1px solid var(--rule); }
+.prow__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
+.prow__media::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out); }
+@media (hover: hover) {
+  .prow:hover .prow__media img { transform: scale(1.04); }
+  .prow:hover .prow__media::after { transform: none; }
+}
+.prow:has(:focus-visible) .prow__media::after { transform: none; }
+.prow__body { display: grid; gap: .55rem; align-content: center; min-width: 0; }
+.prow__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem 1rem; color: var(--fg-subtle); }
+.prow__status { display: inline-flex; align-items: center; gap: .5rem; color: var(--fg); }
+.prow__title { margin: 0; font-size: var(--step-2); font-weight: 700; font-stretch: 112%; letter-spacing: -.02em; line-height: 1.08; overflow-wrap: anywhere; }
+.prow__text { max-width: 56ch; color: var(--fg-muted); font-size: var(--step--1); line-height: 1.6; text-wrap: pretty; }
+.prow__go { display: grid; justify-items: start; gap: .1rem; }
+.prow .btn { min-height: 44px; }
+@media (max-width: 56.25em) {
+  .prow { grid-template-columns: min(clamp(7rem, 3rem + 16vw, 9rem), 30vw) minmax(0, 1fr); }
+  .prow__go { grid-column: 1 / -1; grid-auto-flow: column; justify-content: start; align-items: center; gap: .25rem 1.5rem; }
+}
+@media (max-width: 40em) {
+  .prow { grid-template-columns: min(5.5rem, 28vw) minmax(0, 1fr); column-gap: var(--space-s); row-gap: .5rem; padding-block: 1.25rem; align-items: start; }
+  .prow__media { aspect-ratio: 1; }
+  .prow__text { display: none; }
+  .prow__go { grid-auto-flow: row; justify-items: start; }
 }
 
 /* ── Spreads (catalogLayout: 'spread', used by 004 You're Invited) ──────
@@ -186,13 +228,6 @@ html:not(.js) .catalog__filters { display: none; }
   .spread:nth-child(even) .spread__copy { grid-column: 1; }
 }
 
-/* A catalog with no project yet says so, and does not pretend */
-.catalog__empty {
-  display: grid; gap: .6rem; max-width: 62ch; padding: clamp(1.25rem, 1rem + 1.4vw, 2rem);
-  border: 1px dashed var(--rule-strong); color: var(--fg-muted); text-wrap: pretty;
-}
-.catalog__empty-title { color: var(--fg); font-size: var(--step-1); font-weight: 500; letter-spacing: -.015em; }
-
 /* ── Closing call to action ─────────────────────────────────────────── */
 .catalog__end {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-m) var(--grid-gap);
@@ -206,15 +241,20 @@ html:not(.js) .catalog__filters { display: none; }
 @media (max-width: 40em) {
   .sol-detail__foot { flex-wrap: wrap; row-gap: var(--space-s); }
   .sol-detail__catalog { order: 3; flex: 1 1 100%; }
+  .sol-detail__foot--empty { grid-template-columns: minmax(0, 1fr); }
+  .sol-detail__foot--empty .btn { width: 100%; }
   .catalog__head { align-items: flex-start; }
-  .catalog__tools { width: 100%; justify-content: space-between; }
+  /* The button that opened the catalog sits right above it, and "Close catalog" waits at its end: one is enough here. */
+  .catalog__tools { width: 100%; }
+  .catalog__tools .catalog__close { display: none; }
   .catalog__end { align-items: flex-start; }
   .catalog__end-actions { width: 100%; }
   .catalog__end-actions .btn--primary { flex: 1 1 100%; }
+  .pcard__text { font-size: .9375rem; }
 }
 
 /* ── Reduced motion: states change without movement ────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .catalog, .catalog__clip, .pcard__media img, .pcard__media::after, .spread__plate::after, .sol-detail__catalog .arr { transition: none !important; }
-  .pcard:hover .pcard__media img { transform: none !important; }
+  .catalog, .catalog__clip, .pcard__media img, .pcard__media::after, .prow__media img, .prow__media::after, .spread__plate::after, .sol-detail__catalog .arr { transition: none !important; }
+  .pcard:hover .pcard__media img, .prow:hover .prow__media img { transform: none !important; }
 }

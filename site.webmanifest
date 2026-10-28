@@ -1,12 +1,12 @@
 {
   "name": "INVITÉ Studio",
   "short_name": "INVITÉ",
-  "description": "Digital experiences for brands with something to reveal.",
+  "description": "Independent creative digital studio in Tbilisi: advertising, websites and invitations that turn ideas into experiences.",
   "start_url": "./",
   "scope": "./",
   "display": "browser",
   "background_color": "#F3F2EF",
-  "theme_color": "#0A0A0B",
+  "theme_color": "#F3F2EF",
   "icons": [
     { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },

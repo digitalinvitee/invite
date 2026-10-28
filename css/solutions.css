@@ -194,8 +194,8 @@ html:not(.js) .sol--open .sol__crease { transform: none; opacity: .4; }
 .sol-detail__inner { min-height: 0; overflow: hidden; }
 .js .sol-detail__inner { opacity: 0; transition: opacity .35s ease; }
 .js .sol-detail.is-open .sol-detail__inner { opacity: 1; transition-delay: .12s; }
-.sol-detail__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: var(--space-m) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) 0; }
-.sol-detail__num { color: var(--signal); }
+/* The tile above already names the service, so the head of the details carries only the way to close it. */
+.sol-detail__head { display: flex; justify-content: flex-end; padding: var(--space-s) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) 0; }
 .sol-detail__close {
   display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: 0 1rem;
   border: 1px solid var(--rule-strong); border-radius: var(--radius-pill); background: none; color: var(--fg);
@@ -204,7 +204,7 @@ html:not(.js) .sol--open .sol__crease { transform: none; opacity: .4; }
 .sol-detail__close:hover { border-color: var(--signal); }
 .sol-detail__grid {
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: var(--space-xl);
-  padding: var(--space-l) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  padding: var(--space-m) clamp(1.25rem, .9rem + 1.4vw, 2.25rem) clamp(2rem, 1.5rem + 2vw, 3.25rem);
 }
 .sol-detail__value { grid-column: 1 / span 3; display: grid; gap: .7rem; align-content: start; justify-items: start; }
 .sol-detail__col { grid-column: span 3; }
@@ -272,11 +272,17 @@ html:not(.js) .sol--open .sol__crease { transform: none; opacity: .4; }
   .sol { min-height: 0; gap: var(--space-s); }
   .sol__title { margin-top: var(--space-s); }
   .sol__category { max-width: 20ch; }
-  .sol__foot { flex-direction: row; align-items: flex-end; }
+  /* Every tile reads the same way: number and kind, the name, one sentence, then Details. */
+  .sol__foot, .sol--pos1 .sol__foot, .sol--pos4 .sol__foot { flex-direction: column; align-items: flex-start; gap: .25rem; }
+  .sol__summary, .sol--pos1 .sol__summary, .sol--pos4 .sol__summary { max-width: none; font-size: var(--step-0); line-height: 1.5; color: var(--fg); }
+  .sol__toggle { font-size: var(--step--1); }
+  /* The details: one control closes them (the tile's own), and the reading text is 15 px. */
+  .sol-detail__head { display: none; }
   .sol-detail__col, .sol-detail__col:last-child { grid-column: 1 / -1; }
   .sol-detail__col:last-child .sol__list { columns: 1; }
-  .sol-detail__grid { row-gap: var(--space-l); }
-  .sol-detail__cat { display: none; }
+  .sol-detail__grid { row-gap: var(--space-l); padding-top: var(--space-l); }
+  .sol__text, .sol__list li, .sol__note { font-size: .9375rem; }
+  .sol__text { line-height: 1.55; }
   .solutions__end-copy { grid-column: 1 / -1; }
 }
 

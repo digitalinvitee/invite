@@ -1,3 +1,170 @@
+# Update: invite_final_9 → invite_final_10 (the complete premium refinement)
+
+The brief asked for the site as it stands, refined and not rebuilt, with the phone first and the approved desktop kept. The identity (Porcelain, ink and lavender; Archivo, Bodoni Moda Italic and JetBrains Mono), the television intro, the four services and their names, the real work, the contact form and the RSVP of the wedding invitations are all as before. The ZIP has the same 223 files as invite_final_9: 23 changed (this note included), 1 added (`CNAME`, which holds `invitee.ge`) and 1 removed (`vendor/ScrollTrigger.min.js`, which no script used). **Nothing was deployed or pushed.**
+
+In the tables, *on a phone* means a screen up to 40 em wide (640 px at the normal text size; the breakpoints are in `em`, so they follow the reader's text size). Two rows say otherwise: the intro's shorter run is for screens up to 35 em (560 px), and its tap-to-skip is for any touch screen.
+
+## What changed, and why
+
+| Area | Before | Now | Why |
+|---|---|---|---|
+| **Hero headline** | "Designed to attract / Built to engage / Made for action" | "Where ideas become experiences." in three whole lines, the last word in the Bodoni italic | One sentence that says what the studio does, in the visitor's terms. The three old phrases live on as the three stages of Fig. 01 (Attention, Engagement, Action). |
+| **Hero actions** | "Explore Our Work" (primary) and "Discuss a Project" | **Start a project** (primary) and a quiet text link, *Explore our work ↓* | The next step for a visitor with something in mind is to begin; the work stays one tap away. |
+| **One call-to-action language** | Discuss a Project · Discuss Your Project · Discuss a project like this · Start Your Project · Start a project | "Start a project" everywhere; inside a service's Details, "Start a project like this"; the first tab of the contact form says "Start a project" too | One name for one action. The page no longer asks the same thing five ways, and the button that opens the form matches the tab it opens. |
+| **Services on a phone** | The four tiles read two ways (the first and last stacked their sentence above the button and set it larger; the middle two put sentence and button side by side in a narrow row), and an opened panel began with the service's number, name and category again | Every tile reads the same way (number and kind, the name, one sentence, Details); the opened panel starts with its content, its reading text is 15 px, and the tile's own button is the one control that closes it | Less to scan, nothing said twice, no second close control to hunt for. The panel's own *Close* stays on tablet and desktop; Escape closes it everywhere. |
+| **Project catalogs** | Cards, so Casa Gelso and JETOUR were shown in full under both 002 and 003; 001 had a *See Project Catalog* button that opened an empty drawer | Compact rows for 001–003 (a small cover, name, status, one line, the links); 004 keeps its spreads; 001, with no project, shows a short note and *Start a project* instead of a button and an empty drawer; on a phone the catalog's top *Close* is hidden, and the *Close catalog ↑* at its end, the *See Project Catalog* button and Escape close it | The brief: one project data source, no identical cards repeated under different services, and no unattractive empty catalog. The same real work is not shown in full twice. Nothing was invented for 001, and its catalog appears by itself once a project names that service. |
+| **Selected Work** | Two case blocks under the heading "Two launches, …" | The same two, each with an *Our part* line, and a third, compact block: the two live wedding invitations as real phone screens, each with *Open live ↗*, and *See both in full →* into the 004 catalog. Heading: *From the first teaser to the last reply.* The block is written from `js/solutions/projects.js` by `node tools/render-solutions.mjs`, so a new live invitation appears there without editing the page | A visitor can see what INVITÉ did on each project, and the third area the studio has real work for is visible without a click. The *Our part* lines restate what the case-study pages already say. The old heading counted two projects. |
+| **How we work on a phone** | Four tabs and one visible stage | The four stages as one plain, numbered sequence (number, name, sentence, *You get*), all open | On a phone tabs hide three of four stages behind taps for no gain; reading down is quicker. Tablet and desktop keep the tabs and the rolling number. See "Decisions you can reverse". |
+| **Intro on a phone** | About 2.8 s | About 2 s (the same timeline at 1.4× speed), and a tap anywhere on a touch screen skips it | Shorter and lighter where the screen is small and the visit is often a link opened in passing. Skip, Escape, the sound switch, the replay link and every failsafe are as before. |
+| **Small type** | Labels and captions could shrink to 11 px and 13 px on a phone | They stop at 12 px and 14 px; the three stage labels of Fig. 01 follow (they were still 11 px) | Readability at a glance. The scale above 40 em is unchanged. Only the two logo lockups ("Studio" next to the wordmark, and the 8 px one in the middle of Fig. 01, which is hidden from screen readers) stay smaller, as before. |
+| **Enlarged text** | At 150–200 % text size on a phone the header *Menu* button, the JETOUR block, buttons, tabs, catalog rows and a few headings ran past the screen edge | Fixed (details below) | WCAG 1.4.4 and 1.4.10: people who enlarge text must not lose content or scroll sideways. |
+| **Double-tap zoom** | A quick second tap on a button, tab or chip could zoom the page on an iPhone | Links, buttons, fields, labels and tabs carry `touch-action: manipulation` | The brief: no accidental double taps. Scrolling and pinch zoom are untouched. The effect itself needs iOS Safari, which was not available here. |
+| **A script nobody called** | `vendor/ScrollTrigger.min.js` was loaded on the homepage (43 KB, about 18 KB compressed) but no script used it | Removed, with its line in the credits | One request and a parse less on every visit. GSAP itself stays (intro, and How we work from tablet up). |
+| **Small SEO and metadata** | | Sitemap date, web-app manifest description and theme colour brought in line with the page | Accuracy. Nothing else in the head needed a change (see "Audited and left alone"). |
+| **Publishing** | No `CNAME` in the package | `CNAME` (`invitee.ge`) at the root, and a "Publishing on GitHub Pages" section in `README.md` | The ZIP replaces the repository contents as it is, and the custom domain survives. |
+
+### The enlarged-text fixes
+
+Breakpoints are in `em`, so they follow the reader's text size. A tier at 18 em (the screen is narrower than 18 times the text size: 288 px at 100 %, 576 px at 200 %) lets the header drop the *Studio* word and the sound switch so the *Menu* button stays on screen, and a second at 12 em tightens it for a 320 px phone at 200 %. At that tier long button labels may wrap inside the button, headings may break a word that is wider than the screen, and the contact tabs wrap onto two lines. The JETOUR title is capped by its own container width. Catalog thumbnails size from the viewport. The film caption wraps instead of being cut with an ellipsis.
+
+Fig. 01 got the same care in the last pass: the three stage labels are 12 px and are checked not to touch each other or the screen edge at 100, 150 and 200 % on seven widths; at 200 % on a narrow phone (13 em) the numbers 01 and 03 step out of sight (a screen reader still hears them) so *Attention* and *Action* have room; the four service names under the figure fall into one column when two would be too narrow for a word (the grid decides, so nothing is tied to a screen width); and the brand in the middle shrinks to stay inside its ring. At normal text size none of this changes a pixel (the hero measures the same before and after).
+
+What remains at 200 % text on a 320 px phone: the largest headlines may break a very long word (*conversation*, *anticipation*) rather than run off the screen, and an e-mail address wraps inside itself. Nothing is cut off and nothing needs a sideways scroll.
+
+## Measured
+
+All numbers are from headless Chromium on this build and on invite_final_9, side by side, in the same way.
+
+### The hero on a phone
+
+| Phone | Headline type (before → now) | Headline block | "Start a project" button, bottom edge (before → now) |
+|---|---|---|---|
+| 320 × 568 | 35 → 44 px | 106 → 128 px | 433 → 462 px |
+| 360 × 740 | 40 → 50 px | 121 → 146 px | 409 → 439 px |
+| 375 × 812 | 41 → 52 px | 126 → 153 px | 414 → 446 px |
+| 390 × 844 | 43 → 54 px | 132 → 159 px | 420 → 453 px |
+| 414 × 896 | 46 → 58 px | 140 → 170 px | 428 → 463 px |
+| 430 × 932 | 48 → 60 px | 146 → 176 px | 434 → 470 px |
+
+The headline is a quarter larger, so the block is about 20 % taller and the button sits 29–36 px lower. At every phone size the supporting sentence and both actions are still inside the first screen, with the start of Fig. 01 below them. On the narrowest phones (up to 376 px) the primary button takes the full width. On a desktop the type is the same size as before (95 px at 1440 px, 84 at 1280, 68 at 1024, 100 at 1920), the block is about 4 % shorter at 1440 (279 against 291 px), and nothing overflows at any of the eleven widths from 320 to 1920 px.
+
+### Page length
+
+| Width | invite_final_9 | Now | Change |
+|---|---|---|---|
+| 320 | 11,366 px | 13,022 px | +15 % |
+| 360 | 10,871 px | 12,505 px | +15 % |
+| 375 | 10,830 px | 12,394 px | +14 % |
+| 390 | 10,576 px | 12,102 px | +14 % |
+| 414 | 10,550 px | 12,108 px | +15 % |
+| 430 | 10,503 px | 12,121 px | +15 % |
+| 768 | 10,168 px | 11,398 px | +12 % |
+| 1024 | 8,533 px | 9,351 px | +10 % |
+| 1280 | 8,268 px | 9,058 px | +10 % |
+| 1440 | 8,580 px | 9,360 px | +9 % |
+| 1920 | 8,850 px | 9,660 px | +9 % |
+
+**The page is longer, not shorter, and I want that to be a decision rather than a surprise.** At 390 px: the hero is 78 px shorter (the repeated service strip is gone), the services 67 px longer, **Selected Work 1,084 px longer** (the invitations block is 816 px of it; the *Our part* lines and the larger small type add about 260 px to the two case blocks), **How we work 384 px longer** (the plain sequence instead of one tab at a time), and the rest (the launch band, The studio, the contact section and the footer) 69 px longer together. On a desktop the 780 px is the invitations block (676 px plus its spacing). Both are the two places where the brief asked for the work to be seen (portfolio visuals central) and for nothing to hide behind a tap on a phone. Both can be taken out (see "Decisions you can reverse"). What got shorter is what a visitor has to open: with a 002 catalog open on a phone, the drawer is 833 px instead of 1,664 px (rows instead of cards), and 780 instead of 1,083 px at 1440.
+
+### Load and interaction (lab, indicative)
+
+Chromium with a 4× slower CPU and a Slow-4G connection (1.6 Mbit/s, 150 ms), a gzip server like GitHub Pages, median of three runs. **This is not Lighthouse** (it could not be installed here), so no Lighthouse score is claimed.
+
+| 390 px phone | invite_final_9 | Now |
+|---|---|---|
+| Largest content (LCP), returning visit | 1.39 s | 1.39 s |
+| Largest content, first visit with the intro | 1.41 s | 1.41 s |
+| Layout shift (CLS), returning / first visit | 0.0003 / 0.0062 | 0.0001–0.0002 / 0.0053 |
+| Main-thread blocking during load | about 405 ms | 285–363 ms (two runs) |
+| Transferred | 326 KB, 47 requests | 312 KB, 46 requests |
+
+On a desktop at 1440 px with no throttling the largest content paints at about 0.2 s in both builds. The targets in the brief (LCP ≤ 2.5 s, CLS ≤ 0.1) hold in this lab with a wide margin. For INP (target ≤ 200 ms), a probe that taps the main controls on the throttled phone (menu, hero button, Fig. 01 stage, opening and closing a service, opening a catalog, the contact tabs, *Continue*) measured the slowest interaction at 112–152 ms (opening the menu) across repeated runs, and no other tap above 128 ms. **One reading could not be trusted:** the Event Timing duration for tapping a project-type chip in the contact form came out at 0.8 s, grows with however long the probe waits afterwards, and is the same on invite_final_9; frames kept coming every 17 ms and the chip had filled 120 ms after the tap, and in isolation the same tap measured 24–72 ms. I read that as an artefact of headless software rendering and not as a slow page, but I could not prove it here. Real-device INP needs field data.
+
+## Audited and left alone
+
+- **The head and structured data.** Title (65 characters), description, canonical, Open Graph tags, the image, sitemap, robots and the `ProfessionalService` data were read against the page. They describe the business as it is: no rating, review, award, client or figure. The description is 183 characters (search results usually cut near 160); it is the approved sentence and I left it.
+- **Images.** Every image has its width and height (the audit found none without) and a description, or an empty one where it only repeats a link beside it; images below the first screen load lazily; the JETOUR film's video is not requested until it plays (`preload="none"`, with a poster). The three duplicate image links the audit lists are marked `aria-hidden` with no tab stop, as before.
+- **Heading order, landmarks, labels, focus.** One `h1` on every page; the outline never skips a level; the menu and the intro are real dialogs; the skip link, focus rings and 44 px targets were measured again. The 404 page has a `main` and a `nav` but no `header` or `footer` landmark (it is a one-screen page).
+- **Console and links.** No console error in any script; the crawl found no broken internal link or missing asset.
+
+## The contact form: audited, not changed
+
+`js/contact/` and `js/config.js` are byte-identical to invite_final_9, and the RSVP of the wedding invitations is in their own repositories. The contact section differs from invite_final_9 by one line of markup: the first tab's label (*Start a project*). The only mention of the old wording left in the shipped files is a code comment in `js/contact/ContactForm.js`, which I did not edit.
+
+| Audit item | Finding | How it was checked |
+|---|---|---|
+| Submission | One `POST` of JSON as `text/plain` to `forms.appsScriptUrl` (no CORS preflight, which Apps Script cannot answer); the field names are the ones the existing script reads | Mock endpoint: exactly one request, content type, payload keys |
+| Required fields | Project type, a short description, name, email. Company, notes, timing and budget are optional ("Prefer to discuss" and "Not sure yet" are choices) | Markup and validation run |
+| Validation | Step by step; specific messages ("This email looks incomplete. Check for a missing @ or domain."); the field in error gets focus and `aria-invalid`; a refused step sends nothing | Mock endpoint, 390 and 1280 px |
+| Response handling | Success only when the reply says `"success": true`; a timeout, a network failure, a sign-in page or `"success": false` is shown as an error with the answers kept, and e-mail and WhatsApp offered as other ways | Mock endpoint: success, rejection, timeout, network failure, retry after failure |
+| Loading and duplicates | The button is disabled and reads *Sending* while the request is out; a second press sends nothing; a hidden honeypot and a 2.5 s time trap catch bots | Mock endpoint |
+| Confirmation | "Received. Thank you, Nino." with the sender's address, announced as a status message, focus moved to it, form cleared; *send another* brings back an empty brief | Mock endpoint |
+| Mobile keyboard | `type="email"`, `inputmode="email"`, `autocomplete` on name, email and organisation; Back, Continue and Send keep working when an error appears | Markup; touch run at 390 px |
+| Privacy | A line under the send button says what is required and that the details are used only to reply, with a link to the privacy notice (still a draft) | Markup |
+
+**Not verified:** that a submission arrives in the Google Sheet and the studio mailbox. This environment cannot reach the Apps Script and no test data was sent to it (a test would add a row to the live sheet and send a real e-mail). The safe way to check is in `README.md`: send one real message through the live site and look for the row and the e-mail. Keep the hidden *Online sending is not connected yet* message in the page until you have.
+
+## Checked, and not checked
+
+**Checked** (headless Chromium, on the working folder that became this ZIP; the ZIP was then unpacked and compared with that folder file by file: identical. The number in brackets is how many checks the script holds; all of them passed):
+
+| Brief, section 17 | What ran | Result |
+|---|---|---|
+| 1 Intro, skip and replay | Intro script (37) and Escape/replay script (9): full, short and no intro by case; Skip button, Escape, tap anywhere on a phone; the footer replay; reduced motion; a section link starts without the intro; a returning visitor gets the short one | Pass. End to end the intro releases the page at 2.5 s on a 390 px phone and 3.3 s on desktop, from page start |
+| 2 Hero at all sizes | Measured at eleven widths from 320 to 1920 px, 150 % and 200 % text, hero script (21) | Pass |
+| 3 Navigation | Header, menu and footer links, every in-page link and every internal link on the site, crawl (9) and navigation (21) | Pass |
+| 4 Mobile menu | Open, close, Escape, a link from it, focus return, no scroll lock, Back (43, 22) | Pass |
+| 5 Service details | Open and close every tile on phone, tablet and desktop, one open at a time, titles and labels, tile focus (63, 12, 10) | Pass |
+| 6 Catalogs | Open, close, rows/cards/spread, the empty note of 001, the contact button preselecting its type (in the services script) | Pass |
+| 7 Keyboard and focus | Tab order, focus rings on every stop, dialog focus, targets of 44 px (43, 6, 12, 17) | Pass |
+| 8–9 Case studies, live links | Case studies open and show their parts (72); the addresses of the live projects are https and point at the right hosts. **The live addresses themselves were not opened** (this environment cannot reach `digitalinvitee.github.io`) | Case studies pass; live pages not checked |
+| 10–11 Images, video | No failed request or broken image on any page; the JETOUR film is idle, muted and looping with a poster, plays in view, and pauses on its button. Chromium here plays the WebM; **the MP4 (H.264) fallback was not played** | Pass, with that limit |
+| 12 Scroll animations | Signal reveal, How we work, Fig. 01, catalog reveal (8, 25) | Pass |
+| 13 Reduced motion | The same pages with `prefers-reduced-motion`, and with JavaScript off (25): every section is there and readable | Pass |
+| 14 Contact steps and validation | Contact script (70), mock endpoint | Pass |
+| 15 Apps Script behaviour | Same script, mock only | **Behaviour against the mock passes; the real endpoint is not verified** |
+| 16 Layout stability | Layout shift in the load runs above; the hero's arrival after the intro sampled every 100 ms | Pass (CLS 0.0053 or less) |
+| 17 Back navigation | Back script (22): hash links, the menu, the way back from a case study without the intro and at the same place, the logo, a deep link to a service | Pass |
+| 18 Horizontal overflow | Every script measures it; text-size script (24) at 150 % and 200 %; the Fig. 01 script (66) | Pass |
+| 19 Blank or inaccessible sections | No-JavaScript and reduced-motion runs, accessibility-tree script (30) | Pass |
+| 20 Console errors | Recorded in every script | None |
+
+Also run: the code-review fixes script (13: a tap on Back or Continue is not lost, the launch story plays once, the film restarts after an aborted load, layout shift), the How we work script (46: tabs from 640 px up with the arrow keys, Home, End and the rolling number; on a phone the plain list with all four stages open, no tabs, nothing past the screen edge; reduced motion; the `#process` link), the from-disk script (30, the site opened as `file://`) and the touch-action script (15). The contact form's endpoint was always a mock. Some expectations in the older scripts were updated for things that changed on purpose (three Selected Work blocks instead of two, the catalog's top *Close* hidden on phones, the new button wording). In total **660 scripted checks in 23 scripts, all passing**; the intro-timing script of the final batch (22 checks: the intro ends by itself at 2.5 s on a 390 px phone and 3.3 s on desktop, a tap skips it) and the measurement scripts above were run separately.
+
+**Not checked:**
+
+- **The live contact form end to end** (Apps Script, sheet, e-mail), as above.
+- **Real phones, iPhone Safari, Firefox.** Only headless Chromium ran (with touch and phone sizes emulated). Double-tap zoom, the feel of the targets, Safari's toolbar and safe-area behaviour and the sound on a real device are unverified.
+- **Screen readers.** The accessibility tree and ARIA were checked; what VoiceOver, TalkBack or NVDA say was not.
+- **Lighthouse.** Not run (the package could not be installed here); the lab timings above are indicative, and real-user INP is unmeasured. Please run Lighthouse on the live site (Chrome DevTools) and read the result against the brief's targets, which are targets and not something I can state as met.
+- **The live addresses** (`digitalinvitee.github.io/…`, the wedding invitations' own pages, `invitee.ge` once it points here), the GitHub Pages deployment itself, and the Google Apps Script.
+- **The MP4 (H.264) fallback of the film, and audible sound.**
+
+## Decisions you can reverse
+
+- **How we work on a phone is a plain list.** It adds 384 px at 390 px. If you prefer the tabs on a phone too, delete the first lines of `js/method/StudioMethod.js` (the early return for `(max-width: 39.99em)`) and the plain-list rules under the same breakpoint in `css/home.css`. I did not test that reversal.
+- **The invitations block in Selected Work** can go: set `INVITES_MAX = 0` in `js/solutions/catalog.js` and run `node tools/render-solutions.mjs`; the block is then left out and the page needs nothing else.
+- **The *Our part* lines** (three of them, in Selected Work) are my wording of what each case-study page already says about INVITÉ's part. Change them in `index.html` (Casa Gelso, JETOUR) or in `js/solutions/catalog.js` (the invitations).
+- **Back with the menu open (phone).** The menu is a dialog and adds no history entry, so Back leaves the page's current step and the menu stays open; Escape or *Close* shuts it, and nothing is locked.
+
+## For the owner
+
+Only what needs you:
+
+1. **One real test of the contact form after you publish.** Send a message through the live site, check that the row appears in the sheet and the e-mail arrives (`README.md` has the steps). Keep *Online sending is not connected yet* in the page until then.
+2. **Permissions and credits.** Casa Gelso, JETOUR and the two couples appear as real work. Please confirm you may show each, and that the credit lines are as they want them.
+3. **The three *Our part* lines and "One person, from concept to code."** (The studio): the last one is true only if you do all of the work yourself.
+4. **The legal and privacy notices are drafts** (they say so and are marked `noindex`); they need your review before they are relied on.
+5. **Advertising work for 001.** The service says plainly that none is listed yet. When you have a real campaign (with permission to show it), add it to `js/solutions/projects.js` and run the render step: the 001 catalog, its button and the related rows appear by themselves.
+6. **Optional:** the countdown on the Giorgi & Mariami invitation (their own repository) counts to 03.10.2026, a date that has passed.
+7. **Publishing is yours to authorise.** To put this live, replace the contents of the GitHub repository with the contents of the ZIP (`index.html` and `CNAME` at the root); `README.md` lists the Pages settings (custom domain `invitee.ge`, HTTPS). Nothing was pushed or deployed from here.
+
+## Files changed
+
+`index.html`, `css/base.css`, `css/catalog.css`, `css/components.css`, `css/home.css`, `css/solutions.css`, `css/tokens.css`, `js/hero/ConnectedDiagram.js`, `js/intro/IntroExperience.js`, `js/method/StudioMethod.js`, `js/solutions/catalog.js`, `js/solutions/projects.js` (comments only; the data is identical), `js/solutions/render.js`, `js/solutions/solutions.js`, `js/offline.js` (rebuilt), `tools/render-solutions.mjs`, `legal/index.html` (the credit line for the removed script), `site.webmanifest`, `sitemap.xml`, `README.md`, `docs/ARCHITECTURE.md`, `docs/DESIGN.md` and this note. Added: `CNAME`. Removed: `vendor/ScrollTrigger.min.js`. `node tools/render-solutions.mjs` rewrites the tiles, panels, catalogs, the hero strip and the Selected Work invitations in `index.html` from `js/solutions/`; run `python3 tools/build-offline.py` after any change in the scripts under `js/`.
+
+---
+
 # Update: invite_final_8 → invite_final_9 (final copy and the mobile hero)
 
 Two things changed: the **hero headline** has a new composition (the big difference is on a phone), and the **words** of the sections around it now follow the final copy brief. Everything else is as it was in invite_final_8: the contact form and its Google Apps Script, the RSVP of the wedding invitations, the two wedding projects in the 004 catalog, Selected Work, the colours and typefaces, the navigation and where every link goes. 11 files changed (list at the end), none added or removed.

@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="css/solutions.css">
 <link rel="stylesheet" href="css/catalog.css">
 <script>
-  /* Decide before first paint whether the signal intro plays: full (about 2.8 s) on a first visit, short
+  /* Decide before first paint whether the signal intro plays: full (about 2.8 s, about 2 s on a phone) on a first visit, short
      (about 1.2 s) for returning visitors and on reload. It stays off for links to a section (#contact), for
      the way back from another page of this site, and with ?intro=off. ?intro=classic plays the earlier
      5.7 s version for comparison. Kept inline so there is no flash.
@@ -81,7 +81,6 @@
 }
 </script>
 <script src="vendor/gsap.min.js" defer></script>
-<script src="vendor/ScrollTrigger.min.js" defer></script>
 <script type="module" src="js/main.js"></script>
 <script>
   /* Opened straight from a folder (file://)? Browsers block modules and web fonts there, so load
@@ -177,23 +176,24 @@
 <main id="main" tabindex="-1">
 
   <!-- ═══ 01 · Hero ═══
-       One idea in three states: Designed to attract (Attention), Built to engage (Engagement), Made for action (Action).
-       The headline is set as a three-step cascade (css/home.css): each phrase stays whole on its own line and steps in, so the
-       progression reads at a glance on a phone as well as on a desktop. No full stops: the italic verb ends the line.
-       The headline lines, the orbit (Fig. 01) and the four service links under it share one state: js/hero/ConnectedDiagram.js. -->
+       "Where ideas become experiences." is set as one drawing in three lines (css/home.css): "Where ideas" and "experiences."
+       on the left edge, and the pivot, "become", stepped in under "ideas". Each line stays whole (nothing wraps), and the
+       size follows the width of the column, so it fits from a 320 px phone to a wide desktop.
+       One primary action (Start a project) and one quiet one (Explore our work).
+       The orbit (Fig. 01) and the four service links share one state: js/hero/ConnectedDiagram.js. -->
   <section class="hero container" id="top" aria-labelledby="hero-title">
     <div class="hero__grid">
       <div class="hero__copy">
         <p class="label section-id hero__eyebrow"><span class="section-id__num">(01)</span><span>Independent creative digital studio</span></p>
         <h1 class="display hero__title" id="hero-title" data-hero-title>
-          <span class="hero__line" data-cx-line="0">Designed to <em>attract</em></span>
-          <span class="hero__line" data-cx-line="1">Built to <em>engage</em></span>
-          <span class="hero__line" data-cx-line="2">Made for <em>action</em></span>
+          <span class="hero__line">Where ideas</span>
+          <span class="hero__line">become</span>
+          <span class="hero__line"><em>experiences</em>.</span>
         </h1>
         <p class="lead hero__lead">Digital advertising, creative websites, interactive invitations and digital experiences for brands, creators and personal celebrations.</p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#work">Explore Our Work <span class="arr arr--down" aria-hidden="true">↓</span></a>
-          <a class="btn btn--text" href="#contact" data-start-project>Discuss a Project <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn--primary" href="#contact" data-start-project>Start a project <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn--text" href="#work">Explore our work <span class="arr arr--down" aria-hidden="true">↓</span></a>
         </div>
       </div>
       <figure class="hero__visual cx" data-cx data-state="idle" aria-labelledby="cx-title">
@@ -289,13 +289,12 @@
       <div class="sol-detail" id="solution-get-noticed-details" data-sol-detail="get-noticed" role="region" aria-labelledby="solution-get-noticed-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">001</span> Get noticed<span class="sol-detail__cat"> · Digital Advertising &amp; Motion Campaigns</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about get noticed</span></button>
           </div>
           <div class="sol-detail__grid">
             <div class="sol-detail__value">
               <p class="sol__value">A campaign worth noticing.</p>
-              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Digital Advertising">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Digital Advertising">Start a project like this <span class="arr" aria-hidden="true">→</span></a>
               <div class="sol__extras" data-sol-extras></div>
             </div>
             <div class="sol-detail__col">
@@ -311,38 +310,13 @@
               <ul class="sol__list" role="list"><li>Animated HTML5 display banners</li><li>Banners in multiple sizes, in vertical, square and landscape formats</li><li>6–15 second motion ads</li><li>Social media ad creatives</li><li>Product and service promotional campaigns</li><li>Campaign key visuals</li><li>Campaign motion graphics</li><li>AI-assisted product and campaign visuals</li><li>Adaptations for different digital placements</li></ul>
             </div>
           </div>
-          <div class="sol-detail__foot">
-            <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-get-noticed-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for get noticed</span></button>
-          </div>
-          <section class="catalog" id="solution-get-noticed-catalog" data-sol-catalog aria-labelledby="solution-get-noticed-catalog-title">
-            <div class="catalog__clip">
-              <div class="catalog__inner">
-                <header class="catalog__head">
-                  <div class="catalog__heading">
-                    <p class="label catalog__kicker"><span class="catalog__num">001</span> Get noticed</p>
-                    <h4 class="display catalog__title" id="solution-get-noticed-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
-                  </div>
-                  <div class="catalog__tools">
-                    <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for get noticed</span></button>
-                  </div>
-                </header>
-                <div class="catalog__empty">
-                  <p class="catalog__empty-title">No projects to show here yet.</p>
-                  <p>We only list work that exists, so this catalog is empty for now. If you have a campaign in mind, tell us about it.</p>
-                </div>
-                <div class="catalog__end">
-                  <div class="catalog__end-copy">
-                    <p class="catalog__end-title">Have a project in mind?</p>
-                    <p class="catalog__end-text">Let’s create something together.</p>
-                  </div>
-                  <div class="catalog__end-actions">
-                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Digital Advertising">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
-                    <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for get noticed</span></button>
-                  </div>
-                </div>
-              </div>
+          <div class="sol-detail__foot sol-detail__foot--empty" data-sol-catalog-empty>
+            <div class="catalog-note">
+              <p class="catalog-note__title">No projects to show here yet.</p>
+              <p class="catalog-note__text">We only list work that exists, and none of it is an advertising campaign yet. If you have a campaign in mind, tell us about it.</p>
             </div>
-          </section>
+            <a class="btn btn--primary" href="#contact" data-start-project data-category="Digital Advertising">Start a project <span class="arr" aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
 
@@ -368,13 +342,12 @@
       <div class="sol-detail" id="solution-build-anticipation-details" data-sol-detail="build-anticipation" role="region" aria-labelledby="solution-build-anticipation-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">002</span> Build anticipation<span class="sol-detail__cat"> · Launch &amp; Interactive Experiences</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about build anticipation</span></button>
           </div>
           <div class="sol-detail__grid">
             <div class="sol-detail__value">
               <p class="sol__value">A launch worth waiting for.</p>
-              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Start a project like this <span class="arr" aria-hidden="true">→</span></a>
               <div class="sol__extras" data-sol-extras></div>
             </div>
             <div class="sol-detail__col">
@@ -398,48 +371,39 @@
               <div class="catalog__inner">
                 <header class="catalog__head">
                   <div class="catalog__heading">
-                    <p class="label catalog__kicker"><span class="catalog__num">002</span> Build anticipation</p>
-                    <h4 class="display catalog__title" id="solution-build-anticipation-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                    <h4 class="display catalog__title" id="solution-build-anticipation-catalog-title" tabindex="-1">Project <em>catalog</em><span class="sr-only"> for build anticipation</span></h4>
                   </div>
                   <div class="catalog__tools">
                     <p class="label catalog__count">2 projects</p>
                     <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for build anticipation</span></button>
                   </div>
                 </header>
-                <ul class="catalog__grid" role="list" data-cols="2">
+                <ul class="prows" role="list">
                   <li class="catalog__item" data-group="Fashion">
-                    <article class="pcard" id="solution-build-anticipation-project-casa-gelso" aria-labelledby="solution-build-anticipation-project-casa-gelso-title">
-                      <a class="pcard__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 699px) 92vw, 46vw" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
-                      <div class="pcard__body">
-                        <p class="pcard__meta label">Fashion<span aria-hidden="true"> / </span><span class="sr-only">, </span>Launch &amp; Interactive Experiences</p>
-                        <h5 class="pcard__title" id="solution-build-anticipation-project-casa-gelso-title">Casa Gelso</h5>
-                        <p class="pcard__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
-                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Teaser film</li><li>Brand reveal</li><li>Invitation and RSVP</li><li>English, Georgian, Italian</li></ul>
+                    <article class="prow" id="solution-build-anticipation-project-casa-gelso" aria-labelledby="solution-build-anticipation-project-casa-gelso-title">
+                      <a class="prow__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 40em) 80px, (max-width: 56.25em) 112px, 224px" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"></a>
+                      <div class="prow__body">
+                        <p class="prow__meta label"><span class="prow__status prow__status--live"><span class="prow__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><span class="sr-only">, </span><span>Fashion</span><span class="sr-only">, </span><span>Client project</span><span class="sr-only">, </span><span>2026</span></p>
+                        <h5 class="prow__title" id="solution-build-anticipation-project-casa-gelso-title">Casa Gelso</h5>
+                        <p class="prow__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
                       </div>
-                      <div class="pcard__foot">
-                        <p class="pcard__type label">Client project · 2026</p>
-                        <div class="pcard__actions">
-                          <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
-                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
-                        </div>
+                      <div class="prow__go">
+                        <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
+                        <a class="btn btn--text prow__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
                       </div>
                     </article>
                   </li>
                   <li class="catalog__item" data-group="Automotive">
-                    <article class="pcard" id="solution-build-anticipation-project-jetour" aria-labelledby="solution-build-anticipation-project-jetour-title">
-                      <a class="pcard__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 699px) 92vw, 46vw" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
-                      <div class="pcard__body">
-                        <p class="pcard__meta label">Automotive<span aria-hidden="true"> / </span><span class="sr-only">, </span>Launch &amp; Interactive Experiences</p>
-                        <h5 class="pcard__title" id="solution-build-anticipation-project-jetour-title">JETOUR</h5>
-                        <p class="pcard__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
-                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Intro film</li><li>Live countdown</li><li>Agenda</li><li>RSVP</li><li>Georgian, English</li></ul>
+                    <article class="prow" id="solution-build-anticipation-project-jetour" aria-labelledby="solution-build-anticipation-project-jetour-title">
+                      <a class="prow__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 40em) 80px, (max-width: 56.25em) 112px, 224px" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"></a>
+                      <div class="prow__body">
+                        <p class="prow__meta label"><span class="prow__status prow__status--live"><span class="prow__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><span class="sr-only">, </span><span>Automotive</span><span class="sr-only">, </span><span>Client project</span><span class="sr-only">, </span><span>2026</span></p>
+                        <h5 class="prow__title" id="solution-build-anticipation-project-jetour-title">JETOUR</h5>
+                        <p class="prow__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
                       </div>
-                      <div class="pcard__foot">
-                        <p class="pcard__type label">Client project · 2026</p>
-                        <div class="pcard__actions">
-                          <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
-                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
-                        </div>
+                      <div class="prow__go">
+                        <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
+                        <a class="btn btn--text prow__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
                       </div>
                     </article>
                   </li>
@@ -450,7 +414,7 @@
                     <p class="catalog__end-text">Let’s create something together.</p>
                   </div>
                   <div class="catalog__end-actions">
-                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Launch &amp; Interactive Experience">Start a project <span class="arr" aria-hidden="true">→</span></a>
                     <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for build anticipation</span></button>
                   </div>
                 </div>
@@ -482,13 +446,12 @@
       <div class="sol-detail" id="solution-make-an-impression-details" data-sol-detail="make-an-impression" role="region" aria-labelledby="solution-make-an-impression-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">003</span> Make an impression<span class="sol-detail__cat"> · Creative Websites &amp; Digital Experiences</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about make an impression</span></button>
           </div>
           <div class="sol-detail__grid">
             <div class="sol-detail__value">
               <p class="sol__value">A website worth remembering.</p>
-              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Creative Website">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Creative Website">Start a project like this <span class="arr" aria-hidden="true">→</span></a>
               <div class="sol__extras" data-sol-extras></div>
             </div>
             <div class="sol-detail__col">
@@ -512,48 +475,39 @@
               <div class="catalog__inner">
                 <header class="catalog__head">
                   <div class="catalog__heading">
-                    <p class="label catalog__kicker"><span class="catalog__num">003</span> Make an impression</p>
-                    <h4 class="display catalog__title" id="solution-make-an-impression-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                    <h4 class="display catalog__title" id="solution-make-an-impression-catalog-title" tabindex="-1">Project <em>catalog</em><span class="sr-only"> for make an impression</span></h4>
                   </div>
                   <div class="catalog__tools">
                     <p class="label catalog__count">2 projects</p>
                     <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for make an impression</span></button>
                   </div>
                 </header>
-                <ul class="catalog__grid" role="list" data-cols="2">
+                <ul class="prows" role="list">
                   <li class="catalog__item" data-group="Fashion">
-                    <article class="pcard" id="solution-make-an-impression-project-casa-gelso" aria-labelledby="solution-make-an-impression-project-casa-gelso-title">
-                      <a class="pcard__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 699px) 92vw, 46vw" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
-                      <div class="pcard__body">
-                        <p class="pcard__meta label">Fashion<span aria-hidden="true"> / </span><span class="sr-only">, </span>Creative Websites &amp; Digital Experiences</p>
-                        <h5 class="pcard__title" id="solution-make-an-impression-project-casa-gelso-title">Casa Gelso</h5>
-                        <p class="pcard__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
-                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Teaser film</li><li>Brand reveal</li><li>Invitation and RSVP</li><li>English, Georgian, Italian</li></ul>
+                    <article class="prow" id="solution-make-an-impression-project-casa-gelso" aria-labelledby="solution-make-an-impression-project-casa-gelso-title">
+                      <a class="prow__media" href="work/casa-gelso/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/casa-gelso/casa-cover-800.webp" srcset="assets/img/work/casa-gelso/casa-cover-480.webp 480w, assets/img/work/casa-gelso/casa-cover-800.webp 800w, assets/img/work/casa-gelso/casa-cover-1179.webp 1179w" sizes="(max-width: 40em) 80px, (max-width: 56.25em) 112px, 224px" width="1179" height="1475" alt="Watercolour fashion illustration from the Casa Gelso teaser: a woman in a long black gown printed with gold hearts, beside a vintage microphone." loading="lazy" decoding="async" style="object-position:50% 22%"></a>
+                      <div class="prow__body">
+                        <p class="prow__meta label"><span class="prow__status prow__status--live"><span class="prow__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><span class="sr-only">, </span><span>Fashion</span><span class="sr-only">, </span><span>Client project</span><span class="sr-only">, </span><span>2026</span></p>
+                        <h5 class="prow__title" id="solution-make-an-impression-project-casa-gelso-title">Casa Gelso</h5>
+                        <p class="prow__text">A luxury fashion house opening in Tbilisi, introduced in three acts and three languages: an illustrated teaser, a brand reveal and a private invitation with RSVP.</p>
                       </div>
-                      <div class="pcard__foot">
-                        <p class="pcard__type label">Client project · 2026</p>
-                        <div class="pcard__actions">
-                          <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
-                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
-                        </div>
+                      <div class="prow__go">
+                        <a class="btn btn--ghost btn--sm" href="work/casa-gelso/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: Casa Gelso</span></a>
+                        <a class="btn btn--text prow__live" href="https://digitalinvitee.github.io/casa-gelso/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: Casa Gelso (opens in a new tab)</span></a>
                       </div>
                     </article>
                   </li>
                   <li class="catalog__item" data-group="Automotive">
-                    <article class="pcard" id="solution-make-an-impression-project-jetour" aria-labelledby="solution-make-an-impression-project-jetour-title">
-                      <a class="pcard__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 699px) 92vw, 46vw" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"><span class="pcard__status pcard__status--live"><span class="pcard__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span></a>
-                      <div class="pcard__body">
-                        <p class="pcard__meta label">Automotive<span aria-hidden="true"> / </span><span class="sr-only">, </span>Creative Websites &amp; Digital Experiences</p>
-                        <h5 class="pcard__title" id="solution-make-an-impression-project-jetour-title">JETOUR</h5>
-                        <p class="pcard__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
-                        <ul class="pcard__tags tag-list label" role="list" aria-label="What the project contains"><li>Intro film</li><li>Live countdown</li><li>Agenda</li><li>RSVP</li><li>Georgian, English</li></ul>
+                    <article class="prow" id="solution-make-an-impression-project-jetour" aria-labelledby="solution-make-an-impression-project-jetour-title">
+                      <a class="prow__media" href="work/jetour/" tabindex="-1" aria-hidden="true"><img src="assets/img/work/jetour/jetour-cover-800.webp" srcset="assets/img/work/jetour/jetour-cover-800.webp 800w, assets/img/work/jetour/jetour-cover-1280.webp 1280w, assets/img/work/jetour/jetour-cover-1704.webp 1704w" sizes="(max-width: 40em) 80px, (max-width: 56.25em) 112px, 224px" width="1704" height="923" alt="A driver leaning on a red Jetour under studio light, from the campaign imagery used in the invitation." loading="lazy" decoding="async" style="object-position:62% 40%"></a>
+                      <div class="prow__body">
+                        <p class="prow__meta label"><span class="prow__status prow__status--live"><span class="prow__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><span class="sr-only">, </span><span>Automotive</span><span class="sr-only">, </span><span>Client project</span><span class="sr-only">, </span><span>2026</span></p>
+                        <h5 class="prow__title" id="solution-make-an-impression-project-jetour-title">JETOUR</h5>
+                        <p class="prow__text">A private drive from Tbilisi to Orbeti, announced by a bilingual invitation that behaves like the car&#39;s own display: a timed intro film, a live countdown, the agenda and a two-path RSVP.</p>
                       </div>
-                      <div class="pcard__foot">
-                        <p class="pcard__type label">Client project · 2026</p>
-                        <div class="pcard__actions">
-                          <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
-                          <a class="btn btn--text pcard__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
-                        </div>
+                      <div class="prow__go">
+                        <a class="btn btn--ghost btn--sm" href="work/jetour/">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: JETOUR</span></a>
+                        <a class="btn btn--text prow__live" href="https://digitalinvitee.github.io/JETOUR/" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: JETOUR (opens in a new tab)</span></a>
                       </div>
                     </article>
                   </li>
@@ -564,7 +518,7 @@
                     <p class="catalog__end-text">Let’s create something together.</p>
                   </div>
                   <div class="catalog__end-actions">
-                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Creative Website">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Creative Website">Start a project <span class="arr" aria-hidden="true">→</span></a>
                     <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for make an impression</span></button>
                   </div>
                 </div>
@@ -596,13 +550,12 @@
       <div class="sol-detail" id="solution-youre-invited-details" data-sol-detail="youre-invited" role="region" aria-labelledby="solution-youre-invited-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">004</span> You’re invited<span class="sol-detail__cat"> · Digital Invitations &amp; Event Experiences</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about you’re invited</span></button>
           </div>
           <div class="sol-detail__grid">
             <div class="sol-detail__value">
               <p class="sol__value">An invitation worth opening.</p>
-              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Private or Corporate Event">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>
+              <a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="Private or Corporate Event">Start a project like this <span class="arr" aria-hidden="true">→</span></a>
               <div class="sol__extras" data-sol-extras></div>
             </div>
             <div class="sol-detail__col">
@@ -627,8 +580,7 @@
               <div class="catalog__inner">
                 <header class="catalog__head">
                   <div class="catalog__heading">
-                    <p class="label catalog__kicker"><span class="catalog__num">004</span> You’re invited</p>
-                    <h4 class="display catalog__title" id="solution-youre-invited-catalog-title" tabindex="-1">Project <em>catalog</em></h4>
+                    <h4 class="display catalog__title" id="solution-youre-invited-catalog-title" tabindex="-1">Project <em>catalog</em><span class="sr-only"> for you’re invited</span></h4>
                     <p class="catalog__intro">Wedding invitations we designed and built, both live. Open one the way a guest would: on a phone, with the sound on.</p>
                   </div>
                   <div class="catalog__tools">
@@ -708,7 +660,7 @@
                     <p class="catalog__end-text">Let’s design the invitation.</p>
                   </div>
                   <div class="catalog__end-actions">
-                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Private or Corporate Event">Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>
+                    <a class="btn btn--primary" href="#contact" data-start-project data-category="Private or Corporate Event">Start a project <span class="arr" aria-hidden="true">→</span></a>
                     <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for you’re invited</span></button>
                   </div>
                 </div>
@@ -750,20 +702,21 @@
         <p class="display solutions__end-title"><span class="solutions__challenge">Your idea.</span> <span class="solutions__answer">Made with you.</span></p>
         <div class="solutions__end-copy">
           <p>A campaign, a launch, a website or a celebration. Tell us where you’d like to begin.</p>
-          <a class="btn btn--primary solutions__cta" href="#contact" data-start-project>Start Your Project <span class="arr arr--up" aria-hidden="true">↗</span></a>
+          <a class="btn btn--primary solutions__cta" href="#contact" data-start-project>Start a project <span class="arr" aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ═══ 03 · Selected work ═══
-       Two projects, kept compact. The Casa Gelso chips are tabs for four real screens of the live site, and the
-       JETOUR intro film plays muted while it is on screen (js/work/ProjectShowcase.js). Names, links and covers
-       match js/solutions/projects.js, where both projects also appear in the service catalogs. -->
+       Two featured projects and a compact row of the wedding invitations. The Casa Gelso chips are tabs for four real
+       screens of the live site, and the JETOUR intro film plays muted while it is on screen (js/work/ProjectShowcase.js).
+       Names, links and covers match js/solutions/projects.js, which feeds the service catalogs: there each project is
+       a compact row, so the same work is not shown in full under every service. -->
   <section class="section work container" id="work" aria-labelledby="work-title">
     <header class="section-head">
       <p class="label section-id"><span class="section-id__num">(03)</span><span>Selected work</span></p>
-      <h2 class="display title-l section-head__title" id="work-title">Two launches, from the first teaser to the last <em>reply</em>.</h2>
+      <h2 class="display title-l section-head__title" id="work-title">From the first teaser to the last <em>reply</em>.</h2>
     </header>
 
     <article class="case casa" aria-labelledby="casa-title">
@@ -776,6 +729,7 @@
         </ul>
         <h3 class="casa__title" id="casa-title"><a href="work/casa-gelso/">Casa Gelso</a></h3>
         <p class="lead">A luxury fashion house opening in Tbilisi, told in three acts and three languages: a teaser, a brand reveal and a private invitation.</p>
+        <p class="case-part"><span class="label">Our part</span><span>Concept, copy, art direction, website, invitation and RSVP.</span><span class="case-part__credit">Illustration and photography appear as used in the campaign.</span></p>
       </div>
       <div class="casa__stage" data-stepper>
         <a class="casa__cover frame sr" data-sr href="work/casa-gelso/" tabindex="-1" aria-hidden="true">
@@ -823,6 +777,7 @@
         </ul>
         <h3 class="jetour__title" id="jetour-title"><a href="work/jetour/">Jetour</a></h3>
         <p class="lead">A private drive from Tbilisi to Orbeti, announced by an invitation that behaves like the car’s own interface.</p>
+        <p class="case-part"><span class="label">Our part</span><span>The invitation website, intro sequence, countdown, agenda and RSVP.</span><span class="case-part__credit">Film, photography and vehicle figures appear as used in the invitation.</span></p>
       </div>
       <figure class="jetour__film" data-reel>
         <div class="jetour__screen">
@@ -844,6 +799,44 @@
         </div>
       </div>
     </article>
+
+    <!-- More work, compact: the live wedding invitations of 004, as real screens of the invitations. Written from
+         js/solutions/projects.js by `node tools/render-solutions.mjs` between the markers below: change the project
+         list, not this block. Their full presentation is the 004 catalog, which the button opens. -->
+    <!-- solutions:invites -->
+    <article class="case invites" aria-labelledby="invites-title">
+      <div class="invites__head">
+        <ul class="case-meta label" aria-label="Project details">
+          <li class="case-status">Live</li>
+          <li>Wedding invitations</li>
+          <li>Georgian</li>
+          <li>2026</li>
+        </ul>
+        <h3 class="invites__title" id="invites-title">Wedding invitations</h3>
+        <p class="lead">Two live invitations. Open one the way a guest would: on a phone, with the sound on.</p>
+        <p class="case-part"><span class="label">Our part</span><span>Design, animation and build of each invitation.</span></p>
+      </div>
+      <ul class="invites__pair" role="list">
+        <li class="invite">
+          <a class="invite__screen" href="https://digitalinvitee.github.io/oto-da-tako/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+            <img src="assets/img/work/oto-da-tako/oto-m-invitation-390.webp" srcset="assets/img/work/oto-da-tako/oto-m-invitation-390.webp 390w, assets/img/work/oto-da-tako/oto-m-invitation-780.webp 780w" sizes="(min-width: 1080px) 240px, 42vw" width="780" height="1688" loading="lazy" decoding="async" alt="The opened Oto &amp; Tako invitation: a Save the Date card in a green envelope with white lilies, a lace frame holding the couple’s names, a gramophone and a tag for the wedding schedule.">
+          </a>
+          <p class="invite__name">Oto <span class="amp">&amp;</span> Tako</p>
+          <a class="btn btn--text" href="https://digitalinvitee.github.io/oto-da-tako/" target="_blank" rel="noopener">Open live <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only"> invitation for Oto &amp; Tako (opens in a new tab)</span></a>
+        </li>
+        <li class="invite">
+          <a class="invite__screen" href="https://digitalinvitee.github.io/giorgi-da-mariami/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+            <img src="assets/img/work/giorgi-da-mariami/gm-m-opened-390.webp" srcset="assets/img/work/giorgi-da-mariami/gm-m-opened-390.webp 390w, assets/img/work/giorgi-da-mariami/gm-m-opened-780.webp 780w" sizes="(min-width: 1080px) 240px, 42vw" width="780" height="1688" loading="lazy" decoding="async" alt="The Giorgi &amp; Mariami envelope opened, with the invitation card showing the couple’s names and the date, and a ring tucked in at the bottom of the card.">
+          </a>
+          <p class="invite__name">Giorgi <span class="amp">&amp;</span> Mariami</p>
+          <a class="btn btn--text" href="https://digitalinvitee.github.io/giorgi-da-mariami/" target="_blank" rel="noopener">Open live <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only"> invitation for Giorgi &amp; Mariami (opens in a new tab)</span></a>
+        </li>
+      </ul>
+      <div class="invites__actions case-actions">
+        <a class="btn btn--primary" href="#solution-youre-invited-catalog">See both in full <span class="arr" aria-hidden="true">→</span><span class="sr-only"> in the You’re invited catalog</span></a>
+      </div>
+    </article>
+    <!-- /solutions:invites -->
   </section>
 
   <!-- ═══ 04 · How we work ═══
@@ -927,7 +920,7 @@
 
       <div class="contact__main" data-contact>
         <div class="tabs" role="tablist" aria-label="Choose how to get in touch">
-          <button class="tab" type="button" role="tab" id="tab-project" aria-controls="panel-project" aria-selected="true">Start Your Project</button>
+          <button class="tab" type="button" role="tab" id="tab-project" aria-controls="panel-project" aria-selected="true">Start a project</button>
           <button class="tab" type="button" role="tab" id="tab-hello" aria-controls="panel-hello" aria-selected="false" tabindex="-1">Just say hello</button>
         </div>
 

@@ -1,16 +1,16 @@
 /* ==========================================================================
    Fig. 01 — From attention to action.
-   One idea in three states: Attention (designed to attract), Engagement (built to engage) and
-   Action (made for action). The orbit, the three headline lines and the four service links under
-   the hero share one state, so the headline is the thing you read and the orbit is the thing you play.
+   One path in three stages: Attention, Engagement and Action. The orbit and the four service links
+   share one state: choosing a stage lights the services that belong to it.
 
    - The signal travels to the stage that is on, and the ring fills up to it.
    - Hovering (mouse) previews a stage, a tap or click pins it (again to let go), keyboard focus
-     selects it, the arrow keys move around the orbit, Escape lets go. The headline lines do the
-     same as the stages, for people with a pointer.
+     selects it, the arrow keys move around the orbit, Escape lets go.
    - Once, after the intro hands over, a short pass walks Attention, Engagement, Action and rests with
      all three on. It never loops, it stops at the first touch, and it does not run with reduced
      motion (the figure then simply rests with all three on).
+   - On a phone the panel under the orbit always lists all four services, and a stage lights its own, so
+     the figure carries the service links and the strip under it is not repeated (css/home.css).
    - With sound on, each stage has a note.
    ========================================================================== */
 
@@ -32,9 +32,9 @@ const SEQUENCE = [0, 1, 2, -1];               // the one-time pass; -1 is "all t
 
 const byId = new Map(solutions.map((s) => [s.id, s]));
 const sentence = (s) => { const t = s.title.join(' ').toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1).replace(/'/g, '’'); };
-const link = (id) => {
+const link = (id, dim = false) => {
   const s = byId.get(id);
-  return s ? `<a class="cx__link" href="#solution-${escapeHTML(s.id)}"><span class="cx__link-num">${escapeHTML(s.number)}</span><span class="cx__link-text">${escapeHTML(sentence(s))}</span><span aria-hidden="true">→</span></a>` : '';
+  return s ? `<a class="cx__link${dim ? ' is-dim' : ''}" href="#solution-${escapeHTML(s.id)}"><span class="cx__link-num">${escapeHTML(s.number)}</span><span class="cx__link-text">${escapeHTML(sentence(s))}</span><span aria-hidden="true">→</span></a>` : '';
 };
 const point = (deg) => {
   const a = (deg * Math.PI) / 180;
@@ -46,11 +46,12 @@ export function initConnectedDiagram() {
   const root = $('[data-cx]');
   if (!root) return;
   const nodes = $$('[data-cx-node]', root), spokes = $$('[data-cx-spoke]', root), glyphs = $$('[data-cx-glyph]', root);
-  const lines = $$('[data-cx-line]'), strip = $$('[data-cx-service]');
+  const strip = $$('[data-cx-service]');
   const progress = $('[data-cx-progress]', root), signal = $('[data-cx-signal]', root), trail = $('[data-cx-trail]', root);
   const info = $('.cx__info', root), num = $('[data-cx-num]', root), name = $('[data-cx-name]', root), desc = $('[data-cx-desc]', root), links = $('[data-cx-links]', root);
   const stage = $('.cx__stage', root);
   const defaults = { name: name.textContent, text: desc.textContent };
+  const phone = window.matchMedia ? window.matchMedia('(max-width: 35em)') : { matches: false };
 
   let pinned = -1, preview = -1, auto = -1;     // what the visitor pinned, what they are pointing at, what the pass is showing
   let idle = !motion.reduced;                   // before the pass: ring empty, nothing on
@@ -87,7 +88,11 @@ export function initConnectedDiagram() {
     num.textContent = i >= 0 ? `0${i + 1}` : '';
     name.textContent = i >= 0 ? STAGES[i].name : defaults.name;
     desc.textContent = i >= 0 ? STAGES[i].text : defaults.text;
-    links.innerHTML = i >= 0 ? STAGES[i].services.map(link).join('') : '';
+    // A stage lists its own services. On a phone the panel always lists all four, in the same place (the strip under the
+    // figure is not shown there): the services of the chosen stage are lit and the others rest, so nothing below moves.
+    links.innerHTML = phone.matches
+      ? solutions.map((s) => link(s.id, i >= 0 && !STAGES[i].services.includes(s.id))).join('')
+      : i >= 0 ? STAGES[i].services.map((id) => link(id)).join('') : '';
   };
   const writeInfo = (i, instant) => {
     info.setAttribute('aria-live', userDriven ? 'polite' : 'off');   // the pass is not announced, the visitor's choices are
@@ -108,7 +113,6 @@ export function initConnectedDiagram() {
     nodes.forEach((n, k) => { n.classList.toggle('is-active', k === i); n.classList.toggle('is-done', key === 'all' || (i >= 0 && k < i)); });
     spokes.forEach((s, k) => s.classList.toggle('is-active', k === i));
     glyphs.forEach((g, k) => g.classList.toggle('is-on', k === i));
-    lines.forEach((l) => l.classList.toggle('is-lit', Number(l.dataset.cxLine) === i));
     const lit = i >= 0 ? STAGES[i].services : [];
     strip.forEach((a) => a.classList.toggle('is-lit', lit.includes(a.dataset.cxService)));
     travel(key === 'idle' ? 0 : key === 'all' ? 1 : POS[i], key !== 'all');
@@ -169,13 +173,6 @@ export function initConnectedDiagram() {
     });
   });
   stage.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') leave(); });
-  // The headline lines do the same for people with a pointer; the stages above are the keyboard route.
-  lines.forEach((line) => {
-    const i = Number(line.dataset.cxLine);
-    line.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') point_(i); });
-    line.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') leave(); });
-    line.addEventListener('click', () => { if (!String(window.getSelection && window.getSelection()).length) pin(i); });
-  });
 
   // The panel keeps the height of its tallest text, so choosing a stage never moves what is below it.
   const reserve = () => {

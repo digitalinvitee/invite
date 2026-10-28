@@ -440,6 +440,9 @@ __defs["intro/IntroExperience.js"] = function (__exports, __url) {
    The television runs wherever WebGL exists, at lower resolution on weaker devices; without WebGL (or GSAP)
    a static frame plays instead, and with reduced motion a still frame simply fades. Skip, Escape and a
    failsafe always release the page, and the page reports back with the `intro:done` event.
+
+   Phones: the first-visit sequence runs 1.4 times faster (about 2 s), and on a touch screen a tap anywhere on the
+   picture skips it, as the Skip button does.
    ========================================================================== */
 
 const { CRT } = __require("intro/crt.js");
@@ -459,6 +462,7 @@ const nextFrames = (n) => new Promise((resolve) => { const step = () => (--n <= 
 const START_LIMIT_MS = 6000;  // ms the page may wait for the television to start (fonts, shader) before it is released
 const RUN_MARGIN_S = 3;       // seconds a running sequence may overrun its own length before it is released
 const HARD_LIMIT_MS = 1500;   // ms a skip may take before the page is released regardless
+const PHONE_SPEED = 1.4;      // the first-visit sequence plays this much faster on a phone
 
 class IntroExperience {
   constructor(dialog) {
@@ -481,6 +485,11 @@ class IntroExperience {
     // dialog itself. Nothing is left on screen to animate away then, so the page is released at once.
     dialog.addEventListener('close', () => { if (this.running) this._finish(); });
     $('[data-intro-skip]', dialog).addEventListener('click', () => this.skip());
+    // On a touch screen the whole picture is a skip button: a tap anywhere except the two controls leaves the intro.
+    dialog.addEventListener('click', (e) => {
+      if (!this.running || e.target.closest('.intro__controls')) return;
+      if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) this.skip();
+    });
 
     audio.subscribe((on) => {
       if (!this.running) return;
@@ -533,6 +542,8 @@ class IntroExperience {
     clearTimeout(this._failsafe);
     this._repaint();
     this.tl = mode === 'short' ? this._short(gsap) : mode === 'classic' ? this._classic(gsap) : this._full(gsap);
+    // The first-visit sequence runs about 40% faster on a phone (2.8 s becomes 2 s): the same three beats, a shorter wait.
+    if (mode === 'full' && window.matchMedia && window.matchMedia('(max-width: 35em)').matches) this.tl.timeScale(PHONE_SPEED);
     // The sequence knows how long it takes; if it has not finished well after that, let the page go.
     this._failsafe = setTimeout(() => this.skip(), (this.tl.duration() + RUN_MARGIN_S) * 1000);
   }
@@ -1298,6 +1309,9 @@ __defs["method/StudioMethod.js"] = function (__exports, __url) {
    Reduced motion: the same tabs, switching at once. Without GSAP: the same, with a CSS transition on the line and
    the number. Without this script: every stage is listed and fully visible. The hidden start state of the arrival is
    only set once everything is ready to play it, and it is cleared when it ends.
+
+   Phones (under 40em): no tabs. The list stays as it is and is styled as one vertical sequence, so every stage is
+   visible at once and there is no arrival to play. The choice is made when the page loads.
    ========================================================================== */
 
 const { $, $$, el, tablist } = __require("core/dom.js");
@@ -1312,6 +1326,9 @@ function initStudioMethod() {
   const section = root && root.closest('section');
   const stages = list ? $$('.stage', list) : [];
   if (!root || !section || stages.length < 2) return;
+  // On a phone the four stages stay the plain list: one vertical sequence with every stage open (css/home.css), so the
+  // whole path can be read without a tap and nothing has to move. The tabs are built from the tablet width up.
+  if (window.matchMedia && window.matchMedia('(max-width: 39.99em)').matches) return;
   const gsap = getGsap();
   const last = stages.length - 1;
   const parts = (stage) => ({ name: $('.stage__name-in', stage), text: $('.stage__text', stage), out: $('.stage__out', stage) });
@@ -3011,17 +3028,17 @@ __defs["hero/ConnectedDiagram.js"] = function (__exports, __url) {
 'use strict';
 /* ==========================================================================
    Fig. 01 — From attention to action.
-   One idea in three states: Attention (designed to attract), Engagement (built to engage) and
-   Action (made for action). The orbit, the three headline lines and the four service links under
-   the hero share one state, so the headline is the thing you read and the orbit is the thing you play.
+   One path in three stages: Attention, Engagement and Action. The orbit and the four service links
+   share one state: choosing a stage lights the services that belong to it.
 
    - The signal travels to the stage that is on, and the ring fills up to it.
    - Hovering (mouse) previews a stage, a tap or click pins it (again to let go), keyboard focus
-     selects it, the arrow keys move around the orbit, Escape lets go. The headline lines do the
-     same as the stages, for people with a pointer.
+     selects it, the arrow keys move around the orbit, Escape lets go.
    - Once, after the intro hands over, a short pass walks Attention, Engagement, Action and rests with
      all three on. It never loops, it stops at the first touch, and it does not run with reduced
      motion (the figure then simply rests with all three on).
+   - On a phone the panel under the orbit always lists all four services, and a stage lights its own, so
+     the figure carries the service links and the strip under it is not repeated (css/home.css).
    - With sound on, each stage has a note.
    ========================================================================== */
 
@@ -3043,9 +3060,9 @@ const SEQUENCE = [0, 1, 2, -1];               // the one-time pass; -1 is "all t
 
 const byId = new Map(solutions.map((s) => [s.id, s]));
 const sentence = (s) => { const t = s.title.join(' ').toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1).replace(/'/g, '’'); };
-const link = (id) => {
+const link = (id, dim = false) => {
   const s = byId.get(id);
-  return s ? `<a class="cx__link" href="#solution-${escapeHTML(s.id)}"><span class="cx__link-num">${escapeHTML(s.number)}</span><span class="cx__link-text">${escapeHTML(sentence(s))}</span><span aria-hidden="true">→</span></a>` : '';
+  return s ? `<a class="cx__link${dim ? ' is-dim' : ''}" href="#solution-${escapeHTML(s.id)}"><span class="cx__link-num">${escapeHTML(s.number)}</span><span class="cx__link-text">${escapeHTML(sentence(s))}</span><span aria-hidden="true">→</span></a>` : '';
 };
 const point = (deg) => {
   const a = (deg * Math.PI) / 180;
@@ -3057,11 +3074,12 @@ function initConnectedDiagram() {
   const root = $('[data-cx]');
   if (!root) return;
   const nodes = $$('[data-cx-node]', root), spokes = $$('[data-cx-spoke]', root), glyphs = $$('[data-cx-glyph]', root);
-  const lines = $$('[data-cx-line]'), strip = $$('[data-cx-service]');
+  const strip = $$('[data-cx-service]');
   const progress = $('[data-cx-progress]', root), signal = $('[data-cx-signal]', root), trail = $('[data-cx-trail]', root);
   const info = $('.cx__info', root), num = $('[data-cx-num]', root), name = $('[data-cx-name]', root), desc = $('[data-cx-desc]', root), links = $('[data-cx-links]', root);
   const stage = $('.cx__stage', root);
   const defaults = { name: name.textContent, text: desc.textContent };
+  const phone = window.matchMedia ? window.matchMedia('(max-width: 35em)') : { matches: false };
 
   let pinned = -1, preview = -1, auto = -1;     // what the visitor pinned, what they are pointing at, what the pass is showing
   let idle = !motion.reduced;                   // before the pass: ring empty, nothing on
@@ -3098,7 +3116,11 @@ function initConnectedDiagram() {
     num.textContent = i >= 0 ? `0${i + 1}` : '';
     name.textContent = i >= 0 ? STAGES[i].name : defaults.name;
     desc.textContent = i >= 0 ? STAGES[i].text : defaults.text;
-    links.innerHTML = i >= 0 ? STAGES[i].services.map(link).join('') : '';
+    // A stage lists its own services. On a phone the panel always lists all four, in the same place (the strip under the
+    // figure is not shown there): the services of the chosen stage are lit and the others rest, so nothing below moves.
+    links.innerHTML = phone.matches
+      ? solutions.map((s) => link(s.id, i >= 0 && !STAGES[i].services.includes(s.id))).join('')
+      : i >= 0 ? STAGES[i].services.map((id) => link(id)).join('') : '';
   };
   const writeInfo = (i, instant) => {
     info.setAttribute('aria-live', userDriven ? 'polite' : 'off');   // the pass is not announced, the visitor's choices are
@@ -3119,7 +3141,6 @@ function initConnectedDiagram() {
     nodes.forEach((n, k) => { n.classList.toggle('is-active', k === i); n.classList.toggle('is-done', key === 'all' || (i >= 0 && k < i)); });
     spokes.forEach((s, k) => s.classList.toggle('is-active', k === i));
     glyphs.forEach((g, k) => g.classList.toggle('is-on', k === i));
-    lines.forEach((l) => l.classList.toggle('is-lit', Number(l.dataset.cxLine) === i));
     const lit = i >= 0 ? STAGES[i].services : [];
     strip.forEach((a) => a.classList.toggle('is-lit', lit.includes(a.dataset.cxService)));
     travel(key === 'idle' ? 0 : key === 'all' ? 1 : POS[i], key !== 'all');
@@ -3180,13 +3201,6 @@ function initConnectedDiagram() {
     });
   });
   stage.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') leave(); });
-  // The headline lines do the same for people with a pointer; the stages above are the keyboard route.
-  lines.forEach((line) => {
-    const i = Number(line.dataset.cxLine);
-    line.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') point_(i); });
-    line.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') leave(); });
-    line.addEventListener('click', () => { if (!String(window.getSelection && window.getSelection()).length) pin(i); });
-  });
 
   // The panel keeps the height of its tallest text, so choosing a stage never moves what is below it.
   const reserve = () => {
@@ -3253,7 +3267,7 @@ __defs["solutions/solutions.js"] = function (__exports, __url) {
      why             "Why it works": why it is valuable to the person or brand (paragraphs)
      include         "What we can include": possible features and deliverables (a list; never a promise that every project has all)
      includeNote     optional, one short note under that list
-     contactCategory the contact form choice preselected by "Discuss a project like this"
+     contactCategory the contact form choice preselected by "Start a project like this"
                      (it must match a project-type choice in the contact form in index.html)
      projectStatus   'in-development' | 'live'
      projectUrl      URL of one independent demonstration project ('' for now)
@@ -3268,12 +3282,17 @@ __defs["solutions/solutions.js"] = function (__exports, __url) {
                      Optional: setup: 'serif' sets the small line in Bodoni Moda Italic.
      filterBy        what the catalog's filter buttons sort by: 'industry' (default) or
                      'eventType'. The filters only appear in a catalog large enough to need them.
-     catalogLayout   how the catalog shows its projects: 'cards' (default, a grid of cards) or
-                     'spread' (one large editorial spread per project, with its real screens; used
-                     by 004 for invitations that are best seen on a phone). Any number of projects works.
+     catalogLayout   how the catalog shows its projects: 'rows' (default: a compact ruled list, so a project that
+                     belongs to several services is not shown in full under each of them), 'cards' (a grid of large
+                     cards, for a service whose projects are not shown elsewhere) or 'spread' (one large editorial
+                     spread per project, with its real screens; used by 004 for invitations that are best seen on a
+                     phone). Any number of projects works.
      catalogIntro    optional, one short sentence under the catalog title
      catalogEnd      optional { title, text }: the closing call to action of the catalog
                      (default: "Have a project in mind? / Let’s create something together.")
+     catalogEmpty    optional { title, text }: what the panel says while the service has no project to list
+                     (default: "No projects to show here yet." and a short line inviting an enquiry). A service with
+                     no showable project gets that note and a "Start a project" button instead of a catalog drawer.
    ========================================================================== */
 
 const solutions = [
@@ -3307,6 +3326,7 @@ const solutions = [
     projectLabel: 'Explore Experience',
     previewImage: '',
     previewAlt: '',
+    catalogEmpty: { text: 'We only list work that exists, and none of it is an advertising campaign yet. If you have a campaign in mind, tell us about it.' },
     artwork: { stretch: 125, fit: 17.27, align: 'start', motion: 'frame' }
   },
   {
@@ -3521,13 +3541,12 @@ function renderDetail(s, catalog = '') {
   const id = esc(s.id);
   const paras = (list) => list.map((p) => `<p>${esc(p)}</p>`).join('');
   const contact = s.contactCategory
-    ? `<a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="${esc(s.contactCategory)}">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>`
+    ? `<a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="${esc(s.contactCategory)}">Start a project like this <span class="arr" aria-hidden="true">→</span></a>`
     : '';
   const note = s.includeNote ? `\n              <p class="sol__note">${esc(s.includeNote)}</p>` : '';
   return `<div class="sol-detail" id="solution-${id}-details" data-sol-detail="${id}" role="region" aria-labelledby="solution-${id}-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">${esc(s.number)}</span> ${esc(s.title.join(' '))}<span class="sol-detail__cat"> · ${esc(s.category)}</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about ${esc(s.title.join(' ').toLowerCase())}</span></button>
           </div>
           <div class="sol-detail__grid">
