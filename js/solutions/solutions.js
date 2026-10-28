@@ -36,7 +36,7 @@
      why             "Why it works": why it is valuable to the person or brand (paragraphs)
      include         "What we can include": possible features and deliverables (a list; never a promise that every project has all)
      includeNote     optional, one short note under that list
-     contactCategory the contact form choice preselected by "Discuss a project like this"
+     contactCategory the contact form choice preselected by "Start a project like this"
                      (it must match a project-type choice in the contact form in index.html)
      projectStatus   'in-development' | 'live'
      projectUrl      URL of one independent demonstration project ('' for now)
@@ -51,12 +51,17 @@
                      Optional: setup: 'serif' sets the small line in Bodoni Moda Italic.
      filterBy        what the catalog's filter buttons sort by: 'industry' (default) or
                      'eventType'. The filters only appear in a catalog large enough to need them.
-     catalogLayout   how the catalog shows its projects: 'cards' (default, a grid of cards) or
-                     'spread' (one large editorial spread per project, with its real screens; used
-                     by 004 for invitations that are best seen on a phone). Any number of projects works.
+     catalogLayout   how the catalog shows its projects: 'rows' (default: a compact ruled list, so a project that
+                     belongs to several services is not shown in full under each of them), 'cards' (a grid of large
+                     cards, for a service whose projects are not shown elsewhere) or 'spread' (one large editorial
+                     spread per project, with its real screens; used by 004 for invitations that are best seen on a
+                     phone). Any number of projects works.
      catalogIntro    optional, one short sentence under the catalog title
      catalogEnd      optional { title, text }: the closing call to action of the catalog
                      (default: "Have a project in mind? / Let’s create something together.")
+     catalogEmpty    optional { title, text }: what the panel says while the service has no project to list
+                     (default: "No projects to show here yet." and a short line inviting an enquiry). A service with
+                     no showable project gets that note and a "Start a project" button instead of a catalog drawer.
    ========================================================================== */
 
 export const solutions = [
@@ -90,6 +95,7 @@ export const solutions = [
     projectLabel: 'Explore Experience',
     previewImage: '',
     previewAlt: '',
+    catalogEmpty: { text: 'We only list work that exists, and none of it is an advertising campaign yet. If you have a campaign in mind, tell us about it.' },
     artwork: { stretch: 125, fit: 17.27, align: 'start', motion: 'frame' }
   },
   {

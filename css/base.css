@@ -23,8 +23,11 @@ img, svg, video, canvas, picture { display: block; max-width: 100%; }
 img { height: auto; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
+/* A quick second tap on a control (a toggle pressed twice, a tab, a chip) must not zoom the page. Scrolling and pinch zoom are unaffected. */
+a, button, input, select, textarea, label, summary, [role="tab"], [role="button"] { touch-action: manipulation; }
 a { color: inherit; text-underline-offset: .18em; text-decoration-thickness: 1px; }
 h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+
 ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 [hidden] { display: none !important; }
 ::selection { background: var(--signal); color: var(--ink); }
@@ -131,6 +134,10 @@ ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
   text-decoration: none; white-space: nowrap;
   transition: background-color var(--dur-micro) ease, color var(--dur-micro) ease, border-color var(--dur-micro) ease, transform var(--dur-micro) ease;
 }
+.btn { max-width: 100%; }
+/* Larger text on a small screen (the same test as the header: narrower than 18 times the text size): a long label may
+   wrap inside its button instead of running off the screen. At normal sizes every label fits on one line, as before. */
+@media (max-width: 18em) { .btn { white-space: normal; text-align: left; padding-block: .55rem; } h1, h2, h3, h4 { overflow-wrap: anywhere; } }   /* and a heading word wider than the screen wraps instead of running off it */
 .btn:hover .arr { transform: translateX(3px); }
 .btn:hover .arr--up { transform: translate(2px, -2px); }
 .btn:active { transform: translateY(1px); }

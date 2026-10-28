@@ -2,14 +2,14 @@
    Project catalog — the one list of projects behind every "See Project Catalog".
 
    A project is written once, here. It names the services it belongs to, and it
-   appears in the catalog of each of them (a project can belong to several).
-   Nothing else needs editing: the cards, their order and the filters
-   are all built from this list.
+   appears in the catalog of each of them (a project can belong to several), as a
+   compact row, so the same work is not shown in full under every service. Nothing
+   else needs editing: the rows, their order and the filters are all built from this list.
 
-   Cards appear in the order of this list. To reorder, move the object.
+   Projects appear in the order of this list. To reorder, move the object.
    To remove a project from the site, delete the object (or take one service
    out of its `services`). A service with no project shows a short honest note
-   and the contact button instead of cards.
+   and the "Start a project" button instead of a catalog.
 
    Add a project by copying the template at the bottom of this file.
 

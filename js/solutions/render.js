@@ -96,13 +96,12 @@ export function renderDetail(s, catalog = '') {
   const id = esc(s.id);
   const paras = (list) => list.map((p) => `<p>${esc(p)}</p>`).join('');
   const contact = s.contactCategory
-    ? `<a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="${esc(s.contactCategory)}">Discuss a project like this <span class="arr" aria-hidden="true">→</span></a>`
+    ? `<a class="btn btn--text sol-detail__contact" href="#contact" data-start-project data-category="${esc(s.contactCategory)}">Start a project like this <span class="arr" aria-hidden="true">→</span></a>`
     : '';
   const note = s.includeNote ? `\n              <p class="sol__note">${esc(s.includeNote)}</p>` : '';
   return `<div class="sol-detail" id="solution-${id}-details" data-sol-detail="${id}" role="region" aria-labelledby="solution-${id}-title">
         <div class="sol-detail__inner">
           <div class="sol-detail__head">
-            <p class="label"><span class="sol-detail__num">${esc(s.number)}</span> ${esc(s.title.join(' '))}<span class="sol-detail__cat"> · ${esc(s.category)}</span></p>
             <button class="sol-detail__close" type="button" data-sol-close>Close <span aria-hidden="true">×</span><span class="sr-only"> details about ${esc(s.title.join(' ').toLowerCase())}</span></button>
           </div>
           <div class="sol-detail__grid">

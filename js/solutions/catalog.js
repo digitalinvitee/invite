@@ -11,10 +11,17 @@
      the "See Project Catalog" row                  (.sol-detail__foot)
      the catalog drawer                             (.catalog)
         head (with an optional one-line intro), optional filters (by industry, or by event type for 004),
-        the projects or an honest empty note, closing call to action
+        the projects, closing call to action
+   A service with no showable project has no drawer at all. Its foot says so in two lines and offers
+   "Start a project" instead (.sol-detail__foot--empty), so nobody opens a panel to find nothing in it.
+   Add a project to projects.js, run the build step, and the button and drawer appear.
 
-   The projects are shown in one of two layouts (`catalogLayout` in solutions.js):
-     cards    a grid of cards, one picture each (default; 001 to 003)
+   The projects are shown in one of three layouts (`catalogLayout` in solutions.js):
+     rows     a compact list, one ruled row per project: a small picture, the name, its status and a line about it,
+              and the links (default; 001 to 003). A project that belongs to several services is the same real
+              work in each, so each catalog only points to it. The full presentation is in Selected Work and
+              in the case study.
+     cards    a grid of cards, one large picture each, for a service whose projects are not shown elsewhere
      spread   one large editorial spread per project: a plate in the project's own colour carrying up to three
               real screens, and beside it the name, what it contains, the facts and the live link
               (004 You're Invited, where the work is best seen as it is, on a phone). The spreads alternate
@@ -31,6 +38,12 @@ import { esc, safeUrl } from './render.js';
    industry (default) or by event type: see `filterBy` in solutions.js. */
 export const FILTER_MIN_PROJECTS = 4;
 export const FILTER_MIN_GROUPS = 2;
+
+/* What a service with nothing to list says (a service can override it with `catalogEmpty` in solutions.js). */
+const EMPTY = {
+  title: 'No projects to show here yet.',
+  text: 'We only list work that exists, so there is nothing to browse for now. If you have something in mind, tell us about it.'
+};
 
 const groupKey = (s) => (s.filterBy === 'eventType' ? 'eventType' : 'industry');
 const groupOf = (p, s) => String(p[groupKey(s)] || '').trim();
@@ -54,7 +67,44 @@ const SIZES = {
   3: '(max-width: 699px) 92vw, (max-width: 1099px) 46vw, 30vw'
 };
 
+/* The compact row's picture is small everywhere: a few rem wide. */
+const ROW_SIZES = '(max-width: 40em) 80px, (max-width: 56.25em) 112px, 224px';
+
 const indent = (text, n) => text.replace(/^(?=.)/gm, ' '.repeat(n));
+
+/* One compact row: picture, status and facts, name, a line about it, and the links. */
+function renderRow(p, s) {
+  const base = `solution-${s.id}-project-${p.id}`;
+  const caseUrl = internalUrl(p.caseStudyUrl);
+  const liveUrl = liveUrlOf(p);
+  const [w, h] = Array.isArray(p.coverSize) ? p.coverSize : [];
+  const crop = cropOf(p);
+  const img = `<img src="${esc(p.coverImage)}"${p.coverSrcset ? ` srcset="${esc(p.coverSrcset)}" sizes="${ROW_SIZES}"` : ''}${w && h ? ` width="${Number(w)}" height="${Number(h)}"` : ''} alt="${esc(p.coverAlt)}" loading="lazy" decoding="async"${crop ? ` style="object-position:${esc(crop)}"` : ''}>`;
+  // The picture links to the case study too, for people with a pointer; keyboard and screen-reader users get the labelled link.
+  const media = caseUrl
+    ? `<a class="prow__media" href="${esc(caseUrl)}" tabindex="-1" aria-hidden="true">${img}</a>`
+    : `<div class="prow__media">${img}</div>`;
+  const status = `<span class="prow__status prow__status--${esc(p.status)}"><span class="prow__dot" aria-hidden="true"></span><span class="sr-only">Status: </span>${esc(STATUS_LABEL[p.status])}</span>`;
+  const facts = [groupOf(p, s) || String(p.industry || '').trim(), p.projectType, p.year].filter(Boolean).map((f) => `<span>${esc(f)}</span>`);
+  const meta = [status].concat(facts).join('<span class="sr-only">, </span>');
+  const actions = [
+    caseUrl ? `<a class="btn btn--ghost btn--sm" href="${esc(caseUrl)}">View Case Study <span class="arr" aria-hidden="true">→</span><span class="sr-only">: ${esc(p.name)}</span></a>` : '',
+    liveUrl ? `<a class="btn btn--text prow__live" href="${esc(liveUrl)}" target="_blank" rel="noopener">Explore Live Experience <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only">: ${esc(p.name)} (opens in a new tab)</span></a>` : ''
+  ].filter(Boolean);
+  return [
+    `<li class="catalog__item" data-group="${esc(groupOf(p, s))}">`,
+    `  <article class="prow" id="${esc(base)}" aria-labelledby="${esc(base)}-title">`,
+    `    ${media}`,
+    `    <div class="prow__body">`,
+    `      <p class="prow__meta label">${meta}</p>`,
+    `      <h5 class="prow__title" id="${esc(base)}-title">${esc(p.name)}</h5>`,
+    `      <p class="prow__text">${esc(p.description)}</p>`,
+    `    </div>`,
+    actions.length ? `    <div class="prow__go">\n${indent(actions.join('\n'), 6)}\n    </div>` : '',
+    `  </article>`,
+    `</li>`
+  ].filter(Boolean).join('\n');
+}
 
 function renderCard(p, s, cols) {
   const base = `solution-${s.id}-project-${p.id}`;
@@ -189,19 +239,30 @@ export function renderCatalog(s) {
   const id = esc(s.id);
   const name = esc(s.title.join(' ').toLowerCase());
   const list = projectsFor(s.id);
+  const category = s.contactCategory ? ` data-category="${esc(s.contactCategory)}"` : '';
+  const start = `<a class="btn btn--primary" href="#contact" data-start-project${category}>Start a project <span class="arr" aria-hidden="true">→</span></a>`;
+
+  // Nothing to list: say so where the button would be, and offer the way in. No empty drawer, no fake projects.
+  if (!list.length) {
+    const empty = { ...EMPTY, ...(s.catalogEmpty || {}) };
+    return indent([
+      `<div class="sol-detail__foot sol-detail__foot--empty" data-sol-catalog-empty>`,
+      `  <div class="catalog-note">`,
+      `    <p class="catalog-note__title">${esc(empty.title)}</p>`,
+      `    <p class="catalog-note__text">${esc(empty.text)}</p>`,
+      `  </div>`,
+      `  ${start}`,
+      `</div>`
+    ].join('\n'), 10).trimStart();
+  }
+
   const cols = Math.max(1, Math.min(3, list.length));
   const projectsHtml = s.catalogLayout === 'spread'
     ? `<ol class="spreads" role="list" data-spreads data-count="${list.length}">\n${indent(list.map((p, i) => renderSpread(p, s, i)).join('\n'), 2)}\n</ol>`
-    : `<ul class="catalog__grid" role="list" data-cols="${cols}">\n${indent(list.map((p) => renderCard(p, s, cols)).join('\n'), 2)}\n</ul>`;
-  const body = list.length
-    ? [renderFilters(s, list), projectsHtml].filter(Boolean).join('\n')
-    : [
-      `<div class="catalog__empty">`,
-      `  <p class="catalog__empty-title">No projects to show here yet.</p>`,
-      `  <p>We only list work that exists, so this catalog is empty for now. If you have a campaign in mind, tell us about it.</p>`,
-      `</div>`
-    ].join('\n');
-  const category = s.contactCategory ? ` data-category="${esc(s.contactCategory)}"` : '';
+    : s.catalogLayout === 'cards'
+      ? `<ul class="catalog__grid" role="list" data-cols="${cols}">\n${indent(list.map((p) => renderCard(p, s, cols)).join('\n'), 2)}\n</ul>`
+      : `<ul class="prows" role="list">\n${indent(list.map((p) => renderRow(p, s)).join('\n'), 2)}\n</ul>`;
+  const body = [renderFilters(s, list), projectsHtml].filter(Boolean).join('\n');
   const html = [
     `<div class="sol-detail__foot">`,
     `  <button class="btn btn--ghost sol-detail__catalog" type="button" aria-expanded="false" aria-controls="solution-${id}-catalog" data-sol-catalog-toggle>See Project Catalog <span class="arr" aria-hidden="true">→</span><span class="sr-only"> for ${name}</span></button>`,
@@ -211,12 +272,11 @@ export function renderCatalog(s) {
     `    <div class="catalog__inner">`,
     `      <header class="catalog__head">`,
     `        <div class="catalog__heading">`,
-    `          <p class="label catalog__kicker"><span class="catalog__num">${esc(s.number)}</span> ${esc(s.title.join(' '))}</p>`,
-    `          <h4 class="display catalog__title" id="solution-${id}-catalog-title" tabindex="-1">Project <em>catalog</em></h4>`,
+    `          <h4 class="display catalog__title" id="solution-${id}-catalog-title" tabindex="-1">Project <em>catalog</em><span class="sr-only"> for ${name}</span></h4>`,
     s.catalogIntro ? `          <p class="catalog__intro">${esc(s.catalogIntro)}</p>` : '',
     `        </div>`,
     `        <div class="catalog__tools">`,
-    list.length ? `          <p class="label catalog__count">${list.length} ${list.length === 1 ? 'project' : 'projects'}</p>` : '',
+    `          <p class="label catalog__count">${list.length} ${list.length === 1 ? 'project' : 'projects'}</p>`,
     `          <button class="sol-detail__close catalog__close" type="button" data-sol-catalog-close>Close catalog <span aria-hidden="true">×</span><span class="sr-only"> for ${name}</span></button>`,
     `        </div>`,
     `      </header>`,
@@ -227,7 +287,7 @@ export function renderCatalog(s) {
     `          <p class="catalog__end-text">${esc((s.catalogEnd && s.catalogEnd.text) || 'Let’s create something together.')}</p>`,
     `        </div>`,
     `        <div class="catalog__end-actions">`,
-    `          <a class="btn btn--primary" href="#contact" data-start-project${category}>Discuss Your Project <span class="arr" aria-hidden="true">→</span></a>`,
+    `          ${start}`,
     `          <button class="btn btn--text catalog__close-end" type="button" data-sol-catalog-close>Close catalog <span class="arr" aria-hidden="true">↑</span><span class="sr-only"> for ${name}</span></button>`,
     `        </div>`,
     `      </div>`,
@@ -236,4 +296,62 @@ export function renderCatalog(s) {
     `</section>`
   ].filter(Boolean).join('\n');
   return indent(html, 10).trimStart();
+}
+
+/* ── Selected Work: the invitations, compact ───────────────────────────────
+   The third block of Selected Work shows the first two live projects of 004 as real phone screens (each project's cover),
+   with the name, the live link and one button into the full catalog. It is written from the same list as the catalogs, so
+   a change to a name, a picture or an address is made once, in js/solutions/projects.js, and `node tools/render-solutions.mjs`
+   rewrites the block between the <!-- solutions:invites --> markers in index.html. With no live project it writes nothing.
+   The words that frame the screens (the sentence, "Our part") are in the two constants below. */
+export const INVITES_MAX = 2;
+const INVITES_SERVICE = 'youre-invited';
+const INVITES_PART = { many: 'Design, animation and build of each invitation.', one: 'Design, animation and build of the invitation.' };
+const NUMBER_WORD = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'];
+const INVITE_SIZES = '(min-width: 1080px) 240px, 42vw';
+const smart = (text) => String(text || '').replace(/(\w)'(\w)/g, '$1’$2');   // typographic apostrophes, as everywhere else on the page
+const unique = (values) => [...new Set(values.map((v) => String(v || '').trim()).filter(Boolean))];
+
+export function renderInvites(list = projectsFor(INVITES_SERVICE)) {
+  const shown = list.filter((p) => liveUrlOf(p)).slice(0, INVITES_MAX);
+  if (!shown.length) return '';
+  const n = shown.length;
+  const kind = shown.every((p) => p.eventType === 'Weddings') ? 'Wedding invitations' : 'Digital invitations';
+  const facts = [unique(shown.map((p) => p.language)).join(', '), unique(shown.map((p) => p.year)).join(', ')].filter(Boolean);
+  const all = list.length === n ? (n === 1 ? 'it' : n === 2 ? 'both' : 'all') : 'all';
+  const item = (p) => {
+    const url = liveUrlOf(p);
+    const first = String(p.coverSrcset || '').split(',')[0].trim().split(/\s+/)[0] || p.coverImage;   // the smallest file, as the screen's own src
+    const [w, h] = Array.isArray(p.coverSize) ? p.coverSize : [];
+    const name = esc(p.name).replace(/ &amp; /g, ' <span class="amp">&amp;</span> ');
+    return [
+      `<li class="invite">`,
+      `  <a class="invite__screen" href="${esc(url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">`,
+      `    <img src="${esc(first)}"${p.coverSrcset ? ` srcset="${esc(p.coverSrcset)}" sizes="${INVITE_SIZES}"` : ''}${w && h ? ` width="${Number(w)}" height="${Number(h)}"` : ''} loading="lazy" decoding="async" alt="${esc(smart(p.coverAlt))}">`,
+      `  </a>`,
+      `  <p class="invite__name">${name}</p>`,
+      `  <a class="btn btn--text" href="${esc(url)}" target="_blank" rel="noopener">Open live <span class="arr arr--up" aria-hidden="true">↗</span><span class="sr-only"> invitation for ${esc(p.name)} (opens in a new tab)</span></a>`,
+      `</li>`
+    ].join('\n');
+  };
+  return [
+    `<article class="case invites" aria-labelledby="invites-title">`,
+    `  <div class="invites__head">`,
+    `    <ul class="case-meta label" aria-label="Project details">`,
+    `      <li class="case-status">Live</li>`,
+    `      <li>${esc(kind)}</li>`,
+    ...facts.map((f) => `      <li>${esc(f)}</li>`),
+    `    </ul>`,
+    `    <h3 class="invites__title" id="invites-title">${esc(kind)}</h3>`,
+    `    <p class="lead">${NUMBER_WORD[n] || n} live invitation${n === 1 ? '' : 's'}. Open ${n === 1 ? 'it' : 'one'} the way a guest would: on a phone, with the sound on.</p>`,
+    `    <p class="case-part"><span class="label">Our part</span><span>${esc(n === 1 ? INVITES_PART.one : INVITES_PART.many)}</span></p>`,
+    `  </div>`,
+    `  <ul class="invites__pair" role="list">`,
+    indent(shown.map(item).join('\n'), 4),
+    `  </ul>`,
+    `  <div class="invites__actions case-actions">`,
+    `    <a class="btn btn--primary" href="#solution-${INVITES_SERVICE}-catalog">See ${all} in full <span class="arr" aria-hidden="true">→</span><span class="sr-only"> in the You’re invited catalog</span></a>`,
+    `  </div>`,
+    `</article>`
+  ].join('\n');
 }

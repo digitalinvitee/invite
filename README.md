@@ -22,18 +22,19 @@ Handy URL switches for testing:
 
 | Switch | Effect |
 |---|---|
-| `?intro=full` | Play the full intro (about 2.8 s). This is what a first visit gets |
+| `?intro=full` | Play the full intro (about 2.8 s; about 2 s on a phone). This is what a first visit gets |
 | `?intro=short` | Play the short intro (about 1.2 s). This is what returning visitors get, and a reload |
 | `?intro=classic` | Play the earlier 5.7 s intro, kept so the two can be compared side by side |
 | `?intro=off` | Skip the intro |
 | `?quality=low` / `medium` / `high` | Force a graphics preset (`low` uses the static fallbacks) |
 
-The intro never plays on a link to a section (`/#contact`), on the way back from another page of this site, or in a browser's back/forward. It always has **Skip intro** (Escape does the same) and a sound switch (sound stays off until the visitor turns it on). With reduced motion it shows one still frame, and a failsafe in `index.html` and in `js/intro/IntroExperience.js` releases the page if anything goes wrong, so the intro can never keep the site hidden.
+The intro never plays on a link to a section (`/#contact`), on the way back from another page of this site, or in a browser's back/forward. It always has **Skip intro** (Escape does the same; on a touch screen a tap anywhere does too) and a sound switch (sound stays off until the visitor turns it on). With reduced motion it shows one still frame, and a failsafe in `index.html` and in `js/intro/IntroExperience.js` releases the page if anything goes wrong, so the intro can never keep the site hidden.
 
 ## Structure
 
 ```
 index.html              homepage
+CNAME                   the custom domain for GitHub Pages (invitee.ge): keep it in the root of the published branch
 work/casa-gelso/        case study
 work/jetour/            case study
 privacy/  legal/        notices (DRAFTS, see below)
@@ -52,7 +53,7 @@ js/work/                Selected Work: ProjectShowcase.js (the Casa Gelso screen
 js/method/              StudioMethod.js (How we work: the four stages as tabs, one panel, the rolling stage number)
 js/nav/                 header states, section tracking, the mobile menu (a native <dialog>)
 css/solutions.css       the four service tiles and their Details panels
-css/catalog.css         the "See Project Catalog" row, the catalog drawer, the project cards and the 004 spreads (nothing else uses these styles)
+css/catalog.css         the "See Project Catalog" row, the catalog drawer, the compact project rows and the 004 spreads (nothing else uses these styles)
 tools/render-solutions.mjs  writes the Creative Solutions tiles, details and project catalogs into index.html from solutions.js and projects.js
 js/contact/             form logic (the four-step project brief, Just say hello) and delivery (FormService)
 js/audio/               sound: AudioController (toggle, intro TV), Soundscape (music + interface sounds), SoundDesign (wiring)
@@ -75,26 +76,28 @@ The header, menu and footer markup is repeated in every page (there is no templa
 | 003 | Make an impression: Creative Websites & Digital Experiences | Creative Website |
 | 004 | You’re invited: Digital Invitations & Event Experiences | Private or Corporate Event |
 
-Each tile shows its number, title, category and a short `summary`. "Details" opens a headline (`headline`) and three blocks that answer one question each: **What it is** (`about`), **Why it works** (`why`) and **What we can include** (`include`, with an optional `includeNote` under the list), with "Discuss a project like this" (it opens the contact form with that service already chosen). The list is always "can include": possible features, not a promise that every project has all of them. At the foot of every Details panel, **See Project Catalog →** opens that service's catalog in place, under the details. Escape closes the catalog first and the panel on the next press.
+Each tile shows its number, title, category and a short `summary`. "Details" opens a headline (`headline`) and three blocks that answer one question each: **What it is** (`about`), **Why it works** (`why`) and **What we can include** (`include`, with an optional `includeNote` under the list), with "Start a project like this" (it opens the contact form with that service already chosen). The list is always "can include": possible features, not a promise that every project has all of them. At the foot of every Details panel, **See Project Catalog →** opens that service's catalog in place, under the details. Escape closes the catalog first and the panel on the next press.
 
 To change any text of the services, edit `js/solutions/solutions.js` and run `node tools/render-solutions.mjs`. The ids (`get-noticed`, `build-anticipation`, `make-an-impression`, `youre-invited`) are stable: links, the catalog data, the hero's stage diagram and the connected-launch button use them. The section header, "The connected launch" and the closing lines are plain HTML in `index.html`; the five launch stages' texts are in `js/i18n/en.js` (`journey`). A link to `#solution-<id>` opens that service's details, and `#solution-<id>-catalog` opens its catalog too. Old links to the two retired services still land somewhere sensible: `#solution-make-it-interactive` opens "Build anticipation" and `#solution-bring-people-together` opens "You’re invited" (the table `LEGACY_IDS` in `js/solutions/CreativeSolutions.js`).
 
 Each tile plays its own small effect (its title is the artwork) when it is hovered, focused, opened, or, on a touch screen, when it is the tile in the middle of the screen. With reduced motion the tiles still change on hover, focus and open, but instantly and without animation, and the "tile in the middle of the screen" effect on touch screens is switched off.
 
-### The project catalog: adding, editing, reordering and removing a project card
+### The project catalog: adding, editing, reordering and removing a project
 
-Every card comes from one list, `projects` in `js/solutions/projects.js`. A project is written once and names the services it belongs to (`services: ['build-anticipation', 'make-an-impression']`); it then appears in each of those catalogs without being copied. The file begins with a description of every field and ends with a commented template.
+Every project comes from one list, `projects` in `js/solutions/projects.js`. A project is written once and names the services it belongs to (`services: ['build-anticipation', 'make-an-impression']`); it then appears in each of those catalogs without being copied. In the 002 and 003 catalogs it is one compact row (a small cover, the name, a line about it, the buttons), so the same work is not shown in full under every service; its full presentation is the case study and the Selected Work section. The file begins with a description of every field and ends with a commented template.
+
+A catalog is set in one of three layouts, chosen per service with `catalogLayout` in `solutions.js`: `rows` (the default; 001 to 003), `cards` (a grid with one large picture each, for a service whose projects are not shown anywhere else) and `spread` (004, one large spread per invitation). Any number of projects works in each; more are simply more rows, cards or spreads.
 
 To add a project:
 
-1. Put a real cover image in `assets/img/work/<project>/` (`.webp` or `.jpg`; smaller versions are optional, for `coverSrcset`). **No image, no card.** Never use a stand-in picture for a project.
+1. Put a real cover image in `assets/img/work/<project>/` (`.webp` or `.jpg`; smaller versions are optional, for `coverSrcset`). **No image, no project.** Never use a stand-in picture for a project.
 2. In `js/solutions/projects.js`, copy the template at the bottom, fill it in and paste it into the list. Give it a `status` that is true: `'live'` (a working experience exists online), `'in-development'`, or `'concept'` (an INVITÉ idea, not client work; say so in `projectType`). Add `caseStudyUrl` only when that page exists in this site, and `liveUrl` only for a working `https://` address (it is used only for a `'live'` project).
 3. Run `node tools/render-solutions.mjs` in the project folder. It checks the list (image files that do not exist, a case-study page that does not exist, an unknown service id, a duplicate id, a live address that is not `https://`) and **stops without touching `index.html`** if anything is wrong, saying what to fix. Otherwise it rewrites the tiles, details and catalogs in `index.html`.
 4. If you open pages straight from the folder (double-click) after changing anything in `js/`, also run `python3 tools/build-offline.py`. Editing only `projects.js` and running step 3 needs no offline step, because the catalog markup is written into `index.html`.
 
-To reorder cards, move the object in the list. To remove one, delete the object, or take one service out of its `services`. To show an existing project under another service, add that service's id to its `services` and run step 3. For example, if you decide the advertising pieces inside Casa Gelso demonstrate "Get noticed", add `'get-noticed'` to its `services`.
+To reorder projects, move the object in the list. To remove one, delete the object, or take one service out of its `services`. To show an existing project under another service, add that service's id to its `services` and run step 3. For example, if you decide the advertising pieces inside Casa Gelso demonstrate "Get noticed", add `'get-noticed'` to its `services`.
 
-A service with no project shows a short, honest note and the "Discuss Your Project" button instead of cards. "Get noticed" is in that state today: neither finished project is listed as an advertising campaign, so nothing appears there until one exists. Cards show only what the data says: a "View Case Study" button only with a valid internal `caseStudyUrl`, and "Explore Live Experience ↗" (new tab) only for a live project with an `https://` `liveUrl`.
+A service with no project does not show a "See Project Catalog" button or an empty drawer. At the foot of its Details it shows a short, honest note and a "Start a project" button (`catalog-note` in `catalog.js`). "Get noticed" is in that state today: neither finished project is listed as an advertising campaign, so nothing appears there until one exists; the moment a project names `get-noticed` in its `services` and the render script is run, the note is replaced by the catalog. Rows show only what the data says: a "View Case Study" button only with a valid internal `caseStudyUrl`, and "Explore Live Experience ↗" (new tab) only for a live project with an `https://` `liveUrl`.
 
 **Filters** appear on their own once a catalog has at least 4 projects in at least 2 groups (`FILTER_MIN_PROJECTS` and `FILTER_MIN_GROUPS` at the top of `js/solutions/catalog.js`). Services 001–003 group their projects by `industry`; 004 You're Invited groups them by `eventType` (Weddings, Corporate, Private Celebrations), set with `filterBy: 'eventType'` in `solutions.js`. There is one button per group that has a project, so a filter can never lead to an empty list. Below that size no filter is drawn.
 
@@ -105,6 +108,8 @@ The screens are real: each was captured from the live invitation at phone size (
 1. Capture up to three real screens of it, in the order a visitor meets them (for example the sealed envelope, the opened invitation, a later screen), at 390 × 844 and 780 × 1688, as `.webp`, into `assets/img/work/<project>/`.
 2. Copy the Oto & Tako entry in `projects.js` and change its `id`, `name`, `description`, `deliverables`, `screens` (each with `image`, `srcset`, `size`, `label` and an `alt` that says what the screen shows), `previewTone` (a colour taken from the invitation itself, for the plate), `language`, `year` and `liveUrl`. Keep `services: ['youre-invited']`, `eventType: 'Weddings'` (or `'Private Celebrations'`, `'Corporate'`) and `status: 'live'`.
 3. Run `node tools/render-solutions.mjs`. It checks every screen file, the `alt`, the colour and the `https://` address, and stops with a message if something is wrong. The new spread appears after the last one; the order is the order of the list.
+
+**Selected Work shows the invitations too, from the same list.** The third block of Selected Work (*Wedding invitations*) is written by the same command: the first two live projects of 004 appear there as one real screen each (the project's cover), with the name and *Open live ↗*, and one button into the catalog. Nothing is typed twice. Step 3 rewrites that block between the `<!-- solutions:invites -->` markers in `index.html`, so edit the project list, not the block. How many are shown is `INVITES_MAX` in `js/solutions/catalog.js`, and the two lines that frame the screens (the sentence under the title and *Our part*) are the constants just above it, because what the studio did on a project is for you to confirm. A project with no live address stays in the catalog but is left out of this block, and with no live invitation the block is not written at all. The two big case blocks above it (Casa Gelso and JETOUR) are written by hand in `index.html`, since they hold the screen tabs and the film.
 
 Filters stay out of the way: they appear by themselves once the catalog has at least 4 projects in at least 2 of Weddings, Corporate and Private Celebrations. A project with no `screens` falls back to its cover image. No live address, no button; and no real screen, no spread.
 
@@ -120,7 +125,7 @@ Each service in `solutions.js` also has `projectStatus`, `projectUrl`, `previewI
 
 ## How we work: the four stages
 
-The stages are a plain numbered list in `index.html` (`#process`, `data-method`): a number, a title, one sentence and a "You get" line each. Change the words there. The rail of names, the large stage number and the panel are built from that list by `js/method/StudioMethod.js` and styled under "How we work" in `css/home.css`, so nothing else needs to change; without JavaScript the list is simply shown in full. The composition is designed for exactly four stages (the line of light and the number are divided into quarters), so read `docs/REFINEMENT.md` before adding or removing one. After changing anything in `js/`, run `python3 tools/build-offline.py` if you open pages from the folder.
+The stages are a plain numbered list in `index.html` (`#process`, `data-method`): a number, a title, one sentence and a "You get" line each. Change the words there. The rail of names, the large stage number and the panel are built from that list by `js/method/StudioMethod.js` and styled under "How we work" in `css/home.css`, so nothing else needs to change; without JavaScript, and on a phone (under 40 em, where the stages read better as one sequence than as tabs), the list is simply shown in full. The composition is designed for exactly four stages (the line of light and the number are divided into quarters), so read `docs/REFINEMENT.md` before adding or removing one. After changing anything in `js/`, run `python3 tools/build-offline.py` if you open pages from the folder.
 
 ## Before going live: required
 
@@ -128,11 +133,19 @@ The stages are a plain numbered list in `index.html` (`#process`, `data-method`)
 2. **Legal pages.** `privacy/index.html` and `legal/index.html` are drafts. Fill in every highlighted `<mark class="todo">` item (business name and form, address, ID number, privacy email, form provider, retention period). Then delete the `<meta name="robots" content="noindex">` line in each and add both URLs to `sitemap.xml`. Have someone qualified review them; they are not legal advice.
 3. **Facts to confirm.** Jetour is labelled "Client project" with JETOUR Georgia as the client. Confirm you may show both clients' imagery and film. Confirm the illustration and photo credits for Casa Gelso. The two wedding invitations in 004 show the couples’ names, the wedding dates and the venues that appear on their screens, so confirm both couples agree to their invitation being shown in your portfolio, and whether you would rather hide any screen that carries a venue.
 
+## Publishing on GitHub Pages
+
+The files in the ZIP sit at its root (`index.html`, `CNAME`, `css/`, `js/`, `assets/` and so on), so the whole archive can replace the contents of the repository's published branch. There is nothing to build.
+
+1. Keep the **`CNAME`** file. It contains one line, `invitee.ge`, and it is what keeps the custom domain attached to the site; a publish without it can drop the domain setting.
+2. `404.html` assumes the site is served at the domain root, which is the case on `invitee.ge`.
+3. After publishing, open https://invitee.ge/ in a private window (a first visit plays the intro), then `/work/casa-gelso/` and `/work/jetour/`, and send one real test through the contact form (see below).
+
 ## Contact form: Google Apps Script
 
 The form sends both "Start a project" and "Just say hello" to your Google Apps Script web app (`forms.appsScriptUrl` in `js/config.js`). The script saves each enquiry as a row in the **Inquiries** tab (Full Name, Email Address, Company or Brand, Project Type, Project Description, Estimated Budget, Project Timeline, Additional Notes, Submission Date & Time) and emails you. A "Just say hello" message is saved as Project Type **General Inquiry** with the message as its description.
 
-The project-type choices on the form are: Digital Advertising, Launch & Interactive Experience, Creative Website, Private or Corporate Event, Something Else and Not Sure Yet. "Discuss a project like this" and the catalog's "Discuss Your Project" buttons preselect the matching one, and that text is what lands in **Project Type**. Rows saved before the service update keep their earlier values (for example "Interactive Experience"). The Apps Script does not check the value, so nothing has to change there; the optional `server/contact-worker.js` accepts both the new and the earlier choices.
+The project-type choices on the form are: Digital Advertising, Launch & Interactive Experience, Creative Website, Private or Corporate Event, Something Else and Not Sure Yet. "Start a project like this" (in each Details panel) and the "Start a project" button of each catalog preselect the matching one, and that text is what lands in **Project Type**. Rows saved before the service update keep their earlier values (for example "Interactive Experience"). The Apps Script does not check the value, so nothing has to change there; the optional `server/contact-worker.js` accepts both the new and the earlier choices.
 
 The form code (`js/contact/FormService.js` and `js/config.js`) is exactly as it was before this round, so the Apps Script keeps working without a change. The only edit in `js/contact/ContactForm.js` is on the page side: pressing Continue, Back or Send used to make the field you were in show its error message first, which moved the button out from under the pointer, so the press was lost. A small guard in `setupForm` now lets that press do its own check.
 
